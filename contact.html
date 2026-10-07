@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact | starcinema.com</title>
+  <meta name="description" content="Contact Star Cinema: find us on the map, see our address, phone and opening hours, and send an inquiry at starcinema.com.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <a class="visually-hidden-focusable" href="#main">Skip to main content</a>
+
+  <header class="sc-navbar sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand sc-brand" href="index.html">STAR CINEMA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-3" aria-hidden="true"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="movies.html">Movies</a></li>
+            <li class="nav-item"><a class="nav-link" href="showtimes.html">Showtimes</a></li>
+            <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="contact.html">Contact</a></li>
+          </ul>
+          <button type="button" class="sc-icon-btn" id="themeToggle" aria-label="Switch to light mode">
+            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="pt-5 pb-3">
+      <div class="container">
+        <h1 class="display-6 mb-2">Contact us</h1>
+        <p class="sc-muted mb-4">Questions about a booking or a screening? We would love to hear from you.</p>
+        <div class="sc-map-wrap">
+          <!-- Google Maps embed (Share > Embed a map). Shows a sample location for this demonstration. -->
+          <iframe class="sc-map" title="Map showing Time City, Yangon" src="https://maps.google.com/maps?q=Time%20City%20Yangon%20Myanmar&output=embed" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <p class="small sc-muted mt-2 mb-0">Find us at Time City, Yangon, Myanmar.</p>
+      </div>
+    </section>
+
+    <section class="sc-section pt-3" aria-label="Contact details and inquiry form">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="d-grid gap-3">
+              <div class="sc-card p-4">
+                <i class="bi bi-geo-alt sc-icon" aria-hidden="true"></i>
+                <h2 class="h5 mt-2">Address</h2>
+                <p class="sc-muted mb-0">Time City, Yangon, Myanmar</p>
+              </div>
+              <div class="sc-card p-4">
+                <i class="bi bi-telephone sc-icon" aria-hidden="true"></i>
+                <h2 class="h5 mt-2">Phone and email</h2>
+                <p class="sc-muted mb-0"><a href="tel:09799855242">09799855242</a><br>hello@starcinema.example</p>
+              </div>
+              <div class="sc-card p-4">
+                <i class="bi bi-clock sc-icon" aria-hidden="true"></i>
+                <h2 class="h5 mt-2">Opening hours</h2>
+                <p class="sc-muted mb-0">Open daily 10:00–23:30</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-8">
+            <div class="sc-card p-4">
+              <h2 class="h4 mb-3">Customer inquiry form</h2>
+              <noscript><p class="sc-muted">Please turn on JavaScript to send the form.</p></noscript>
+              <div id="formThanks" class="sc-note mb-3 d-none" tabindex="-1" role="status">
+                <p class="fw-semibold mb-1">Thank you, <span id="thanksName"></span>.</p>
+                <p class="sc-muted mb-0">Your message has been noted. This is a demonstration form, so nothing was sent or stored.</p>
+              </div>
+              <div id="formErrors" class="sc-error-box mb-3 d-none" tabindex="-1" role="alert"></div>
+
+              <form id="inquiryForm" novalidate>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="inqName" class="form-label sc-label">Full name</label>
+                    <input id="inqName" class="form-control sc-select" type="text" placeholder="Alex Morgan" autocomplete="name" maxlength="60">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inqEmail" class="form-label sc-label">Email address</label>
+                    <input id="inqEmail" class="form-control sc-select" type="email" placeholder="alex@example.com" autocomplete="email" maxlength="100">
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="inqType" class="form-label sc-label">Enquiry type</label>
+                    <select id="inqType" class="form-select sc-select">
+                      <option value="general" selected>General question</option>
+                      <option value="booking">Ticket booking</option>
+                      <option value="group">Group booking</option>
+                      <option value="feedback">Feedback</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <fieldset>
+                      <legend class="form-label sc-label">Preferred contact method</legend>
+                      <div class="form-check">
+                        <input id="contactEmail" class="form-check-input" type="radio" name="contactMethod" value="email" checked>
+                        <label for="contactEmail" class="form-check-label">Email</label>
+                      </div>
+                      <div class="form-check">
+                        <input id="contactPhone" class="form-check-input" type="radio" name="contactMethod" value="phone">
+                        <label for="contactPhone" class="form-check-label">Phone</label>
+                      </div>
+                    </fieldset>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="inqTopics" class="form-label sc-label">Topics (choose one or more)</label>
+                    <select id="inqTopics" class="form-select sc-select" multiple size="4" aria-describedby="topicsHint">
+                      <option value="booking" selected>Ticket booking</option>
+                      <option value="showtimes">Showtimes</option>
+                      <option value="groups">Group bookings</option>
+                      <option value="feedback">Feedback</option>
+                    </select>
+                    <div id="topicsHint" class="form-text sc-muted">Hold Ctrl (or Cmd on a Mac) to select more than one.</div>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="inqMessage" class="form-label sc-label">Message</label>
+                    <textarea id="inqMessage" class="form-control sc-select" rows="5" placeholder="Tell us about your booking, screening or question…" maxlength="1000"></textarea>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input id="inqNews" class="form-check-input" type="checkbox">
+                      <label for="inqNews" class="form-check-label">Send me the monthly newsletter</label>
+                    </div>
+                  </div>
+
+                  <div class="col-12 d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-gold">Send message</button>
+                    <button type="reset" class="btn btn-line">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sc-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-3">
+          <p class="fw-semibold mb-0"><span class="sc-logo-mark" aria-hidden="true"></span>STAR CINEMA</p>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="sc-footer-title">Movies</h2>
+          <ul>
+            <li><a href="movies.html">Now showing</a></li>
+            <li><a href="movies.html#coming-soon">Coming soon</a></li>
+            <li><a href="showtimes.html">Showtimes and prices</a></li>
+            <li><a href="about.html#facilities">Formats and screens</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="sc-footer-title">Visit</h2>
+          <ul>
+            <li>Time City, Yangon, Myanmar</li>
+            <li>Open daily 10:00–23:30</li>
+            <li>(555) 0142-8800</li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="sc-footer-title">Company</h2>
+          <ul>
+            <li><a href="about.html">About the cinema</a></li>
+            <li><a href="my-booking.html">Manage your booking</a></li>
+            <li><a href="about.html#facilities">Accessibility</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sc-legal">
+        <p class="mb-2">© 2026 Star Cinema. Time City, Yangon, Myanmar.</p>
+        <p class="sc-social mb-0">
+          <span class="me-3">Follow us</span>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+          <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>

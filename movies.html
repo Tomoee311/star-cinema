@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Movies | starcinema.com</title>
+  <meta name="description" content="Browse every film playing this week at Star Cinema, plus what is coming soon. Filter by genre and format at starcinema.com.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <a class="visually-hidden-focusable" href="#main">Skip to main content</a>
+
+  <header class="sc-navbar sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand sc-brand" href="index.html">STAR CINEMA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-3" aria-hidden="true"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="movies.html">Movies</a></li>
+            <li class="nav-item"><a class="nav-link" href="showtimes.html">Showtimes</a></li>
+            <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+          <button type="button" class="sc-icon-btn" id="themeToggle" aria-label="Switch to light mode">
+            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Page heading and filters -->
+    <section class="pt-5 pb-3">
+      <div class="container">
+        <h1 class="display-6 mb-2">Movies</h1>
+        <p class="sc-muted mb-4">Browse every film playing this week, plus what's coming soon.</p>
+        <div id="filterForm" class="sc-filter" role="search" aria-label="Filter movies">
+          <div class="row g-3 align-items-end">
+            <div class="col-lg-5">
+              <label for="titleSearch" class="form-label">Search by title</label>
+              <input id="titleSearch" class="form-control" type="search" placeholder="Search by title…" autocomplete="off">
+            </div>
+            <div class="col-6 col-lg-2">
+              <label for="genreFilter" class="form-label">Genre</label>
+              <select id="genreFilter" class="form-select">
+                <option value="">All genres</option>
+                <option value="action">Action</option>
+                <option value="adventure">Adventure</option>
+                <option value="comedy">Comedy</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="horror">Horror</option>
+                <option value="sci-fi">Sci-fi</option>
+              </select>
+            </div>
+            <div class="col-6 col-lg-2">
+              <label for="formatFilter" class="form-label">Format</label>
+              <select id="formatFilter" class="form-select">
+                <option value="">All formats</option>
+                <option value="standard">Standard</option>
+                <option value="dolby-atmos">Dolby Atmos</option>
+              </select>
+            </div>
+            <div class="col-12 col-lg-3">
+              <label for="sortBy" class="form-label">Sort by</label>
+              <select id="sortBy" class="form-select">
+                <option value="default">Featured</option>
+                <option value="az">Title A–Z</option>
+                <option value="short">Shortest first</option>
+                <option value="long">Longest first</option>
+              </select>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap align-items-center gap-2 mt-3" role="group" aria-label="Show films">
+            <button type="button" class="sc-chip is-active" data-status="all" aria-pressed="true">All films</button>
+            <button type="button" class="sc-chip" data-status="now" aria-pressed="false">Now showing</button>
+            <button type="button" class="sc-chip" data-status="soon" aria-pressed="false">Coming soon</button>
+            <button type="button" class="btn btn-link btn-sm sc-clear" id="clearFilters">Clear filters</button>
+          </div>
+        </div>
+        <p id="resultCount" class="small sc-muted mt-3 mb-0" role="status">Showing 8 of 8 films</p>
+      </div>
+    </section>
+
+    <!-- Posters: own SVG artwork created for this assignment (no third-party images). Film titles and facts only. -->
+    <section class="sc-section pt-3" id="now-showing" data-section="now" aria-labelledby="now-title">
+      <div class="container">
+        <h2 id="now-title" class="mb-2">Now showing</h2>
+        <p class="sc-muted mb-4">Seven films on our screens this week. Tap a poster for showtimes and seat availability.</p>
+        <div class="row g-3 movie-grid">
+          <div class="col-6 col-md-3 movie-item" data-order="1" data-status="now" data-title="Spider-Man: Brand New Day" data-genre="adventure sci-fi" data-format="dolby-atmos" data-runtime="150">
+            <article class="sc-card movie-card h-100">
+              <a href="details.html?film=spider-man-brand-new-day" aria-label="Details for Spider-Man: Brand New Day"><img class="sc-poster" src="images/poster-spider-man-brand-new-day.jpg" width="400" height="600" alt="Poster artwork for Spider-Man: Brand New Day"></a>
+              <div class="p-3">
+                <h3 class="h6 mb-1">Spider-Man: Brand New Day</h3>
+                <p class="small sc-muted mb-3">2h 30m · Adventure / Sci-fi</p>
+                <a class="btn btn-line btn-sm" href="details.html?film=spider-man-brand-new-day">Details</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-6 col-md-3 movie-item" data-order="2" data-status="now" data-title="The Odyssey" data-genre="action fantasy" data-format="dolby-atmos" data-runtime="172">
+            <article class="sc-card movie-card h-100">
+              <a href="details.html?film=the-odyssey" aria-label="Details for The Odyssey"><img class="sc-poster" src="images/poster-the-odyssey.jpg" width="400" height="600" alt="Poster artwork for The Odyssey"></a>
+              <div class="p-3">
+                <h3 class="h6 mb-1">The Odyssey</h3>
+                <p class="small sc-muted mb-3">2h 52m · Action / Fantasy</p>
+                <a class="btn btn-line btn-sm" href="details.html?film=the-odyssey">Details</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-6 col-md-3 movie-item" data-order="3" data-status="now" data-title="Toy Story 5" data-genre="comedy adventure" data-format="standard" data-runtime="102">
+            <article class="sc-card movie-card h-100">
+              <a href="details.html?film=toy-story-5" aria-label="Details for Toy Story 5"><img class="sc-poster" src="images/poster-toy-story-5.jpg" width="400" height="600" alt="Poster artwork for Toy Story 5"></a>
+              <div class="p-3">
+                <h3 class="h6 mb-1">Toy Story 5</h3>
+                <p class="small sc-muted mb-3">1h 42m · Comedy / Adventure</p>
+                <a class="btn btn-line btn-sm" href="details.html?film=toy-story-5">Details</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-6 col-md-3 movie-item" data-order="4" data-status="now" data-title="Resident Evil" data-genre="horror sci-fi" data-format="standard" data-runtime="97">
+            <article class="sc-card movie-card h-100">
+              <a href="details.html?film=resident-evil" aria-label="Details for Resident Evil"><img class="sc-poster" src="images/poster-resident-evil.jpg" width="400" height="600" alt="Poster artwork for Resident Evil"></a>
+              <div class="p-3">
+                <h3 class="h6 mb-1">Resident Evil</h3>
+                <p class="small sc-muted mb-3">1h 37m · Horror / Sci-fi</p>
+                <a class="btn btn-line btn-sm" href="details.html?film=resident-evil">Details</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-6 col-md-3 movie-item" data-order="5" data-status="now" data-title="Backrooms" data-genre="sci-fi horror" data-format="dolby-atmos" data-runtime="111">
+            <article class="sc-card movie-card h-100">
+              <a href="details.html?film=backrooms" aria-label="Details for Backrooms"><img class="sc-poster" src="images/poster-backrooms.jpg" width="400" height="600" alt="Poster artwork for Backrooms"></a>
+              <div class="p-3">
+                <h3 class="h6 mb-1">Backrooms</h3>
+                <p class="small sc-muted mb-3">1h 51m · Sci-fi / Horror</p>
+                <a class="btn btn-line btn-sm" href="details.html?film=backrooms">Details</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-6 col-md-3 movie-item" data-order="6" data-status="now" data-title="Obsession" data-genre="horror" data-format="standard" data-runtime="108">
+            <article class="sc-card movie-card h-100">
+              <a href="details.html?film=obsession" aria-label="Details for Obsession"><img class="sc-poster" src="images/poster-obsession.jpg" width="400" height="600" alt="Poster artwork for Obsession"></a>
+              <div class="p-3">
+                <h3 class="h6 mb-1">Obsession</h3>
+                <p class="small sc-muted mb-3">1h 48m · Horror</p>
+                <a class="btn btn-line btn-sm" href="details.html?film=obsession">Details</a>
+              </div>
+            </article>
+          </div>
+          <div class="col-6 col-md-3 movie-item" data-order="7" data-status="now" data-title="Cerita Lila" data-genre="horror" data-format="standard" data-runtime="106">
+            <article class="sc-card movie-card h-100">
+              <a href="details.html?film=cerita-lila" aria-label="Details for Cerita Lila"><img class="sc-poster" src="images/poster-cerita-lila.jpg" width="400" height="600" alt="Poster artwork for Cerita Lila"></a>
+              <div class="p-3">
+                <h3 class="h6 mb-1">Cerita Lila</h3>
+                <p class="small sc-muted mb-3">1h 46m · Horror</p>
+                <a class="btn btn-line btn-sm" href="details.html?film=cerita-lila">Details</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sc-section pt-3" id="coming-soon" data-section="soon" aria-labelledby="soon-title">
+      <div class="container">
+        <h2 id="soon-title" class="mb-2">Coming soon</h2>
+        <p class="sc-muted mb-4">Advance tickets open two weeks before release. Dates are subject to change.</p>
+        <div class="row g-3 movie-grid">
+          <div class="col-6 col-md-3 movie-item" data-order="8" data-status="soon" data-title="Avengers: Doomsday" data-genre="sci-fi action" data-format="" data-runtime="165">
+            <article class="sc-card movie-card h-100">
+              <a href="details.html?film=avengers-doomsday" aria-label="Details for Avengers: Doomsday"><img class="sc-poster" src="images/poster-avengers-doomsday.jpg" width="400" height="600" alt="Poster artwork for Avengers: Doomsday"></a>
+              <div class="p-3">
+                <h3 class="h6 mb-1">Avengers: Doomsday</h3>
+                <p class="small sc-muted mb-1">2h 45m · Sci-fi / Action</p>
+                <p class="small sc-opens mb-3">Opens 18 December</p>
+                <a class="btn btn-line btn-sm" href="details.html?film=avengers-doomsday">Details</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container pb-4">
+      <p id="noMovies" class="sc-muted d-none" role="status">No films match your filters. Try clearing them.</p>
+    </section>
+  </main>
+
+  <footer class="sc-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-3">
+          <p class="fw-semibold mb-0"><span class="sc-logo-mark" aria-hidden="true"></span>STAR CINEMA</p>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="sc-footer-title">Movies</h2>
+          <ul>
+            <li><a href="movies.html">Now showing</a></li>
+            <li><a href="movies.html#coming-soon">Coming soon</a></li>
+            <li><a href="showtimes.html">Showtimes and prices</a></li>
+            <li><a href="about.html#facilities">Formats and screens</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="sc-footer-title">Visit</h2>
+          <ul>
+            <li>Time City, Yangon, Myanmar</li>
+            <li>Open daily 10:00–23:30</li>
+            <li>(555) 0142-8800</li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="sc-footer-title">Company</h2>
+          <ul>
+            <li><a href="about.html">About the cinema</a></li>
+            <li><a href="my-booking.html">Manage your booking</a></li>
+            <li><a href="about.html#facilities">Accessibility</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sc-legal">
+        <p class="mb-2">© 2026 Star Cinema. Time City, Yangon, Myanmar.</p>
+        <p class="sc-social mb-0">
+          <span class="me-3">Follow us</span>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+          <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

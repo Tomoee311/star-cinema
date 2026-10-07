@@ -1,0 +1,9 @@
+{
+  "name": "star-cinema",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Star Cinema website (Unit 13) with a small booking API",
+  "dependencies": {
+    "pg": "^8.13.0"
+  }
+}
