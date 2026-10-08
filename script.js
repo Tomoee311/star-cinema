@@ -18,14 +18,21 @@
     window.setTimeout(function () { curtain.classList.add("is-open"); }, 40);
   });
 
-  /* Back / forward button: the browser may restore the page exactly as it was when
-     we left it (curtain still closed = dark screen). Open the curtain again. */
+  /* Back / forward button: the browser can bring the page back exactly as it was when
+     we left it, with the dark curtain still closed. Open the curtain again whenever
+     the page is shown, and also when the tab/app becomes visible or gets focus. */
+  function openCurtain() {
+    curtain.classList.remove("is-closing");
+    curtain.classList.add("is-open");
+  }
   window.addEventListener("pageshow", function (e) {
-    var nav = window.performance && performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
-    if (e.persisted || (nav && nav.type === "back_forward")) {
-      curtain.classList.remove("is-closing");
-      curtain.classList.add("is-open");
-    }
+    if (e.persisted || curtain.classList.contains("is-closing")) { openCurtain(); }
+  });
+  window.addEventListener("focus", function () {
+    if (curtain.classList.contains("is-closing")) { openCurtain(); }
+  });
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden && curtain.classList.contains("is-closing")) { openCurtain(); }
   });
 
   /* Home stage: navbar floats transparent over the picture and turns solid after scrolling */
@@ -49,6 +56,10 @@
     curtain.classList.add("is-closing");
     /* Give the curtain enough time to read as a deliberate page transition. */
     window.setTimeout(function () { window.location.href = href; }, 360);
+    /* Safety: if we are still on this page a moment later (for example the person came
+       back with the Back button and the page was restored from memory), open the curtain.
+       Timers pause while a page is stored, so this fires right after it comes back. */
+    window.setTimeout(openCurtain, 1500);
   });
 
   /* 1. Theme toggle (remembered in the browser) */
