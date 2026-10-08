@@ -1382,9 +1382,7 @@ body.has-stage .sc-navbar {
 }
 body.has-stage .sc-navbar .navbar { min-height: 72px; }
 /* (star before the brand name removed so every page shows the same logo text) */
-body.has-stage .sc-navbar .nav-link { border: 1px solid transparent; border-radius: 999px; padding: .35rem 1rem; margin: 0 .15rem; font-size: .85rem; font-weight: 500; }
-body.has-stage .sc-navbar .nav-link::after { content: none; }
-body.has-stage .sc-navbar .nav-link.active { color: var(--sc-text); border-color: var(--sc-text); }
+/* (pill nav links are defined once, for every page, near the end of this file) */
 body.has-stage .sc-navbar:not(.is-scrolled) {
   --sc-text: #ffffff;
   --sc-muted: rgba(255, 255, 255, .78);
@@ -1600,8 +1598,17 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
 .sc-legal .sc-social a { margin: 0 .6rem; }
 .sc-legal .sc-social span { display: block; margin: 0 0 .5rem !important; }
 
-/* Same pill-style nav links on every page (matches the home page) */
-.sc-navbar .nav-link { border: 1px solid transparent; border-radius: 999px; padding: .35rem 1rem; margin: 0 .15rem; font-size: .85rem; font-weight: 500; }
-.sc-navbar .nav-link::after { content: none; }
-.sc-navbar .nav-link.active { color: var(--sc-text); border-color: var(--sc-text); }
+/* Same pill-style nav links on every page (identical to the home page).
+   The selector is as specific as Bootstrap's ".navbar-expand-lg .navbar-nav .nav-link",
+   which otherwise wins on the inner pages and shrinks the padding to .5rem. */
+.sc-navbar .navbar-nav .nav-link {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: .35rem 1rem;
+  margin: 0 .15rem;
+  font-size: .85rem;
+  font-weight: 500;
+}
+.sc-navbar .navbar-nav .nav-link::after { content: none; }
+.sc-navbar .navbar-nav .nav-link.active { color: var(--sc-text); border-color: var(--sc-text); }
 .sc-navbar .navbar { min-height: 72px; }

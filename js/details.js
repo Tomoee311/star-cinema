@@ -7,7 +7,9 @@
 
   var params = new URLSearchParams(window.location.search);
   var film = SC.film(params.get("film")) || SC.films[0];
-  document.body.style.setProperty("--film-backdrop", 'url("images/poster-' + film.slug + '.jpg")');
+  /* The CSS lives in css/, so a relative url() would point to css/images/. Use the full address of the page's own images folder. */
+  var backdropUrl = new URL("images/poster-" + film.slug + ".jpg", window.location.href).href;
+  document.body.style.setProperty("--film-backdrop", 'url("' + backdropUrl + '")');
 
   function $(id) { return document.getElementById(id); }
   function add(parent, tag, text, cls) {
