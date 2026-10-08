@@ -1418,3 +1418,63 @@ body.has-stage .sc-navbar:not(.is-scrolled) {
 #main > section:first-child h1 { letter-spacing: -.035em; font-weight: 700; }
 #main > section:first-child .sc-muted { max-width: 680px; font-size: 1.05rem; }
 @media (max-width: 991.98px) { .rail-controls { top: -2.7rem; right: .5rem; } }
+
+
+/* ==========================================================
+   Mobile responsiveness fixes
+   ========================================================== */
+
+/* Media never wider than the screen */
+img, svg, video, canvas, iframe { max-width: 100%; }
+body { overflow-x: clip; }
+h1, h2, h3, .stage-title { overflow-wrap: break-word; }
+.sc-table-wrap { overflow-x: auto; }
+
+/* Seat map: the seats shrink to fit the screen instead of scrolling sideways.
+   --seat is worked out from the width of the seat map box (cqw = 1% of that box). */
+.sc-seatmap { container-type: inline-size; }
+.sc-seatrow {
+  --seat: clamp(20px, calc((100cqw - 90px) / 10), 34px);
+  gap: clamp(2px, 0.9cqw, 5.6px);
+}
+.sc-seat {
+  width: var(--seat, 34px);
+  height: calc(var(--seat, 34px) * 0.94);
+}
+@container (max-width: 420px) {
+  .sc-seatrow { --seat: clamp(20px, calc((100cqw - 70px) / 10), 34px); }
+  .sc-seat { font-size: 0.62rem; border-radius: 7px 7px 4px 4px; }
+  .sc-seat.is-recliner { box-shadow: inset 0 -4px 0 rgba(255, 210, 31, 0.35); }
+  .sc-rowlabel { width: 1rem; font-size: 0.68rem; }
+  .sc-aisle { width: 1rem; }
+}
+
+/* Phones */
+@media (max-width: 767.98px) {
+  /* film poster on the details page: not full screen height */
+  .sc-poster-solo { max-width: 240px; margin-left: auto; margin-right: auto; }
+  .sc-screen { max-width: 80%; }
+  .sc-legend { gap: 0.6rem 1rem; font-size: 0.8rem; }
+}
+
+@media (max-width: 575.98px) {
+  /* home: "Now showing" posters in a neat 2-column grid instead of a sideways strip */
+  body.home-page #now-showing .row {
+    --bs-gutter-x: 0;
+    --bs-gutter-y: 0;
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0.5rem 0 1rem;
+  }
+  body.home-page #now-showing .row > .movie-item { padding: 0; min-width: 0; }
+  .sc-poster-link .p-3 { padding: 0.75rem !important; }
+  .stage-title { font-size: 1.6rem; }
+  .stage-count { font-size: 2.8rem; }
+  .stage-inner { padding-top: 5.5rem; }
+}
