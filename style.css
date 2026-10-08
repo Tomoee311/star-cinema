@@ -1,0 +1,1585 @@
+/* ==========================================================
+   Star Cinema - style.css
+   Design ideas inspired by rickydx.dev: dark theme with a
+   light toggle, command-style search, numbered cards, soft
+   fade-up reveal. All code is original for this assignment.
+   Bootstrap 5.3 provides the grid, navbar and components.
+   ========================================================== */
+
+/* 1. Colour tokens ---------------------------------------- */
+:root {
+  --sc-gold: #f5b301;
+  --sc-gold-ink: #1a1400;
+  --sc-radius: 14px;
+  --sc-font-head: "Poppins", system-ui, sans-serif;
+  --sc-font-body: "Inter", system-ui, sans-serif;
+  --sc-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+[data-bs-theme="dark"] {
+  --sc-bg: #0b0d10;
+  --sc-surface: #14181d;
+  --sc-border: #262c34;
+  --sc-text: #f2f2f2;
+  --sc-muted: #a3acb7;
+  --sc-accent: #f5b301;
+}
+
+[data-bs-theme="light"] {
+  --sc-bg: #f7f6f2;
+  --sc-surface: #ffffff;
+  --sc-border: #d9d8d0;
+  --sc-text: #1b2430;
+  --sc-muted: #566170;
+  --sc-accent: #8a6400;
+}
+
+/* 2. Base ------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--sc-bg);
+  color: var(--sc-text);
+  font-family: var(--sc-font-body);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+.sc-brand {
+  font-family: var(--sc-font-head);
+  font-weight: 600;
+}
+
+a {
+  color: var(--sc-accent);
+}
+
+.sc-muted {
+  color: var(--sc-muted);
+}
+
+.sc-section {
+  padding: 3.5rem 0;
+}
+
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
+main {
+  animation: pageIn 0.72s ease backwards;
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 3. Navigation ------------------------------------------- */
+.sc-navbar {
+  background: var(--sc-bg);
+  border-bottom: 1px solid var(--sc-border);
+}
+
+.sc-brand {
+  letter-spacing: 0.18em;
+  color: var(--sc-text);
+  text-decoration: none;
+}
+
+.sc-navbar .nav-link {
+  color: var(--sc-muted);
+  position: relative;
+  padding: 0.5rem 0.9rem;
+}
+
+.sc-navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0.9rem;
+  right: 0.9rem;
+  bottom: 0.15rem;
+  height: 2px;
+  background: var(--sc-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.sc-navbar .nav-link:hover,
+.sc-navbar .nav-link.active {
+  color: var(--sc-text);
+}
+
+.sc-navbar .nav-link:hover::after,
+.sc-navbar .nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.navbar-toggler {
+  border-color: var(--sc-border);
+  color: var(--sc-text);
+}
+
+.sc-icon-btn {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--sc-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--sc-text);
+}
+
+.sc-icon-btn:hover {
+  border-color: var(--sc-gold);
+  color: var(--sc-accent);
+}
+
+/* 4. Buttons ---------------------------------------------- */
+.btn-gold {
+  background: var(--sc-gold);
+  border: 1px solid var(--sc-gold);
+  color: var(--sc-gold-ink);
+  font-weight: 600;
+}
+
+.btn-gold:hover,
+.btn-gold:focus {
+  background: #ffc933;
+  border-color: #ffc933;
+  color: var(--sc-gold-ink);
+}
+
+.btn-line {
+  background: transparent;
+  border: 1px solid var(--sc-border);
+  color: var(--sc-text);
+}
+
+.btn-line:hover {
+  border-color: var(--sc-gold);
+  color: var(--sc-text);
+}
+
+/* 5. Hero ------------------------------------------------- */
+.sc-hero-img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
+}
+
+.sc-eyebrow {
+  font-family: var(--sc-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sc-accent);
+}
+
+.sc-meta {
+  color: var(--sc-muted);
+}
+
+/* 6. Command-style search --------------------------------- */
+.sc-command {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--sc-surface);
+  border: 1px solid var(--sc-border);
+  border-radius: 999px;
+  padding: 0.35rem 0.5rem 0.35rem 1.1rem;
+}
+
+.sc-command:focus-within {
+  border-color: var(--sc-gold);
+  box-shadow: 0 0 0 3px rgba(245, 179, 1, 0.2);
+}
+
+.sc-prompt {
+  font-family: var(--sc-mono);
+  color: var(--sc-accent);
+}
+
+.sc-command input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--sc-text);
+  padding: 0.5rem 0;
+}
+
+.sc-command input::placeholder {
+  color: var(--sc-muted);
+}
+
+.sc-chip {
+  display: inline-block;
+  border: 1px solid var(--sc-border);
+  border-radius: 999px;
+  padding: 0.2rem 0.85rem;
+  font-size: 0.85rem;
+  color: var(--sc-muted);
+  text-decoration: none;
+}
+
+.sc-chip:hover {
+  border-color: var(--sc-gold);
+  color: var(--sc-text);
+}
+
+/* 7. Cards ------------------------------------------------ */
+.sc-card {
+  background: var(--sc-surface);
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
+  color: var(--sc-text);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sc-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--sc-gold);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.sc-num {
+  font-family: var(--sc-mono);
+  color: var(--sc-accent);
+  font-size: 0.9rem;
+}
+
+.sc-more {
+  color: var(--sc-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sc-poster-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  height: 100%;
+}
+
+.sc-poster {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: var(--sc-radius) var(--sc-radius) 0 0;
+}
+
+.sc-video-wrap {
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
+  overflow: hidden;
+  background: #000;
+}
+
+/* 7b. Movies page: filter bar and chips ------------------ */
+.sc-filter .form-label,
+.sc-label {
+  font-size: 0.85rem;
+  color: var(--sc-muted);
+  margin-bottom: 0.35rem;
+}
+
+.sc-filter .form-control,
+.sc-filter .form-select,
+.sc-select {
+  background-color: var(--sc-surface);
+  color: var(--sc-text);
+  border: 1px solid var(--sc-border);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+}
+
+.sc-filter .form-control:focus,
+.sc-filter .form-select:focus,
+.sc-select:focus {
+  border-color: var(--sc-gold);
+  box-shadow: 0 0 0 3px rgba(245, 179, 1, 0.2);
+}
+
+.sc-filter .form-control::placeholder {
+  color: var(--sc-muted);
+}
+
+button.sc-chip {
+  background: transparent;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.sc-chip.is-active {
+  border-color: var(--sc-gold);
+  background: var(--sc-gold);
+  color: var(--sc-gold-ink);
+  font-weight: 600;
+}
+
+.sc-clear {
+  color: var(--sc-muted);
+  text-decoration: none;
+}
+
+.sc-clear:hover {
+  color: var(--sc-text);
+  text-decoration: underline;
+}
+
+.sc-opens {
+  color: var(--sc-accent);
+  font-weight: 500;
+}
+
+/* 7c. Details page ---------------------------------------- */
+.sc-breadcrumb {
+  --bs-breadcrumb-divider-color: var(--sc-muted);
+  --bs-breadcrumb-item-active-color: var(--sc-text);
+  font-size: 0.9rem;
+}
+
+.sc-breadcrumb a {
+  color: var(--sc-muted);
+  text-decoration: none;
+}
+
+.sc-breadcrumb a:hover {
+  color: var(--sc-text);
+  text-decoration: underline;
+}
+
+.sc-poster-solo {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
+}
+
+.sc-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  font-size: 0.9rem;
+}
+
+.sc-facts dt {
+  color: var(--sc-muted);
+  font-weight: 400;
+}
+
+.sc-facts dd {
+  margin: 0;
+}
+
+.sc-table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--sc-text);
+  --bs-table-border-color: var(--sc-border);
+  margin-bottom: 0;
+}
+
+.sc-table th {
+  color: var(--sc-muted);
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.sc-table-narrow {
+  max-width: 28rem;
+}
+
+.sc-table-wrap {
+  background: var(--sc-surface);
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
+  padding: 0.25rem 1rem;
+}
+
+/* 7d. Showtimes page -------------------------------------- */
+.sc-time {
+  font-family: var(--sc-mono);
+  font-size: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  margin: 0.15rem 0.3rem 0.15rem 0;
+}
+
+.sc-time:hover {
+  background: var(--sc-gold);
+  border-color: var(--sc-gold);
+  color: var(--sc-gold-ink);
+}
+
+.sc-time.is-matinee::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+  background: var(--sc-gold);
+  vertical-align: 1px;
+}
+
+.sc-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sc-gold);
+  vertical-align: 1px;
+}
+
+.sc-time.is-matinee:hover::before {
+  background: var(--sc-gold-ink);
+}
+
+.sc-film-link {
+  color: var(--sc-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sc-film-link:hover {
+  color: var(--sc-accent);
+  text-decoration: underline;
+}
+
+/* 7e. Booking page ----------------------------------------- */
+.bk-label { font-size: 0.9rem; font-weight: 600; margin: 1.4rem 0 0.6rem; }
+
+.bk-days { display: flex; flex-wrap: wrap; gap: 0.2rem; }
+
+.bk-day {
+  min-width: 46px;
+  padding: 0.4rem 0.25rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--sc-text);
+  text-align: center;
+  line-height: 1.1;
+  cursor: pointer;
+  transition: border-color 0.25s ease, transform 0.25s ease, color 0.25s ease;
+}
+
+.bk-day b { display: block; font-family: var(--sc-font-head); font-size: 1.7rem; font-weight: 500; }
+.bk-day small { display: block; font-size: 0.65rem; color: var(--sc-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.bk-day:hover { border-color: var(--sc-border); transform: translateY(-2px); }
+.bk-day.is-active { border-color: var(--sc-gold); color: var(--sc-accent); }
+
+.bk-times { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.bk-time {
+  padding: 0.25rem 0.95rem;
+  background: transparent;
+  border: 1px solid var(--sc-border);
+  border-radius: 999px;
+  color: var(--sc-text);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.bk-time:hover { border-color: var(--sc-gold); transform: translateY(-2px); }
+.bk-time.is-active { border-color: var(--sc-gold); color: var(--sc-accent); font-weight: 600; }
+.bk-none { color: var(--sc-muted); font-size: 0.9rem; margin: 0; }
+.bk-info { font-size: 0.8rem; color: var(--sc-muted); margin: 0.6rem 0 0; min-height: 1.3rem; }
+
+.sc-summary { background: var(--sc-surface); }
+
+.bk-ticket-table { width: 100%; font-size: 0.78rem; margin: 0.5rem 0 0.8rem; }
+.bk-ticket-table th { color: var(--sc-muted); font-weight: 400; padding: 0.15rem 0.3rem 0.15rem 0; }
+.bk-ticket-table td { padding: 0.15rem 0.3rem 0.15rem 0; border-top: 1px solid var(--sc-border); }
+.bk-scroll { max-height: 150px; overflow-y: auto; }
+
+.bk-price { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; margin: 0.4rem 0 1rem; }
+.bk-price span:last-child { font-size: 1.5rem; color: var(--sc-accent); }
+
+/* glowing curved screen */
+.sc-screen {
+  position: relative;
+  max-width: 420px;
+  height: 46px;
+  margin: 1rem auto 1.8rem;
+  text-align: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: var(--sc-muted);
+  border-top: 4px solid #fff;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), transparent 80%);
+  box-shadow: 0 -14px 40px rgba(255, 255, 255, 0.28);
+  line-height: 4.2;
+}
+
+[data-bs-theme="light"] .sc-screen { border-top-color: #333; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15); }
+
+.sc-seatmap { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; overflow-x: auto; padding: 0.4rem 0 0.8rem; }
+.sc-seatrow { display: flex; align-items: center; gap: 0.35rem; }
+.sc-seatmap > .sc-seatrow:nth-child(1) { transform: scale(0.84); }
+.sc-seatmap > .sc-seatrow:nth-child(2) { transform: scale(0.88); }
+.sc-seatmap > .sc-seatrow:nth-child(3) { transform: scale(0.92); }
+.sc-seatmap > .sc-seatrow:nth-child(4) { transform: scale(0.96); }
+.sc-rowlabel { width: 1.25rem; text-align: center; font-size: 0.75rem; color: var(--sc-muted); }
+.sc-aisle { width: 1.4rem; }
+
+.sc-seat {
+  width: 34px; height: 32px;
+  padding: 0;
+  border: 1px solid var(--sc-border);
+  border-radius: 9px 9px 5px 5px;
+  background: var(--sc-surface-2);
+  color: var(--sc-muted);
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sc-seat:hover:not(:disabled) { border-color: var(--sc-gold); color: var(--sc-text); transform: translateY(-3px); }
+.sc-seat.is-recliner { box-shadow: inset 0 -5px 0 rgba(255, 210, 31, 0.35); }
+
+.sc-seat.is-selected {
+  background: var(--sc-gold);
+  border-color: var(--sc-gold);
+  color: var(--sc-gold-ink);
+  font-weight: 700;
+  box-shadow: 0 0 16px rgba(255, 210, 31, 0.55);
+}
+
+.sc-seat.just-picked { animation: seatPop 0.4s var(--sc-ease); }
+@keyframes seatPop { 0% { transform: scale(0.7); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
+
+.sc-seat:disabled {
+  background: var(--sc-border);
+  color: var(--sc-muted);
+  text-decoration: line-through;
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* seats fade in row by row when a screening is chosen */
+.sc-seatmap.is-entering .sc-seatrow { animation: fadeUp 0.6s var(--sc-ease) both; }
+.sc-seatmap.is-entering .sc-seatrow:nth-child(2) { animation-delay: 0.07s; }
+.sc-seatmap.is-entering .sc-seatrow:nth-child(3) { animation-delay: 0.14s; }
+.sc-seatmap.is-entering .sc-seatrow:nth-child(4) { animation-delay: 0.21s; }
+.sc-seatmap.is-entering .sc-seatrow:nth-child(5) { animation-delay: 0.28s; }
+
+.sc-legend {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
+  margin: 1rem 0; padding: 0; list-style: none;
+  font-size: 0.85rem; color: var(--sc-muted);
+}
+
+.sc-swatch {
+  display: inline-block;
+  width: 16px; height: 16px;
+  margin-right: 0.4rem;
+  border: 1px solid var(--sc-border);
+  border-radius: 4px;
+  background: var(--sc-surface-2);
+  vertical-align: -3px;
+}
+
+.sc-swatch.is-selected { background: var(--sc-gold); border-color: var(--sc-gold); }
+.sc-swatch.is-taken { background: var(--sc-border); opacity: 0.55; }
+.sc-swatch.is-recliner { box-shadow: inset 0 -4px 0 rgba(255, 210, 31, 0.4); }
+
+.sc-summary {
+  position: sticky;
+  top: 5rem;
+}
+
+.sc-select::placeholder {
+  color: var(--sc-muted);
+}
+
+.sc-alert {
+  background: var(--sc-surface);
+  border: 1px solid var(--sc-gold);
+  border-radius: var(--sc-radius);
+  color: var(--sc-text);
+}
+
+.sc-error {
+  color: #ff8a80;
+  font-size: 0.9rem;
+}
+
+[data-bs-theme="light"] .sc-error {
+  color: #b3261e;
+}
+
+.sc-reference {
+  font-family: var(--sc-mono);
+  font-size: 1.75rem;
+  letter-spacing: 0.1em;
+  color: var(--sc-accent);
+}
+
+.modal-content {
+  background: var(--sc-surface);
+  color: var(--sc-text);
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
+}
+
+.modal-header,
+.modal-footer {
+  border-color: var(--sc-border);
+}
+
+/* 7f. My booking page ------------------------------------- */
+.sc-badge {
+  display: inline-block;
+  padding: 0.15rem 0.7rem;
+  border: 1px solid var(--sc-gold);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--sc-accent);
+}
+
+.btn-danger-line {
+  background: transparent;
+  border: 1px solid #c0392b;
+  color: #ff8a80;
+}
+
+.btn-danger-line:hover,
+.btn-danger-line:focus {
+  background: #c0392b;
+  border-color: #c0392b;
+  color: #ffffff;
+}
+
+[data-bs-theme="light"] .btn-danger-line {
+  color: #b3261e;
+}
+
+[data-bs-theme="light"] .btn-danger-line:hover,
+[data-bs-theme="light"] .btn-danger-line:focus {
+  color: #ffffff;
+}
+
+/* 7g. About page ------------------------------------------ */
+.sc-stat {
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+.sc-stat-num {
+  font-family: var(--sc-font-head);
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--sc-accent);
+}
+
+.sc-icon {
+  font-size: 1.6rem;
+  color: var(--sc-accent);
+}
+
+.sc-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
+}
+
+/* 7h. Contact page ---------------------------------------- */
+.sc-map {
+  display: block;
+  width: 100%;
+  height: 340px;
+  border: 0;
+  border-radius: var(--sc-radius);
+}
+
+.sc-map-wrap {
+  border: 1px solid var(--sc-border);
+  border-radius: var(--sc-radius);
+  overflow: hidden;
+  background: var(--sc-surface);
+}
+
+.sc-note {
+  border: 1px solid var(--sc-gold);
+  border-radius: var(--sc-radius);
+  background: var(--sc-surface);
+  padding: 1rem;
+}
+
+.sc-note:focus {
+  outline: 2px solid var(--sc-gold);
+}
+
+.sc-error-box {
+  border: 1px solid #c0392b;
+  border-radius: var(--sc-radius);
+  padding: 1rem;
+  color: var(--sc-text);
+}
+
+.sc-error-box:focus {
+  outline: 2px solid #c0392b;
+}
+
+textarea.sc-select {
+  min-height: 8rem;
+}
+
+/* 8. Scroll reveal (only when JavaScript is running) ------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* 9. Footer ----------------------------------------------- */
+.sc-footer {
+  border-top: 1px solid var(--sc-border);
+  padding: 3rem 0 1.5rem;
+  margin-top: 2rem;
+}
+
+.sc-footer-title {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.sc-footer ul {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.sc-footer li {
+  margin-bottom: 0.6rem;
+  color: var(--sc-muted);
+}
+
+.sc-footer a {
+  color: var(--sc-muted);
+  text-decoration: none;
+}
+
+.sc-footer a:hover {
+  color: var(--sc-text);
+  text-decoration: underline;
+}
+
+.sc-logo-mark {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: var(--sc-gold);
+  vertical-align: -3px;
+  margin-right: 0.5rem;
+}
+
+.sc-legal {
+  border-top: 1px solid var(--sc-border);
+  padding-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--sc-muted);
+}
+
+.sc-social a {
+  font-size: 1.25rem;
+  margin-right: 1rem;
+}
+
+/* 10. Respect "reduce motion" ----------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================
+   11. Cinematic motion layer
+   ========================================================== */
+:root {
+  --sc-ease: cubic-bezier(.22, .61, .36, 1);
+  --sc-glass: rgba(20, 24, 29, .72);
+  --sc-glass-border: rgba(255, 255, 255, .10);
+}
+body {
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 80% -10%, rgba(245,179,1,.08), transparent 28rem),
+    var(--sc-bg);
+}
+.sc-navbar {
+  background: color-mix(in srgb, var(--sc-bg) 72%, transparent);
+  backdrop-filter: blur(18px) saturate(130%);
+  -webkit-backdrop-filter: blur(18px) saturate(130%);
+  border-bottom-color: color-mix(in srgb, var(--sc-border) 55%, transparent);
+  transition: background .45s var(--sc-ease), border-color .45s var(--sc-ease);
+}
+.sc-brand {
+  font-size: .9rem;
+  letter-spacing: .24em;
+  transition: letter-spacing .35s var(--sc-ease), transform .35s var(--sc-ease);
+}
+.sc-brand:hover { letter-spacing: .3em; transform: translateX(2px); }
+
+.sc-page-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8,9,11,.98), rgba(18,14,9,.98));
+  transform: translateY(0);
+  transition: transform .52s var(--sc-ease);
+}
+.sc-page-curtain.is-open { transform: translateY(-100%); }
+.sc-page-curtain.is-closing { transform: translateY(0); }
+.sc-page-curtain::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(34vw, 420px);
+  height: 1px;
+  transform: translate(-50%, -50%) scaleX(.2);
+  transform-origin: center;
+  background: linear-gradient(90deg, transparent, rgba(245,179,1,.75), transparent);
+  opacity: .0;
+  transition: opacity .3s ease, transform .55s var(--sc-ease);
+}
+.sc-page-curtain.is-closing::before {
+  opacity: .8;
+  transform: translate(-50%, -50%) scaleX(1);
+}
+.sc-page-curtain::after { content: none; }
+.sc-auto-reveal {
+  opacity: 0;
+  transform: translateY(28px) scale(.985);
+  transition: opacity .45s var(--sc-ease), transform .45s var(--sc-ease);
+  transition-delay: var(--sc-delay, 0ms);
+}
+.sc-auto-reveal.is-visible { opacity: 1; transform: none; }
+
+/* Home: search strip under the full-screen stage */
+body.home-page #main > section:nth-child(2) {
+  position: relative;
+  padding-top: 2rem;
+  z-index: 5;
+}
+body.home-page .sc-command {
+  max-width: 860px;
+  margin: auto;
+  padding: .55rem .6rem .55rem 1.2rem;
+  border-color: var(--sc-glass-border);
+  background: var(--sc-glass);
+  box-shadow: 0 24px 70px rgba(0,0,0,.35);
+  backdrop-filter: blur(20px);
+}
+body.home-page #now-showing .row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(190px, 1fr);
+  grid-template-rows: 1fr;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  padding: .5rem .15rem 1.4rem;
+}
+body.home-page #now-showing .row > .movie-item {
+  width: auto;
+  max-width: none;
+  scroll-snap-align: start;
+}
+body.home-page #now-showing .sc-poster-link { overflow: hidden; }
+body.home-page #now-showing .sc-poster {
+  transition: transform .65s var(--sc-ease), filter .65s var(--sc-ease);
+}
+body.home-page #now-showing .sc-poster-link:hover .sc-poster {
+  transform: scale(1.045);
+  filter: saturate(1.08);
+}
+
+/* Shared cards */
+.sc-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.035), transparent 45%), var(--sc-surface);
+  border-color: var(--sc-glass-border);
+  box-shadow: 0 10px 40px rgba(0,0,0,.10);
+  transition: transform .55s var(--sc-ease), border-color .4s var(--sc-ease), box-shadow .55s var(--sc-ease);
+}
+.sc-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 22px 60px rgba(0,0,0,.28);
+}
+.sc-chip {
+  transition: transform .3s var(--sc-ease), background-color .3s ease, border-color .3s ease, color .3s ease;
+}
+.sc-chip:hover { transform: translateY(-2px); }
+.sc-chip.is-active { box-shadow: 0 8px 25px rgba(245,179,1,.14); }
+
+/* Details: poster + cinematic backdrop */
+body.details-page #main > section:first-child {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 64px);
+  padding-top: clamp(3rem, 8vw, 6rem) !important;
+  padding-bottom: clamp(4rem, 8vw, 7rem) !important;
+  background:
+    linear-gradient(90deg, var(--sc-bg) 0%, color-mix(in srgb, var(--sc-bg) 88%, transparent) 42%, color-mix(in srgb, var(--sc-bg) 42%, transparent) 100%),
+    linear-gradient(0deg, var(--sc-bg) 3%, transparent 55%),
+    var(--film-backdrop) center/cover no-repeat;
+}
+body.details-page #main > section:first-child::before {
+  content: "";
+  position: absolute;
+  inset: -7%;
+  background: var(--film-backdrop) center/cover no-repeat;
+  filter: blur(24px) brightness(.38) saturate(.8);
+  transform: scale(1.08);
+  opacity: .75;
+}
+body.details-page #main > section:first-child > .container { position: relative; z-index: 1; }
+body.details-page .sc-poster-solo {
+  box-shadow: 0 35px 80px rgba(0,0,0,.5);
+  transform: rotate(-1.5deg);
+  transition: transform .55s var(--sc-ease), box-shadow .55s var(--sc-ease);
+}
+body.details-page .sc-poster-solo:hover {
+  transform: rotate(0) scale(1.015);
+  box-shadow: 0 45px 100px rgba(0,0,0,.6);
+}
+body.details-page #filmTitle {
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  line-height: .94;
+  letter-spacing: -.045em;
+  max-width: 9ch;
+}
+body.details-page .sc-table-wrap {
+  background: rgba(20,24,29,.66);
+  backdrop-filter: blur(18px);
+}
+
+/* Showtimes: cinematic panels */
+body.showtimes-page .sc-table-wrap {
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+body.showtimes-page .sc-table tbody tr {
+  background: linear-gradient(90deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+  transition: transform .4s var(--sc-ease), background .4s ease;
+}
+body.showtimes-page .sc-table tbody tr:hover {
+  transform: translateX(7px);
+  background: linear-gradient(90deg, rgba(245,179,1,.10), rgba(255,255,255,.015));
+}
+
+/* Forms + modal */
+.form-control.sc-select, .form-select.sc-select {
+  transition: border-color .3s ease, box-shadow .3s ease, transform .3s var(--sc-ease);
+}
+.form-control.sc-select:focus, .form-select.sc-select:focus { transform: translateY(-1px); }
+.modal.fade .modal-dialog {
+  transform: translateY(18px) scale(.98);
+  transition: transform .45s var(--sc-ease);
+}
+.modal.show .modal-dialog { transform: none; }
+
+.sc-footer { background: linear-gradient(180deg, transparent, rgba(255,255,255,.015)); }
+
+@media (max-width: 767.98px) {
+  body.home-page #now-showing .row { grid-auto-columns: minmax(155px, 44vw); }
+  body.details-page #filmTitle { font-size: clamp(2.8rem, 13vw, 4.5rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sc-page-curtain, .sc-auto-reveal, .sc-card, .sc-seat, .sc-poster-solo, .sc-poster, .btn, .sc-chip {
+    transition: none !important;
+  }
+}
+
+/* Booking history helper for demo mode */
+.sc-recent-bookings { display: grid; gap: .75rem; }
+.sc-recent-booking {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .9rem 1rem; border: 1px solid var(--sc-glass-border); border-radius: 16px;
+  background: rgba(255,255,255,.025);
+}
+.sc-recent-booking .ref { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .08em; }
+@media (max-width: 575.98px) { .sc-recent-booking { align-items: flex-start; flex-direction: column; } }
+
+/* ==========================================================
+   12. Cinematic additions (hero stage + booking flow)
+   ========================================================== */
+[data-bs-theme="dark"] { --sc-surface-2: #1b2027; }
+[data-bs-theme="light"] { --sc-surface-2: #efede6; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* booking: summary card should not lift on hover */
+.sc-summary.sc-card:hover { transform: none; }
+
+/* payment overlay: page blurs, spinner, then a drawn tick */
+body.is-paying main, body.is-paying .sc-footer { filter: blur(14px); transition: filter 0.5s ease; }
+main { transition: filter 0.5s ease; }
+
+.sc-pay {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.sc-pay[hidden] { display: none; }
+.sc-pay.is-on { opacity: 1; }
+.sc-pay-box { text-align: center; color: #fff; font-size: 0.85rem; }
+
+.sc-spinner {
+  width: 46px; height: 46px;
+  margin: 0 auto 0.9rem;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--sc-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.sc-tick { display: none; width: 64px; height: 64px; margin: 0 auto 0.9rem; }
+.sc-tick circle { fill: none; stroke: var(--sc-gold); stroke-width: 3; stroke-dasharray: 176; stroke-dashoffset: 176; }
+.sc-tick path { fill: none; stroke: var(--sc-gold); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; }
+.sc-pay.is-done .sc-spinner { display: none; }
+.sc-pay.is-done .sc-tick { display: block; }
+.sc-pay.is-done .sc-tick circle { animation: draw 0.6s ease forwards; }
+.sc-pay.is-done .sc-tick path { animation: draw 0.4s ease 0.45s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+
+/* ---- Home stage (full-screen film banner) ---- */
+.stage {
+  --sc-text: #ffffff;
+  --sc-muted: rgba(255, 255, 255, 0.72);
+  --sc-border: rgba(255, 255, 255, 0.4);
+  --sc-accent: #ffd21f;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #050505;
+  color: #fff;
+}
+
+.stage-bg { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+
+.stage-layer {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-color: #050505;
+  background-size: var(--backdrop-size, cover);
+  background-position: var(--backdrop-position, 50% 50%);
+  background-repeat: no-repeat;
+  backface-visibility: hidden;
+  opacity: 0;
+  transform-origin: 65% 40%;
+  will-change: opacity, transform, filter;
+}
+
+.stage-layer.is-on { opacity: 1; }
+
+.stage-bg { transition: transform 1.1s cubic-bezier(0.3, 0, 0.2, 1); }
+.stage.is-diving .stage-bg { transform: scale(1.14); }
+
+.stage-shade {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  --shade-left: .80;
+  --shade-mid: .40;
+  --shade-right: .08;
+  --shade-top: .60;
+  --shade-bottom: .50;
+  background:
+    linear-gradient(90deg, rgba(5, 5, 5, var(--shade-left)) 0%, rgba(5, 5, 5, var(--shade-mid)) 34%, rgba(5, 5, 5, var(--shade-right)) 72%, rgba(5, 5, 5, .04) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, var(--shade-top)) 0%, rgba(0, 0, 0, .04) 30%, rgba(0, 0, 0, .10) 68%, rgba(0, 0, 0, var(--shade-bottom)) 100%),
+    linear-gradient(0deg, var(--sc-bg) 0%, rgba(10, 10, 11, 0) 24%);
+}
+
+.stage-inner { position: relative; z-index: 2; padding-top: 6rem; padding-bottom: 5rem; }
+.stage-left { max-width: 520px; }
+
+.stage-when {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-weight: 600; font-size: 0.95rem;
+  margin: 0 0 1.6rem;
+}
+
+.stage-pin {
+  position: relative;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: #fff;
+  flex: none;
+}
+
+.stage-pin::after {
+  content: "";
+  position: absolute;
+  left: 3.5px; top: 9px;
+  width: 2px; height: 34px;
+  background: linear-gradient(#fff, rgba(255, 255, 255, 0));
+}
+
+.stage-row { display: flex; align-items: flex-start; gap: 1.1rem; margin-bottom: 1.2rem; }
+
+.stage-count {
+  display: flex;
+  font-family: var(--sc-font-head);
+  font-weight: 300;
+  font-size: 4.4rem;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.mask { display: block; overflow: hidden; }
+.mask > span { display: block; will-change: transform; }
+
+.stage-info { padding-top: 0.2rem; min-width: 0; }
+
+.stage-title {
+  font-family: var(--sc-font-head);
+  font-weight: 700;
+  font-size: 2.3rem;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6rem;
+}
+
+.stage-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+
+.stage-meta li {
+  font-size: 0.7rem;
+  padding: 0.05rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.stage-genre { font-size: 0.78rem; color: rgba(255, 255, 255, 0.75); margin: 0 0 0.5rem; }
+
+.stage-label { font-weight: 600; font-size: 0.95rem; margin: 1.6rem 0 0.7rem; }
+
+.stage-times { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; min-height: 34px; }
+
+.stage-times a, .stage-times span {
+  display: inline-block;
+  padding: 0.28rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.stage-times a:hover, .stage-times a:focus {
+  background: var(--sc-gold);
+  border-color: var(--sc-gold);
+  color: var(--sc-gold-ink);
+}
+
+.stage-times span { border-style: dashed; color: rgba(255, 255, 255, 0.75); }
+
+.stage-actions { display: flex; align-items: center; gap: 0.6rem; margin-top: 1.4rem; }
+
+.stage-actions .btn {
+  border-radius: 4px;
+  font-size: 0.8rem;
+  padding: 0.45rem 1.1rem;
+}
+
+.stage-actions .btn-line { border-color: rgba(255, 255, 255, 0.55); color: #fff; }
+
+.stage-nav { display: flex; align-items: center; gap: 0.6rem; margin-top: 2rem; }
+
+.stage-arrow {
+  position: relative;
+  width: 38px; height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.stage-arrow:hover, .stage-arrow:focus { border-color: var(--sc-gold); background: rgba(0, 0, 0, 0.5); }
+.stage-arrow svg { width: 14px; height: 14px; }
+
+.stage-arrow .ring {
+  position: absolute;
+  top: -1px; left: -1px;
+  width: 38px; height: 38px;
+  transform: rotate(-90deg);
+  pointer-events: none;
+}
+
+.ring circle {
+  fill: none;
+  stroke: var(--sc-gold);
+  stroke-width: 2;
+  stroke-dasharray: 100.5;
+  stroke-dashoffset: 100.5;
+}
+
+.stage.is-playing .ring circle { animation: ringFill var(--dur, 7s) linear forwards; }
+@keyframes ringFill { to { stroke-dashoffset: 0; } }
+
+/* poster rail (right side, bleeds off the screen edge) */
+.stage-rail { position: absolute; z-index: 3; left: 54%; right: 0; bottom: 20%; }
+
+.rail-pin {
+  position: absolute;
+  left: 0; top: -58px;
+  height: 58px;
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  padding-left: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.rail-view { overflow-x: auto; overflow-y: hidden; padding: 1.4rem 0 12px; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: rgba(255,210,31,.65) transparent; }
+.rail-view::-webkit-scrollbar { height: 5px; }
+.rail-view::-webkit-scrollbar-thumb { background: rgba(255,210,31,.65); border-radius: 99px; }
+.rail-track { display: flex; width: max-content; gap: 14px; transition: transform 0.75s cubic-bezier(0.7, 0, 0.2, 1); }
+.rail-controls { position: absolute; right: 1rem; top: -3.15rem; display: flex; gap: .5rem; }
+.rail-arrow { display:grid; place-items:center; width:36px; height:36px; border:1px solid rgba(255,255,255,.35); border-radius:50%; color:#fff; background:rgba(12,13,16,.72); backdrop-filter:blur(10px); transition:background .2s, transform .2s; }
+.rail-arrow:hover, .rail-arrow:focus-visible { background:var(--sc-gold); color:#111; transform:scale(1.06); }
+.rail-track.no-anim { transition: none; }
+
+.rail-card {
+  position: relative;
+  flex: none;
+  width: 164px;
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.5s ease, transform 0.35s ease;
+}
+
+.rail-card.is-leaving { opacity: 0; }
+.rail-card:hover, .rail-card:focus { transform: translateY(-6px); }
+
+.rail-no {
+  position: absolute;
+  top: -1.25rem; left: 0;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.rail-card img {
+  display: block;
+  width: 164px; height: 246px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* fade-out while the "More" dive plays */
+.stage-when, .stage-row, .stage-label, .stage-times, .stage-actions, .stage-nav, .stage-rail, .stage-genre {
+  transition: opacity 0.45s ease, transform 0.55s ease;
+}
+
+.stage.is-diving .stage-when,
+.stage.is-diving .stage-count,
+.stage.is-diving .stage-genre,
+.stage.is-diving .stage-meta,
+.stage.is-diving .stage-label,
+.stage.is-diving .stage-times,
+.stage.is-diving .stage-actions,
+.stage.is-diving .stage-nav,
+.stage.is-diving .stage-rail {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+/* first load: soft entrance */
+.stage-left > *, .stage-rail { animation: fadeUp 0.9s var(--sc-ease) both; }
+.stage-left > *:nth-child(2) { animation-delay: 0.08s; }
+.stage-left > *:nth-child(3) { animation-delay: 0.16s; }
+.stage-left > *:nth-child(4) { animation-delay: 0.24s; }
+.stage-left > *:nth-child(5) { animation-delay: 0.32s; }
+.stage-left > *:nth-child(6) { animation-delay: 0.4s; }
+.stage-left > *:nth-child(7) { animation-delay: 0.48s; }
+.stage-rail { animation-delay: 0.35s; }
+
+
+/* ---- Home stage: navbar floats over the picture ---- */
+body.has-stage .sc-navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1030;
+}
+body.has-stage .sc-navbar .navbar { min-height: 72px; }
+/* (star before the brand name removed so every page shows the same logo text) */
+body.has-stage .sc-navbar .nav-link { border: 1px solid transparent; border-radius: 999px; padding: .35rem 1rem; margin: 0 .15rem; font-size: .85rem; font-weight: 500; }
+body.has-stage .sc-navbar .nav-link::after { content: none; }
+body.has-stage .sc-navbar .nav-link.active { color: var(--sc-text); border-color: var(--sc-text); }
+body.has-stage .sc-navbar:not(.is-scrolled) {
+  --sc-text: #ffffff;
+  --sc-muted: rgba(255, 255, 255, .78);
+  --sc-border: rgba(255, 255, 255, .38);
+  --sc-accent: #ffd21f;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+}
+@media (max-width: 991.98px) {
+  body.has-stage .sc-navbar:not(.is-scrolled) .navbar-collapse {
+    background: rgba(10, 10, 11, .94);
+    padding: 1rem;
+    border-radius: var(--sc-radius);
+  }
+}
+
+/* stage on small screens */
+@media (max-width: 991.98px) {
+  .stage { align-items: flex-start; flex-direction: column; }
+  .stage-inner { padding-top: 6rem; padding-bottom: 2rem; }
+  .stage-rail { position: relative; left: auto; bottom: auto; margin-top: 1.5rem; padding-left: 12px; }
+  .rail-pin { display: none; }
+  .rail-card, .rail-card img { width: 120px; }
+  .rail-card img { height: 180px; }
+  .stage-count { font-size: 3.2rem; }
+  .stage-title { font-size: 1.8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage-layer.is-on { opacity: 1; }
+}
+
+
+/* Modern About / Contact refinements */
+.sc-stat, .sc-card { border: 1px solid var(--sc-border); background: linear-gradient(145deg, var(--sc-surface), color-mix(in srgb, var(--sc-surface) 82%, var(--sc-gold) 18%)); box-shadow: 0 14px 34px rgba(0,0,0,.12); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+.sc-card:hover, .sc-stat:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--sc-gold) 55%, var(--sc-border)); box-shadow: 0 18px 40px rgba(0,0,0,.2); }
+.sc-map-wrap { box-shadow: 0 18px 45px rgba(0,0,0,.2); }
+#main > section:first-child h1 { letter-spacing: -.035em; font-weight: 700; }
+#main > section:first-child .sc-muted { max-width: 680px; font-size: 1.05rem; }
+@media (max-width: 991.98px) { .rail-controls { top: -2.7rem; right: .5rem; } }
+
+
+/* ==========================================================
+   Mobile responsiveness fixes
+   ========================================================== */
+
+/* Media never wider than the screen */
+img, svg, video, canvas, iframe { max-width: 100%; }
+body { overflow-x: clip; }
+h1, h2, h3, .stage-title { overflow-wrap: break-word; }
+.sc-table-wrap { overflow-x: auto; }
+
+/* Seat map: the seats shrink to fit the screen instead of scrolling sideways.
+   --seat is worked out from the width of the seat map box (cqw = 1% of that box). */
+.sc-seatmap { container-type: inline-size; }
+.sc-seatrow {
+  --seat: clamp(20px, calc((100cqw - 90px) / 10), 34px);
+  gap: clamp(2px, 0.9cqw, 5.6px);
+}
+.sc-seat {
+  width: var(--seat, 34px);
+  height: calc(var(--seat, 34px) * 0.94);
+}
+@container (max-width: 420px) {
+  .sc-seatrow { --seat: clamp(20px, calc((100cqw - 70px) / 10), 34px); }
+  .sc-seat { font-size: 0.62rem; border-radius: 7px 7px 4px 4px; }
+  .sc-seat.is-recliner { box-shadow: inset 0 -4px 0 rgba(255, 210, 31, 0.35); }
+  .sc-rowlabel { width: 1rem; font-size: 0.68rem; }
+  .sc-aisle { width: 1rem; }
+}
+
+/* Phones */
+@media (max-width: 767.98px) {
+  /* film poster on the details page: not full screen height */
+  .sc-poster-solo { max-width: 240px; margin-left: auto; margin-right: auto; }
+  .sc-screen { max-width: 80%; }
+  .sc-legend { gap: 0.6rem 1rem; font-size: 0.8rem; }
+}
+
+@media (max-width: 575.98px) {
+  /* home: "Now showing" posters in a neat 2-column grid instead of a sideways strip */
+  body.home-page #now-showing .row {
+    --bs-gutter-x: 0;
+    --bs-gutter-y: 0;
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0.5rem 0 1rem;
+  }
+  body.home-page #now-showing .row > .movie-item { padding: 0; min-width: 0; }
+  .sc-poster-link .p-3 { padding: 0.75rem !important; }
+  .stage-title { font-size: 1.6rem; }
+  .stage-count { font-size: 2.8rem; }
+  .stage-inner { padding-top: 5.5rem; }
+}
+
+
+/* ==========================================================
+   Phones & tablets (portrait): show the WHOLE backdrop picture
+   The stage is tall on small screens, so "cover" zooms a 16:9 picture in
+   and crops it. Here every backdrop is shown at full width (nothing cut
+   off), sitting just under the navbar, and the text starts below it.
+   ========================================================== */
+@media (max-width: 991.98px) {
+  .stage {
+    --nav-h: 4.5rem;                              /* navbar height (72px) */
+    --pic-h: 56.25vw;                             /* 16:9 picture height */
+  }
+
+  .stage-layer {
+    background-size: 100% auto !important;        /* full width, full height of picture */
+    background-position: center var(--nav-h) !important;
+    transform-origin: 50% 30%;
+  }
+
+  /* text and buttons start under the picture */
+  .stage-inner { padding-top: calc(var(--nav-h) + var(--pic-h) + 1rem); }
+
+  /* replace the left-to-right desktop shading with a soft fade on the picture */
+  .stage-shade {
+    background:
+      linear-gradient(180deg, rgba(5, 5, 5, .55) 0, rgba(5, 5, 5, 0) calc(var(--nav-h) + 8vw)),
+      linear-gradient(180deg,
+        rgba(5, 5, 5, 0) calc(var(--nav-h) + var(--pic-h) - 14vw),
+        #050505 calc(var(--nav-h) + var(--pic-h) + .5rem)),
+      linear-gradient(0deg, var(--sc-bg) 0%, rgba(10, 10, 11, 0) 24%);
+  }
+
+  /* zoom effect when changing film must not crop the picture too much */
+  .stage.is-diving .stage-bg { transform: scale(1.05); }
+}
+
+@media (max-width: 575.98px) {
+  .stage-inner { padding-top: calc(var(--nav-h) + var(--pic-h) + 1rem); }
+}
+
+
+/* ==========================================================
+   Showtimes page on phones: tidy, even layout
+   Each table row becomes one card: film, times, then screen + format.
+   ========================================================== */
+@media (max-width: 767.98px) {
+  /* day buttons: 7 equal buttons in one neat row */
+  body.showtimes-page #dayChips {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.35rem !important;
+  }
+  body.showtimes-page #dayChips .sc-chip {
+    padding: 0.45rem 0;
+    text-align: center;
+    font-size: 0.78rem;
+  }
+
+  /* table -> cards */
+  body.showtimes-page #tableWrap .table-responsive { overflow: visible; }
+  body.showtimes-page .sc-table thead { display: none; }
+  body.showtimes-page .sc-table,
+  body.showtimes-page .sc-table tbody { display: block; width: 100%; }
+
+  body.showtimes-page .sc-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 0.75rem;
+    margin-bottom: 0.8rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--sc-border);
+    border-radius: var(--sc-radius);
+  }
+  body.showtimes-page .sc-table tbody tr:hover { transform: none; }
+
+  body.showtimes-page .sc-table tbody td {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    min-width: 0;
+  }
+  /* film name + runtime: full width */
+  body.showtimes-page .sc-table tbody td:nth-child(1) { grid-column: 1 / -1; }
+  /* times: full width, chips wrap evenly */
+  body.showtimes-page .sc-table tbody td:nth-child(2) {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.4rem 0 0.5rem;
+  }
+  body.showtimes-page .sc-table tbody td:nth-child(2) .sc-time { margin: 0; }
+  /* screen (left) + format (right) */
+  body.showtimes-page .sc-table tbody td:nth-child(3),
+  body.showtimes-page .sc-table tbody td:nth-child(4) {
+    font-size: 0.82rem;
+    color: var(--sc-muted);
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--sc-border);
+  }
+  body.showtimes-page .sc-table tbody td:nth-child(4) { text-align: right; }
+}
