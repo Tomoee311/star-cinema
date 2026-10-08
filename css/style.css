@@ -1591,3 +1591,11 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
   }
   body.showtimes-page .sc-table tbody td:nth-child(4) { text-align: right; }
 }
+
+/* Logo + centred footer copyright */
+.sc-brand { display: inline-flex; align-items: center; gap: .6rem; }
+.sc-logo-img { width: 32px; height: 32px; border-radius: 8px; flex: none; display: block; }
+.sc-logo-img--footer { width: 36px; height: 36px; margin-right: .6rem; }
+.sc-legal { text-align: center; margin-top: 1.5rem; }
+.sc-legal .sc-social a { margin: 0 .6rem; }
+.sc-legal .sc-social span { display: block; margin: 0 0 .5rem !important; }
