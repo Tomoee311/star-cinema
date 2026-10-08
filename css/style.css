@@ -1612,3 +1612,94 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
 .sc-navbar .navbar-nav .nav-link::after { content: none; }
 .sc-navbar .navbar-nav .nav-link.active { color: var(--sc-text); border-color: var(--sc-text); }
 .sc-navbar .navbar { min-height: 72px; }
+
+
+/* ==========================================================
+   Movie age-rating badges (PG, PG-13, R, NR)
+   Shown on poster cards, the home hero and the details page.
+   ========================================================== */
+.movie-card, .sc-poster-link { position: relative; }
+
+.sc-rating {
+  --rt: #8b95a1;
+  --rt-ink: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1rem;
+  padding: .18rem .5rem;
+  border-radius: 6px;
+  font-family: var(--sc-font-head);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1.2;
+  color: var(--rt-ink);
+  background: var(--rt);
+  border: 1px solid rgba(255, 255, 255, .35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .35);
+  white-space: nowrap;
+}
+.sc-rating--g    { --rt: #1f9d55; }
+.sc-rating--pg   { --rt: #1d8fd1; }
+.sc-rating--pg13 { --rt: #e08a00; --rt-ink: #1a1100; }
+.sc-rating--r    { --rt: #d6303a; }
+.sc-rating--nr   { --rt: #5d6672; }
+
+/* floating on the poster, top-left corner */
+.movie-card > .sc-rating,
+.sc-poster-link > .sc-rating {
+  position: absolute;
+  top: .6rem;
+  left: .6rem;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+  transition: transform .25s ease;
+}
+.movie-card:hover > .sc-rating,
+.sc-poster-link:hover > .sc-rating { transform: scale(1.08) rotate(-3deg); }
+
+/* big badge next to the film title on the details page */
+.sc-rating--lg { font-size: .95rem; padding: .3rem .8rem; border-radius: 8px; }
+.sc-facts dd .sc-rating { font-size: .75rem; }
+.sc-rating-note { font-size: .8rem; color: var(--sc-muted); margin-left: .5rem; }
+
+/* hero (home page): replace the plain outlined chip with a coloured one */
+.stage-meta li.sc-rating {
+  display: inline-flex;
+  font-size: .7rem;
+  padding: .12rem .55rem;
+  border-radius: 4px;
+  color: var(--rt-ink);
+  background: var(--rt);
+  border: 1px solid rgba(255, 255, 255, .4);
+  font-weight: 700;
+}
+
+/* legend on the movies page */
+.sc-rating-legend { display: flex; flex-wrap: wrap; gap: .6rem 1.25rem; align-items: center; font-size: .82rem; color: var(--sc-muted); }
+.sc-rating-legend span.item { display: inline-flex; align-items: center; gap: .45rem; }
+
+
+/* ==========================================================
+   Star ratings (audience score out of 5)
+   ========================================================== */
+.sc-stars { display: inline-flex; align-items: center; gap: .14rem; color: #ffd21f; font-size: .85rem; line-height: 1; vertical-align: middle; }
+.sc-stars .bi { filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .45)); }
+.sc-stars.is-empty { color: var(--sc-muted); }
+.sc-stars-num { margin-left: .4rem; font-size: .78rem; font-weight: 600; color: var(--sc-text); }
+.sc-stars.is-empty .sc-stars-num { font-weight: 400; color: var(--sc-muted); }
+[data-bs-theme="light"] .sc-stars:not(.is-empty), body.light .sc-stars:not(.is-empty) { color: #e0a100; }
+
+/* movie cards */
+.movie-card .sc-stars, .sc-poster-link .sc-stars { font-size: .78rem; margin-bottom: .35rem; }
+.sc-poster-link .sc-stars { display: flex; }
+
+/* hero: stars sit in front of the genre, like the design mock-up */
+.stage-genre { display: flex; align-items: center; flex-wrap: wrap; gap: .55rem; }
+.stage-genre .sc-stars { font-size: .8rem; color: #ffe600; }
+.stage-genre-text { font-size: .78rem; }
+
+/* details page */
+.sc-stars-row .sc-stars { font-size: 1.15rem; gap: .2rem; }
+.sc-stars-row .sc-stars-num { font-size: .95rem; }

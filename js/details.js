@@ -31,6 +31,13 @@
   $("crumbTitle").textContent = film.title;
   $("filmTitle").textContent = film.title;
   $("filmMeta").textContent = film.runtime + " · " + film.genres + " · " + (film.release.match(/20\d\d/) || [""])[0];
+  var starsHost = $("filmMeta").parentNode;
+  var starRow = document.createElement("div");
+  starRow.className = "sc-stars-row mb-2";
+  starRow.appendChild(SC.starsEl(film.stars, true));
+  starsHost.insertBefore(starRow, $("filmMeta"));
+  var metaEl = $("filmMeta");
+  metaEl.insertBefore(SC.ratingBadge(film.rating, "sc-rating--lg me-2"), metaEl.firstChild);
   $("filmSynopsis").textContent = film.synopsis;
   $("filmCredits").textContent = "Director: " + film.director + " · Cast: " + film.cast.join(", ");
 
@@ -51,6 +58,7 @@
     ["Runtime", film.runtime],
     ["Genre", film.genres],
     ["Rating (US)", film.rating],
+    ["Rating (stars)", film.stars == null ? "No rating yet" : film.stars.toFixed(1) + " / 5"],
     ["Language", film.language],
     ["Format", formats.length ? formats.join(", ") : "To be announced"],
     ["Screen", screens.length ? screens.join(", ") : "To be announced"]
@@ -58,7 +66,14 @@
   var list = $("factsList");
   facts.forEach(function (pair) {
     add(list, "dt", pair[0]);
-    add(list, "dd", pair[1]);
+    var dd = add(list, "dd", pair[0] === "Rating (US)" ? "" : pair[1]);
+    if (pair[0] === "Rating (US)") {
+      dd.appendChild(SC.ratingBadge(pair[1]));
+      var note = document.createElement("span");
+      note.className = "sc-rating-note";
+      note.textContent = SC.ratingInfo(pair[1]).tip;
+      dd.appendChild(note);
+    }
   });
 
   /* Video (YouTube embed, only when an ID is set in films.js) */

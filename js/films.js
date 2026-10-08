@@ -18,12 +18,16 @@ SC.formats = { "standard": "Standard", "dolby-atmos": "Dolby Atmos" };
 /* Ticket prices in dollars. Matinee price: standard seats, shows that start before 17:00. */
 SC.prices = { standard: 12.5, recliner: 18, matinee: 9.5 };
 
+/* stars: audience score out of 5 in steps of 0.5 (null = no score yet). Converted from Rotten Tomatoes % (or CinemaScore) as % / 20, rounded DOWN to the nearest 0.5. null = no reliable score found - edit them here.
+   Sources (checked 8 Oct 2026): Spider-Man RT critics 90-91% / audience 98% -> 4.5; The Odyssey RT critics 94-95% / audience 96%, CinemaScore A -> 4.5;
+   Cerita Lila has no critic aggregate (TMDB 5.0/10 on 3 votes, IMDb-based ~8/10 on ~23 votes, Letterboxd reviews 2.5-3) -> 3.5, LOW CONFIDENCE, revisit when more votes exist. */
 /* video: YouTube video ID of an official trailer ("" = none).
    videoLabel (optional): word shown in the heading, default "trailer".
    To add one, paste the ID (the 11 characters after youtu.be/) and fill videoCredit. */
 SC.films = [
   {
     slug: "spider-man-brand-new-day",
+    stars: 4.5,
     title: "Spider-Man: Brand New Day",
     status: "now",
     release: "July 2026",
@@ -39,6 +43,7 @@ SC.films = [
   },
   {
     slug: "the-odyssey",
+    stars: 4.5,
     title: "The Odyssey",
     status: "now",
     release: "17 July 2026",
@@ -54,6 +59,7 @@ SC.films = [
   },
   {
     slug: "toy-story-5",
+    stars: 4.5,
     title: "Toy Story 5",
     status: "now",
     release: "19 June 2026",
@@ -69,6 +75,7 @@ SC.films = [
   },
   {
     slug: "resident-evil",
+    stars: 4.5,
     title: "Resident Evil",
     status: "now",
     release: "18 September 2026",
@@ -84,6 +91,7 @@ SC.films = [
   },
   {
     slug: "backrooms",
+    stars: 4,
     title: "Backrooms",
     status: "now",
     release: "29 May 2026",
@@ -99,6 +107,7 @@ SC.films = [
   },
   {
     slug: "obsession",
+    stars: 4.5,
     title: "Obsession",
     status: "now",
     release: "15 May 2026",
@@ -114,6 +123,7 @@ SC.films = [
   },
   {
     slug: "cerita-lila",
+    stars: 3.5,
     title: "Cerita Lila",
     status: "now",
     release: "18 June 2026 (Indonesia)",
@@ -129,6 +139,7 @@ SC.films = [
   },
   {
     slug: "avengers-doomsday",
+    stars: null,
     title: "Avengers: Doomsday",
     status: "soon",
     release: "18 December 2026",
@@ -160,6 +171,55 @@ SC.schedule = [
 ];
 
 /* Helpers ------------------------------------------------ */
+
+/* Age rating -> short label, CSS class and tooltip (used for the coloured badges). */
+SC.ratingInfo = function (rating) {
+  var map = {
+    "G":     { label: "G",     cls: "g",    tip: "Rated G" },
+    "PG":    { label: "PG",    cls: "pg",   tip: "Rated PG" },
+    "PG-13": { label: "PG-13", cls: "pg13", tip: "Rated PG-13" },
+    "R":     { label: "R",     cls: "r",    tip: "Rated R" }
+  };
+  if (map[rating]) { return map[rating]; }
+  if (rating === "Not yet rated") { return { label: "TBA", cls: "nr", tip: "Not yet rated" }; }
+  return { label: "NR", cls: "nr", tip: "Not rated / not listed" };
+};
+
+/* Star score (0-5, halves allowed) -> a row of Bootstrap-icon stars. null = no score yet. */
+SC.starsEl = function (score, showNumber) {
+  var wrap = document.createElement("span");
+  wrap.className = "sc-stars" + (score == null ? " is-empty" : "");
+  wrap.setAttribute("role", "img");
+  wrap.setAttribute("aria-label", score == null ? "No rating yet" : "Rated " + score + " out of 5 stars");
+  for (var i = 1; i <= 5; i++) {
+    var icon = document.createElement("i");
+    var kind = "bi-star";
+    if (score != null) {
+      if (score >= i) { kind = "bi-star-fill"; }
+      else if (score >= i - 0.5) { kind = "bi-star-half"; }
+    }
+    icon.className = "bi " + kind;
+    icon.setAttribute("aria-hidden", "true");
+    wrap.appendChild(icon);
+  }
+  if (showNumber) {
+    var num = document.createElement("span");
+    num.className = "sc-stars-num";
+    num.textContent = score == null ? "No rating yet" : score.toFixed(1);
+    wrap.appendChild(num);
+  }
+  return wrap;
+};
+
+SC.ratingBadge = function (rating, extraClass) {
+  var info = SC.ratingInfo(rating);
+  var el = document.createElement("span");
+  el.className = "sc-rating sc-rating--" + info.cls + (extraClass ? " " + extraClass : "");
+  el.title = info.tip;
+  el.textContent = info.label;
+  return el;
+};
+
 SC.film = function (slug) {
   for (var i = 0; i < SC.films.length; i++) {
     if (SC.films[i].slug === slug) { return SC.films[i]; }

@@ -93,7 +93,13 @@
 
   function fillMeta(f) {
     el.meta.textContent = "";
-    [f.rating, f.runtime, f.language].forEach(function (t) {
+    var info = SC.ratingInfo(f.rating);
+    var rli = document.createElement("li");
+    rli.className = "sc-rating sc-rating--" + info.cls;
+    rli.title = info.tip;
+    rli.textContent = info.label;
+    el.meta.appendChild(rli);
+    [f.runtime, f.language].forEach(function (t) {
       var li = document.createElement("li");
       li.textContent = t;
       el.meta.appendChild(li);
@@ -105,7 +111,12 @@
     var info = sessionFor(f);
     el.when.textContent = info.label;
     el.title.textContent = f.title;
-    el.genre.textContent = f.genres;
+    el.genre.textContent = "";
+    el.genre.appendChild(SC.starsEl(f.stars, false));
+    var g = document.createElement("span");
+    g.className = "stage-genre-text";
+    g.textContent = "Genre: " + f.genres;
+    el.genre.appendChild(g);
     fillMeta(f);
     fillTimes(f, info);
     var d = two(i);
