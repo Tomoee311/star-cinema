@@ -875,11 +875,19 @@ body {
   pointer-events: none;
   background:
     linear-gradient(180deg, rgba(8,9,11,.98), rgba(18,14,9,.98));
-  transform: translateY(0);
+  /* Open (hidden) by default so the page can never get stuck behind the curtain.
+     The entrance reveal is a pure CSS animation: it does not depend on JS timers or
+     requestAnimationFrame, which phones pause when a page loads in the background. */
+  transform: translateY(-100%);
+  animation: sc-curtain-reveal .52s var(--sc-ease) both;
   transition: transform .52s var(--sc-ease);
 }
-.sc-page-curtain.is-open { transform: translateY(-100%); }
-.sc-page-curtain.is-closing { transform: translateY(0); }
+@keyframes sc-curtain-reveal {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100%); }
+}
+.sc-page-curtain.is-open { transform: translateY(-100%); animation: none; }
+.sc-page-curtain.is-closing { transform: translateY(0); animation: none; }
 .sc-page-curtain::before {
   content: "";
   position: absolute;
@@ -1583,3 +1591,25 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
   }
   body.showtimes-page .sc-table tbody td:nth-child(4) { text-align: right; }
 }
+
+/* Logo + centred footer copyright */
+.sc-brand { display: inline-flex; align-items: center; gap: .6rem; }
+.sc-logo-img { width: 32px; height: 32px; border-radius: 8px; flex: none; display: block; }
+.sc-logo-img--footer { width: 36px; height: 36px; margin-right: .6rem; }
+.sc-legal { text-align: center; margin-top: 1.5rem; }
+.sc-legal .sc-social a { margin: 0 .6rem; }
+.sc-legal .sc-social span { display: block; margin: 0 0 .5rem !important; }
+
+/* Same pill-style nav links on every page (matches the home page) */
+.sc-navbar .nav-link { border: 1px solid transparent; border-radius: 999px; padding: .35rem 1rem; margin: 0 .15rem; font-size: .85rem; font-weight: 500; }
+.sc-navbar .nav-link::after { content: none; }
+.sc-navbar .nav-link.active { color: var(--sc-text); border-color: var(--sc-text); }
+.sc-navbar .navbar { min-height: 72px; }
+
+/* Home navbar: same centred width as the other pages (Bootstrap container widths) */
+body.has-stage .sc-navbar .navbar > .container { width: 100%; margin-left: auto; margin-right: auto; max-width: 100%; }
+@media (min-width: 576px)  { body.has-stage .sc-navbar .navbar > .container { max-width: 540px; } }
+@media (min-width: 768px)  { body.has-stage .sc-navbar .navbar > .container { max-width: 720px; } }
+@media (min-width: 992px)  { body.has-stage .sc-navbar .navbar > .container { max-width: 960px; } }
+@media (min-width: 1200px) { body.has-stage .sc-navbar .navbar > .container { max-width: 1140px; } }
+@media (min-width: 1400px) { body.has-stage .sc-navbar .navbar > .container { max-width: 1320px; } }
