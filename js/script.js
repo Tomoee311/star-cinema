@@ -14,8 +14,25 @@
   curtain.className = "sc-page-curtain";
   curtain.setAttribute("aria-hidden", "true");
   document.body.appendChild(curtain);
-  window.requestAnimationFrame(function () {
-    window.setTimeout(function () { curtain.classList.add("is-open"); }, 40);
+  /* The curtain opens itself with a CSS animation (see style.css), so nothing to do on load. */
+
+  /* Back / forward button: the browser can bring the page back exactly as it was when
+     we left it, with the dark curtain still closed. Always open it when the page is
+     shown, becomes visible, or regains focus. */
+  function openCurtain() {
+    curtain.classList.remove("is-closing");
+    curtain.classList.add("is-open");
+  }
+  window.addEventListener("pageshow", function (e) {
+    if (e.persisted || curtain.classList.contains("is-closing")) {
+      openCurtain();
+      window.setTimeout(openCurtain, 50);
+    }
+  });
+  window.addEventListener("focus", function () { if (curtain.classList.contains("is-closing")) { openCurtain(); } });
+  window.addEventListener("popstate", openCurtain);
+  document.addEventListener("visibilitychange", function () {
+    if (!document.hidden) { openCurtain(); }
   });
 
   /* Home stage: navbar floats transparent over the picture and turns solid after scrolling */
@@ -39,6 +56,10 @@
     curtain.classList.add("is-closing");
     /* Give the curtain enough time to read as a deliberate page transition. */
     window.setTimeout(function () { window.location.href = href; }, 360);
+    /* Safety: if we are still on this page a moment later (for example the person came
+       back with the Back button and the page was restored from memory), open the curtain.
+       Timers pause while a page is stored, so this fires right after it comes back. */
+    window.setTimeout(openCurtain, 1500);
   });
 
   /* 1. Theme toggle (remembered in the browser) */
