@@ -1,6 +1,6 @@
 /* ==========================================================
    Star Cinema - style.css
-   Design ideas inspired by rickydx.dev: dark theme with a
+   Design ideas: dark theme with a
    light toggle, command-style search, numbered cards, soft
    fade-up reveal. All code is original for this assignment.
    Bootstrap 5.3 provides the grid, navbar and components.
@@ -1477,4 +1477,44 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
   .stage-title { font-size: 1.6rem; }
   .stage-count { font-size: 2.8rem; }
   .stage-inner { padding-top: 5.5rem; }
+}
+
+
+/* ==========================================================
+   Phones & tablets (portrait): show the WHOLE backdrop picture
+   The stage is tall on small screens, so "cover" zooms a 16:9 picture in
+   and crops it. Here every backdrop is shown at full width (nothing cut
+   off), sitting just under the navbar, and the text starts below it.
+   ========================================================== */
+@media (max-width: 991.98px) {
+  .stage {
+    --nav-h: 4.5rem;                              /* navbar height (72px) */
+    --pic-h: 56.25vw;                             /* 16:9 picture height */
+  }
+
+  .stage-layer {
+    background-size: 100% auto !important;        /* full width, full height of picture */
+    background-position: center var(--nav-h) !important;
+    transform-origin: 50% 30%;
+  }
+
+  /* text and buttons start under the picture */
+  .stage-inner { padding-top: calc(var(--nav-h) + var(--pic-h) + 1rem); }
+
+  /* replace the left-to-right desktop shading with a soft fade on the picture */
+  .stage-shade {
+    background:
+      linear-gradient(180deg, rgba(5, 5, 5, .55) 0, rgba(5, 5, 5, 0) calc(var(--nav-h) + 8vw)),
+      linear-gradient(180deg,
+        rgba(5, 5, 5, 0) calc(var(--nav-h) + var(--pic-h) - 14vw),
+        #050505 calc(var(--nav-h) + var(--pic-h) + .5rem)),
+      linear-gradient(0deg, var(--sc-bg) 0%, rgba(10, 10, 11, 0) 24%);
+  }
+
+  /* zoom effect when changing film must not crop the picture too much */
+  .stage.is-diving .stage-bg { transform: scale(1.05); }
+}
+
+@media (max-width: 575.98px) {
+  .stage-inner { padding-top: calc(var(--nav-h) + var(--pic-h) + 1rem); }
 }
