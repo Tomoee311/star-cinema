@@ -119,7 +119,7 @@
       add(tr, "td", s.time, "fw-semibold");
       add(tr, "td", "Screen " + s.screen);
       add(tr, "td", SC.formats[s.format]);
-      add(tr, "td", SC.money(SC.priceFor(s.time)));
+      add(tr, "td", SC.money(SC.seatPrice(SC.seatRows[0] + "1", s.time)));
       var cell = add(tr, "td");
       var link = add(cell, "a", "Book", "btn btn-gold btn-sm");
       link.href = "booking.html?film=" + film.slug + "&day=" + day.key + "&time=" + s.time + "&screen=" + s.screen;

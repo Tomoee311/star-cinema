@@ -22,6 +22,7 @@
   var email = "";          /* the email used to find it (needed to change or cancel) */
   var selected = [];       /* seats chosen while changing */
   var takenByOthers = [];
+  var editCombos = 0;      /* popcorn + drink sets while changing */
 
   function seatOrder(a, b) {
     var ra = SC.seatRows.indexOf(a.charAt(0));
@@ -73,15 +74,6 @@
     show(note, SC.apiMode === "local");
   }
 
-  function priceLines(seats, time) {
-    var std = seats.filter(function (s) { return !SC.isRecliner(s); });
-    var rec = seats.filter(SC.isRecliner);
-    var lines = [];
-    if (std.length) { lines.push(std.length + " × Standard seat, " + SC.money(SC.priceFor(time)) + " each"); }
-    if (rec.length) { lines.push(rec.length + " × Recliner seat, " + SC.money(SC.prices.recliner) + " each"); }
-    return lines.join(" · ");
-  }
-
   /* ---------- show the booking card ---------- */
   function renderBooking() {
     var film = SC.film(booking.film);
@@ -90,7 +82,14 @@
     $("resFilm").textContent = film ? film.title : booking.film;
     $("resWhen").textContent = day.full + " · " + booking.time + " · Screen " + booking.screen + " · " + formatOf(booking);
     $("resSeats").textContent = "Seats: " + seats.join(", ");
-    $("resLines").textContent = priceLines(seats, booking.time);
+    var list = $("resLines");
+    list.textContent = "";
+    SC.summaryLines(seats, booking.time, booking.combos || 0).forEach(function (text) {
+      var li = document.createElement("li");
+      li.textContent = text;
+      if (/^Matinee/.test(text)) { li.className = "is-note"; }
+      list.appendChild(li);
+    });
     $("resTotal").textContent = SC.money(booking.total);
     $("resRef").textContent = booking.reference;
     $("resName").textContent = booking.name;
@@ -148,8 +147,13 @@
   function renderEdit() {
     SC.renderSeatMap($("editMap"), { time: booking.time, taken: takenByOthers, selected: selected });
     var seats = selected.slice().sort(seatOrder);
+    if (editCombos > seats.length) { editCombos = seats.length; }
+    $("editComboInfo").textContent = SC.money(SC.prices.combo) + " per set (" + SC.money(SC.prices.comboSeparate) + " if bought separately)";
+    $("editComboCount").textContent = String(editCombos);
+    $("editComboMinus").disabled = editCombos <= 0;
+    $("editComboPlus").disabled = !seats.length || editCombos >= seats.length;
     $("editSummary").textContent = seats.length
-      ? "New seats: " + seats.join(", ") + " · Total " + SC.money(SC.total(seats, booking.time))
+      ? "New seats: " + seats.join(", ") + (editCombos ? " · " + editCombos + " × combo" : "") + " · Total " + SC.money(SC.total(seats, booking.time, editCombos))
       : "No seats chosen";
   }
 
@@ -164,6 +168,7 @@
 
   $("changeBtn").addEventListener("click", function () {
     selected = booking.seats.slice();
+    editCombos = booking.combos || 0;
     editError("");
     setNote("");
     show($("actionRow"), false);
@@ -196,19 +201,26 @@
     if (again) { again.focus(); }
   });
 
+  $("editComboPlus").addEventListener("click", function () {
+    if (editCombos < selected.length) { editCombos++; renderEdit(); }
+  });
+  $("editComboMinus").addEventListener("click", function () {
+    if (editCombos > 0) { editCombos--; renderEdit(); }
+  });
+
   $("saveBtn").addEventListener("click", function () {
     var seats = selected.slice().sort(seatOrder);
     if (seats.length === 0) { editError(MESSAGES.no_seats); return; }
-    if (seats.join() === booking.seats.slice().sort(seatOrder).join()) {
-      editError("You have not changed any seats.");
+    if (seats.join() === booking.seats.slice().sort(seatOrder).join() && editCombos === (booking.combos || 0)) {
+      editError("You have not changed anything.");
       return;
     }
     $("saveBtn").disabled = true;
-    SC.api.changeSeats(booking.reference, email, seats).then(function (res) {
+    SC.api.changeSeats(booking.reference, email, seats, editCombos).then(function (res) {
       if (res.status === 200) {
         booking = res.data.booking;
         renderBooking();
-        setNote("Your seats have been updated.");
+        setNote("Your booking has been updated.");
       } else {
         editError(MESSAGES[res.data && res.data.error] || MESSAGES.server_error);
         if (res.status === 409) { return loadEditSeats(); }

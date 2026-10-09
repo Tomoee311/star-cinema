@@ -23,6 +23,7 @@
     unknown_show: "That screening does not exist. Please choose another time.",
     seat_taken: "Sorry, one of your seats was just booked by someone else. Please choose different seats.",
     agree: "Please tick the box to confirm you understand this is a demonstration.",
+    bad_combos: "You can add at most one combo for each seat.",
     server_error: "Something went wrong on our side. Please try again in a moment."
   };
 
@@ -53,6 +54,7 @@
   var modeNote = $("modeNote");
 
   var selected = [];
+  var combos = 0;                                          /* popcorn + drink sets */
   var taken = [];
   var loadToken = 0;
 
@@ -174,14 +176,17 @@
     var seats = selected.slice().sort(seatOrder);
     $("sumSeats").textContent = seats.length ? "Seats: " + seats.join(", ") : "No seats chosen yet";
 
-    var lines = [];
-    if (show && seats.length) {
-      var std = seats.filter(function (s) { return !SC.isRecliner(s); });
-      var rec = seats.filter(SC.isRecliner);
-      if (std.length) { lines.push(std.length + " × Standard seat, " + SC.money(SC.priceFor(show.time)) + " each"); }
-      if (rec.length) { lines.push(rec.length + " × Recliner seat, " + SC.money(SC.prices.recliner) + " each"); }
-    }
-    $("sumLines").textContent = lines.join(" · ");
+    if (combos > seats.length) { combos = seats.length; }
+    /* one line under the other: "2 × Standard seat (A6, C8) · $9.50 each" then the recliners, then the combo */
+    var lines = (show && seats.length) ? SC.summaryLines(seats, show.time, combos) : [];
+    var list = $("sumLines");
+    list.textContent = "";
+    lines.forEach(function (text) {
+      add(list, "li", text, /^Matinee/.test(text) ? "is-note" : "");
+    });
+    $("comboCount").textContent = String(combos);
+    $("comboMinus").disabled = combos <= 0;
+    $("comboPlus").disabled = !seats.length || combos >= seats.length;
     var body = $("sumBody");
     body.textContent = "";
     if (show) {
@@ -189,11 +194,11 @@
         var tr = add(body, "tr");
         add(tr, "td", id.charAt(0));
         add(tr, "td", id.slice(1));
-        add(tr, "td", SC.isRecliner(id) ? "Recliner" : "Standard");
+        add(tr, "td", SC.seatTypeLabel(id));
         add(tr, "td", SC.money(SC.seatPrice(id, show.time)));
       });
     }
-    $("sumTotal").textContent = show ? SC.money(SC.total(seats, show.time)) : "$0.00";
+    $("sumTotal").textContent = show ? SC.money(SC.total(seats, show.time, combos)) : "$0.00";
   }
 
   function refresh() {
@@ -221,6 +226,7 @@
   function changeShow() {
     freshShow = true;
     selected = [];
+    combos = 0;
     seatStatus.textContent = "";
     showError("");
     loadSeats();
@@ -278,13 +284,23 @@
     }
   });
 
+  $("comboPrice").textContent = SC.money(SC.prices.combo);
+  $("comboSave").textContent = SC.money(SC.prices.comboSeparate);
+  $("comboPlus").addEventListener("click", function () {
+    if (combos < selected.length) { combos++; refresh(); }
+  });
+  $("comboMinus").addEventListener("click", function () {
+    if (combos > 0) { combos--; refresh(); }
+  });
+
   function fillModal(booking) {
     $("modalRef").textContent = booking.reference;
     var f = SC.film(booking.film);
     var d = SC.days[SC.dayIndex(booking.day)];
     $("modalFilm").textContent = f ? f.title : booking.film;
     $("modalWhen").textContent = d.full + " · " + booking.time + " · Screen " + booking.screen;
-    $("modalSeats").textContent = "Seats: " + booking.seats.slice().sort(seatOrder).join(", ");
+    $("modalSeats").textContent = "Seats: " + booking.seats.slice().sort(seatOrder).join(", ") +
+      (booking.combos ? " · " + booking.combos + " × Popcorn + drink combo" : "");
     $("modalTotal").textContent = "Total: " + SC.money(booking.total);
     $("manageLink").href = "my-booking.html?ref=" + encodeURIComponent(booking.reference);
   }
@@ -299,6 +315,7 @@
       time: show ? show.time : "",
       screen: show ? show.screen : 0,
       seats: selected.slice().sort(seatOrder),
+      combos: combos,
       name: $("custName").value.trim(),
       email: $("custEmail").value.trim()
     };
@@ -318,6 +335,7 @@
       if (res.status === 201) {
         fillModal(res.data.booking);
         selected = [];
+        combos = 0;
         form.reset();
         seatStatus.textContent = "";
         showPay("Booking completed successfully", true);
@@ -372,6 +390,20 @@
   window.setInterval(function () {
     if (!document.hidden && !confirmBtn.disabled) { loadSeats(); }
   }, 15000);
+
+  /* ---------- Terms of Service popup: shown once per visit, before booking ---------- */
+  (function () {
+    var termsEl = $("termsModal");
+    var accepted = false;
+    try { accepted = window.sessionStorage.getItem("scTermsAccepted") === "1"; } catch (err) { /* storage blocked: just show it */ }
+    if (accepted || !termsEl || !window.bootstrap) { return; }
+    var terms = new window.bootstrap.Modal(termsEl);
+    $("termsAgree").addEventListener("click", function () {
+      try { window.sessionStorage.setItem("scTermsAccepted", "1"); } catch (err) { /* ignore */ }
+      terms.hide();
+    });
+    terms.show();
+  })();
 
   fillFilms();
   fillDays();

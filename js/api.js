@@ -68,6 +68,7 @@
     create: function (b) {
       var input = {
         film: b.film, day: b.day, time: b.time, screen: Number(b.screen), seats: b.seats,
+        combos: b.combos === undefined ? 0 : b.combos,
         name: String(b.name || "").trim(), email: String(b.email || "").trim().toLowerCase()
       };
       var problem = SC.validateBooking(input, true);
@@ -75,7 +76,7 @@
       var list = readStore();
       if (clash(input.seats, takenIn(list, input))) { return { status: 409, data: { error: "seat_taken" } }; }
       input.reference = newReference();
-      input.total = SC.total(input.seats, input.time);
+      input.total = SC.total(input.seats, input.time, input.combos);
       list.push(input);
       writeStore(list);
       return { status: 201, data: { booking: input } };
@@ -85,16 +86,17 @@
       var i = find(list, ref, email);
       return i === -1 ? { status: 404, data: { error: "not_found" } } : { status: 200, data: { booking: list[i] } };
     },
-    change: function (ref, email, seats) {
+    change: function (ref, email, seats, combos) {
       var list = readStore();
       var i = find(list, ref, email);
       if (i === -1) { return { status: 404, data: { error: "not_found" } }; }
       var b = list[i];
-      var problem = SC.validateBooking({ film: b.film, day: b.day, time: b.time, screen: b.screen, seats: seats }, false);
+      var problem = SC.validateBooking({ film: b.film, day: b.day, time: b.time, screen: b.screen, seats: seats, combos: combos }, false);
       if (problem) { return { status: 400, data: { error: problem } }; }
       if (clash(seats, takenIn(list, b, b.reference))) { return { status: 409, data: { error: "seat_taken" } }; }
       b.seats = seats.slice().sort();
-      b.total = SC.total(b.seats, b.time);
+      b.combos = combos;
+      b.total = SC.total(b.seats, b.time, b.combos);
       writeStore(list);
       return { status: 200, data: { booking: b } };
     },
@@ -133,9 +135,10 @@
       return run("GET", "/api/bookings?" + query({ reference: ref, email: email }), null,
         function () { return local.lookup(ref, email); });
     },
-    changeSeats: function (ref, email, seats) {
-      return run("PATCH", "/api/bookings", { reference: ref, email: email, seats: seats },
-        function () { return local.change(ref, email, seats); });
+    changeSeats: function (ref, email, seats, combos) {
+      combos = combos || 0;
+      return run("PATCH", "/api/bookings", { reference: ref, email: email, seats: seats, combos: combos },
+        function () { return local.change(ref, email, seats, combos); });
     },
     cancelBooking: function (ref, email) {
       return run("DELETE", "/api/bookings?" + query({ reference: ref, email: email }), null,

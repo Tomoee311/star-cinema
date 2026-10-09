@@ -15,8 +15,17 @@ SC.days = [
 
 SC.formats = { "standard": "Standard", "dolby-atmos": "Dolby Atmos" };
 
-/* Ticket prices in dollars. Matinee price: standard seats, shows that start before 17:00. */
-SC.prices = { standard: 12.5, recliner: 18, matinee: 9.5 };
+/* Ticket prices in dollars. There are two kinds of seat:
+   - Standard: the front rows (A-E). Each row has its own price (A $9.50 ... E $11.00).
+   - Recliner: the last row (F only). Lean back with a footrest, a comfortable "VIP" view.
+   The price depends on the ROW (see SC.seatPlan below).
+   Matinee: shows that start before 17:00 get this discount on every seat.
+   Combo: popcorn + a cold drink sold as one set (worth more when bought separately). */
+SC.seatTypes = {
+  standard: { label: "Standard" },
+  recliner: { label: "Recliner" }
+};
+SC.prices = { matinee: 3, combo: 6, comboSeparate: 8 };
 
 /* stars: audience score out of 5 in steps of 0.5 (null = no score yet). Converted from Rotten Tomatoes % (or CinemaScore) as % / 20, rounded DOWN to the nearest 0.5. null = no reliable score found - edit them here.
    Sources (checked 8 Oct 2026): Spider-Man RT critics 90-91% / audience 98% -> 4.5; The Odyssey RT critics 94-95% / audience 96%, CinemaScore A -> 4.5;
@@ -241,34 +250,108 @@ SC.showsFor = function (slug, dayIndex) {
   return out;
 };
 
-/* Standard-seat price for a screening (matinee before 17:00). */
-SC.priceFor = function (time) {
-  return time < "17:00" ? SC.prices.matinee : SC.prices.standard;
+/* Matinee discount for a screening (shows before 17:00), 0 for later shows. */
+SC.discountFor = function (time) {
+  return time < "17:00" ? SC.prices.matinee : 0;
 };
 
 SC.money = function (n) { return "$" + n.toFixed(2); };
 
 /* Seat plan and booking rules (shared by the booking page and the server) --------- */
-SC.seatRows = ["A", "B", "C", "D", "E"];     /* A-C standard, D-E recliner */
-SC.seatsPerRow = 10;
-SC.aisleAfter = 5;
+/* A = nearest the screen. Standard seats in rows A-E, one recliner row (F) at the very back.
+   Every row has its own price. A recliner is as wide as two standard seats, so every row is the same width.
+   zigzag: true = the seats in that row are staggered up/down (zig-zag). */
+SC.seatPlan = [
+  { row: "A", type: "standard", price: 9.5, seats: 8, aisleAfter: 4 },
+  { row: "B", type: "standard", price: 9.5, seats: 8, aisleAfter: 4 },
+  { row: "C", type: "standard", price: 10, seats: 8, aisleAfter: 4 },
+  { row: "D", type: "standard", price: 10.5, seats: 8, aisleAfter: 4 },
+  { row: "E", type: "standard", price: 11, seats: 8, aisleAfter: 4 },
+  { row: "F", type: "recliner", price: 18, seats: 4, aisleAfter: 2, zigzag: true }
+];
+SC.seatRows = SC.seatPlan.map(function (r) { return r.row; });
 SC.maxSeats = 8;
 
-SC.isValidSeat = function (seat) {
-  return typeof seat === "string" && /^[A-E](10|[1-9])$/.test(seat);
+/* The plan entry (row, type, seat count) for a row letter, or null. */
+SC.rowInfo = function (row) {
+  for (var i = 0; i < SC.seatPlan.length; i++) {
+    if (SC.seatPlan[i].row === row) { return SC.seatPlan[i]; }
+  }
+  return null;
 };
 
-SC.isRecliner = function (seat) {
-  return seat.charAt(0) === "D" || seat.charAt(0) === "E";
+/* "standard" or "recliner" for a seat such as "A6" or "F2". */
+SC.seatType = function (seat) {
+  var info = SC.rowInfo(seat.charAt(0));
+  return info ? info.type : "standard";
+};
+
+SC.seatTypeLabel = function (seat) {
+  return SC.seatTypes[SC.seatType(seat)].label;
+};
+
+SC.isValidSeat = function (seat) {
+  if (typeof seat !== "string") { return false; }
+  var info = SC.rowInfo(seat.charAt(0));
+  var n = Number(seat.slice(1));
+  return !!info && /^[1-9][0-9]?$/.test(seat.slice(1)) && n >= 1 && n <= info.seats;
+};
+
+/* Base price of a seat (set per row in SC.seatPlan), before any matinee discount. */
+SC.basePrice = function (seat) {
+  var info = SC.rowInfo(seat.charAt(0));
+  return info ? info.price : 0;
 };
 
 SC.seatPrice = function (seat, time) {
-  return SC.isRecliner(seat) ? SC.prices.recliner : SC.priceFor(time);
+  return Math.max(0, SC.basePrice(seat) - SC.discountFor(time));
 };
 
-SC.total = function (seats, time) {
+/* Groups chosen seats by type AND price (rows A and B share $9.50, so they share a line),
+   in row order, for the order summary:
+   [{ type, label, count, seats: ["A6", "C8"], price }] (price = each, after any matinee discount). */
+SC.groupSeats = function (seats, time) {
+  var out = [];
+  SC.seatPlan.forEach(function (plan) {
+    var mine = seats.filter(function (s) { return s.charAt(0) === plan.row; });
+    if (!mine.length) { return; }
+    var last = out[out.length - 1];
+    if (last && last.type === plan.type && last.base === plan.price) {
+      last.seats = last.seats.concat(mine);
+      last.count = last.seats.length;
+    } else {
+      out.push({
+        type: plan.type,
+        label: SC.seatTypes[plan.type].label,
+        count: mine.length,
+        seats: mine,
+        base: plan.price,
+        price: Math.max(0, plan.price - SC.discountFor(time))
+      });
+    }
+  });
+  return out;
+};
+
+/* The order summary as separate lines, one under the other (used on the booking and my-booking pages). */
+SC.summaryLines = function (seats, time, combos) {
+  var lines = SC.groupSeats(seats, time).map(function (g) {
+    return g.count + " × " + g.label + " seat (" + g.seats.join(", ") + ") · " + SC.money(g.price) + " each";
+  });
+  if (SC.discountFor(time)) { lines.push("Matinee: " + SC.money(SC.discountFor(time)) + " off each seat (already included)"); }
+  if (combos) { lines.push(combos + " × Popcorn + drink combo · " + SC.money(SC.prices.combo) + " each"); }
+  return lines;
+};
+
+/* Combo count is a whole number from 0 up to the number of seats. */
+SC.validCombos = function (combos, seatCount) {
+  return Number.isInteger(combos) && combos >= 0 && combos <= seatCount;
+};
+
+SC.total = function (seats, time, combos) {
   var sum = 0;
   seats.forEach(function (seat) { sum += Math.round(SC.seatPrice(seat, time) * 100); });
+  sum += Math.round(SC.prices.combo * 100) * (combos || 0);
   return sum / 100;
 };
 
@@ -299,6 +382,7 @@ SC.validateBooking = function (b, needCustomer) {
     if (!SC.isValidSeat(b.seats[i]) || seen[b.seats[i]]) { return "bad_seat"; }
     seen[b.seats[i]] = true;
   }
+  if (b.combos !== undefined && !SC.validCombos(b.combos, b.seats.length)) { return "bad_combos"; }
   if (needCustomer) {
     var name = (b.name || "").trim();
     if (name.length < 2 || name.length > 60) { return "bad_name"; }
