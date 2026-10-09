@@ -47,6 +47,7 @@
 
   document.addEventListener("click", function (e) {
     var link = e.target.closest("a[href]");
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) { return; }
     if (!link || e.defaultPrevented || link.hasAttribute("data-no-fade") || link.target === "_blank" || link.hasAttribute("download")) { return; }
     var href = link.getAttribute("href");
     if (!href || href.charAt(0) === "#" || /^(https?:|mailto:|tel:|javascript:)/i.test(href)) { return; }
