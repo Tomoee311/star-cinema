@@ -15,9 +15,9 @@ SC.days = [
 
 SC.formats = { "standard": "Standard", "dolby-atmos": "Dolby Atmos" };
 
-/* Ticket prices in dollars. There are two kinds of seat:
-   - Standard: the front rows (A-E). Each row has its own price (A $9.50 ... E $11.00).
-   - Recliner: the last row (F only). Lean back with a footrest, a comfortable "VIP" view.
+/* Ticket prices in Myanmar kyat (MMK). There are two kinds of seat:
+   - Standard: the front rows (A-E), priced by row.
+   - Recliner: the last row (F only), a comfortable "VIP" view.
    The price depends on the ROW (see SC.seatPlan below).
    Matinee: shows that start before 17:00 get this discount on every seat.
    Combo: popcorn + a cold drink sold as one set (worth more when bought separately). */
@@ -25,7 +25,7 @@ SC.seatTypes = {
   standard: { label: "Standard" },
   recliner: { label: "Recliner" }
 };
-SC.prices = { matinee: 3, combo: 6, comboSeparate: 8 };
+SC.prices = { matinee: 5000, combo: 10000, comboSeparate: 14000 };
 
 /* stars: audience score out of 5 in steps of 0.5 (null = no score yet). Converted from Rotten Tomatoes % (or CinemaScore) as % / 20, rounded DOWN to the nearest 0.5. null = no reliable score found - edit them here.
    Sources (checked 8 Oct 2026): Spider-Man RT critics 90-91% / audience 98% -> 4.5; The Odyssey RT critics 94-95% / audience 96%, CinemaScore A -> 4.5;
@@ -255,19 +255,19 @@ SC.discountFor = function (time) {
   return time < "17:00" ? SC.prices.matinee : 0;
 };
 
-SC.money = function (n) { return "$" + n.toFixed(2); };
+SC.money = function (n) { return Number(n || 0).toLocaleString("en-US", { maximumFractionDigits: 0 }) + " MMK"; };
 
 /* Seat plan and booking rules (shared by the booking page and the server) --------- */
 /* A = nearest the screen. Standard seats in rows A-E, one recliner row (F) at the very back.
    Every row has its own price. A recliner is as wide as two standard seats, so every row is the same width.
    zigzag: true = the seats in that row are staggered up/down (zig-zag). */
 SC.seatPlan = [
-  { row: "A", type: "standard", price: 9.5, seats: 8, aisleAfter: 4 },
-  { row: "B", type: "standard", price: 9.5, seats: 8, aisleAfter: 4 },
-  { row: "C", type: "standard", price: 10, seats: 8, aisleAfter: 4 },
-  { row: "D", type: "standard", price: 10.5, seats: 8, aisleAfter: 4 },
-  { row: "E", type: "standard", price: 11, seats: 8, aisleAfter: 4 },
-  { row: "F", type: "recliner", price: 18, seats: 4, aisleAfter: 2, zigzag: true }
+  { row: "A", type: "standard", price: 15000, seats: 8, aisleAfter: 4 },
+  { row: "B", type: "standard", price: 15000, seats: 8, aisleAfter: 4 },
+  { row: "C", type: "standard", price: 16000, seats: 8, aisleAfter: 4 },
+  { row: "D", type: "standard", price: 17000, seats: 8, aisleAfter: 4 },
+  { row: "E", type: "standard", price: 18000, seats: 8, aisleAfter: 4 },
+  { row: "F", type: "recliner", price: 30000, seats: 4, aisleAfter: 2, zigzag: true }
 ];
 SC.seatRows = SC.seatPlan.map(function (r) { return r.row; });
 SC.maxSeats = 8;
@@ -350,9 +350,9 @@ SC.validCombos = function (combos, seatCount) {
 
 SC.total = function (seats, time, combos) {
   var sum = 0;
-  seats.forEach(function (seat) { sum += Math.round(SC.seatPrice(seat, time) * 100); });
-  sum += Math.round(SC.prices.combo * 100) * (combos || 0);
-  return sum / 100;
+  seats.forEach(function (seat) { sum += SC.seatPrice(seat, time); });
+  sum += SC.prices.combo * (combos || 0);
+  return sum;
 };
 
 SC.dayIndex = function (key) {

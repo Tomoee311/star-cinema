@@ -177,7 +177,7 @@
     $("sumSeats").textContent = seats.length ? "Seats: " + seats.join(", ") : "No seats chosen yet";
 
     if (combos > seats.length) { combos = seats.length; }
-    /* one line under the other: "2 × Standard seat (A6, C8) · $9.50 each" then the recliners, then the combo */
+    /* one line under the other: "2 × Standard seat (A6, C8) · 15,000 MMK each" then the recliners, then the combo */
     var lines = (show && seats.length) ? SC.summaryLines(seats, show.time, combos) : [];
     var list = $("sumLines");
     list.textContent = "";
@@ -198,7 +198,7 @@
         add(tr, "td", SC.money(SC.seatPrice(id, show.time)));
       });
     }
-    $("sumTotal").textContent = show ? SC.money(SC.total(seats, show.time, combos)) : "$0.00";
+    $("sumTotal").textContent = show ? SC.money(SC.total(seats, show.time, combos)) : "0 MMK";
   }
 
   function refresh() {

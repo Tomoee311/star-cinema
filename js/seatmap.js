@@ -25,7 +25,7 @@
         if (plan.type === "recliner") {
           cap.textContent = type.label + " · " + SC.money(SC.seatPrice(plan.row + "1", opts.time)) + " each · lean back, footrest up";
         } else {
-          /* standard rows have different prices: "Standard · A $9.50 · B $9.50 · C $10.00 ..." */
+          /* standard rows have different prices: "Standard · A 15,000 MMK · B 15,000 MMK · C 16,000 MMK ..." */
           var parts = [];
           SC.seatPlan.forEach(function (p) {
             if (p.type === "standard") { parts.push(p.row + " " + SC.money(SC.seatPrice(p.row + "1", opts.time))); }
