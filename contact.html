@@ -2,6 +2,16 @@
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("sc-theme");
+        document.documentElement.setAttribute("data-bs-theme", savedTheme === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
+      }
+    }());
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact | starcinema.com</title>
   <meta name="description" content="Contact Star Cinema: find us on the map, see our address, phone and opening hours, and send an inquiry at starcinema.com.">
@@ -41,10 +51,16 @@
   </header>
 
   <main id="main">
-    <section class="pt-5 pb-3">
+    <section class="sc-page-hero sc-contact-hero">
+      <div class="container sc-page-hero-content">
+        <span class="sc-eyebrow"><i class="bi bi-chat-square-heart" aria-hidden="true"></i> WE'RE HERE TO HELP</span>
+        <h1>Let's make your<br><span>next movie night easy.</span></h1>
+        <p>Questions about tickets, showtimes or group visits? Reach out to the Star Cinema team.</p>
+        <div class="sc-contact-quicklinks"><a href="tel:+959799855242"><i class="bi bi-telephone" aria-hidden="true"></i> Call the cinema</a><a href="#inquiryForm"><i class="bi bi-envelope" aria-hidden="true"></i> Send an enquiry</a></div>
+      </div>
+    </section>
+    <section class="pt-4 pb-3">
       <div class="container">
-        <h1 class="display-6 mb-2">Contact us</h1>
-        <p class="sc-muted mb-4">Questions about a booking or a screening? We would love to hear from you.</p>
         <div class="sc-map-wrap">
           <!-- Google Maps embed (Share > Embed a map). Shows a sample location for this demonstration. -->
           <iframe class="sc-map" title="Map showing Time City, Yangon" src="https://maps.google.com/maps?q=Time%20City%20Yangon%20Myanmar&output=embed" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -58,17 +74,17 @@
         <div class="row g-4">
           <div class="col-lg-4">
             <div class="d-grid gap-3">
-              <div class="sc-card p-4">
+              <div class="sc-card sc-contact-card p-4">
                 <i class="bi bi-geo-alt sc-icon" aria-hidden="true"></i>
                 <h2 class="h5 mt-2">Address</h2>
                 <p class="sc-muted mb-0">Time City, Yangon, Myanmar</p>
               </div>
-              <div class="sc-card p-4">
+              <div class="sc-card sc-contact-card p-4">
                 <i class="bi bi-telephone sc-icon" aria-hidden="true"></i>
                 <h2 class="h5 mt-2">Phone and email</h2>
                 <p class="sc-muted mb-0"><a href="tel:+959799855242">+95 9799855242</a><br>hello@starcinema.example</p>
               </div>
-              <div class="sc-card p-4">
+              <div class="sc-card sc-contact-card p-4">
                 <i class="bi bi-clock sc-icon" aria-hidden="true"></i>
                 <h2 class="h5 mt-2">Opening hours</h2>
                 <p class="sc-muted mb-0">Open daily 10:00 AM – 11:30 PM</p>

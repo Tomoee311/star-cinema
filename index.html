@@ -2,6 +2,16 @@
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("sc-theme");
+        document.documentElement.setAttribute("data-bs-theme", savedTheme === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
+      }
+    }());
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Home | starcinema.com</title>
   <meta name="description" content="Star Cinema: see what is showing, check showtimes and ticket prices, and book your seats online at starcinema.com.">
@@ -130,7 +140,7 @@
             <div class="sc-card position-relative h-100 p-4">
               <span class="sc-num">02</span>
               <h3 class="h5 mt-1">Showtimes and prices</h3>
-              <p class="sc-muted">See today's screenings by screen and time. Standard seats are $9.50 to $11.00 depending on the row, and recliners in the back row are $18.00. Matinees before 5pm are $3.00 off, and a popcorn + drink combo is $6.00.</p>
+              <p class="sc-muted">See today's screenings by screen and time. Standard seats are 15,000–18,000 MMK depending on the row, and recliners in the back row are 30,000 MMK. Matinees before 5pm are 5,000 MMK off, and a popcorn + drink combo is 10,000 MMK.</p>
               <a class="sc-more stretched-link" href="showtimes.html">View showtimes <span aria-hidden="true">→</span></a>
             </div>
           </div>

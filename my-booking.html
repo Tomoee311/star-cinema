@@ -2,6 +2,16 @@
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("sc-theme");
+        document.documentElement.setAttribute("data-bs-theme", savedTheme === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
+      }
+    }());
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My booking | starcinema.com</title>
   <meta name="description" content="Find your Star Cinema booking with your reference and email, then change your seats or cancel it at starcinema.com.">

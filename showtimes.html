@@ -2,6 +2,16 @@
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("sc-theme");
+        document.documentElement.setAttribute("data-bs-theme", savedTheme === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
+      }
+    }());
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Showtimes | starcinema.com</title>
   <meta name="description" content="Showtimes and ticket prices at Star Cinema: pick a day, choose your film and time, and book your seats at starcinema.com.">
@@ -66,7 +76,7 @@
       <div class="container">
         <h2 id="showtimesHeading" class="h3 mb-1">Showtimes</h2>
         <p id="showSummary" class="small sc-muted mb-1" role="status"></p>
-        <p class="small sc-muted mb-3">Tap a time to book it. A gold dot <span class="sc-dot" aria-hidden="true"></span> marks a matinee screening (before 5pm, $3.00 off every seat).</p>
+        <p class="small sc-muted mb-3">Tap a time to book it. A gold dot <span class="sc-dot" aria-hidden="true"></span> marks a matinee screening (before 5pm, 5,000 MMK off every seat).</p>
         <div id="tableWrap" class="sc-table-wrap">
           <div class="table-responsive">
             <table class="table sc-table align-middle">
@@ -90,14 +100,14 @@
             <caption class="visually-hidden">Ticket prices</caption>
             <thead><tr><th scope="col">Ticket</th><th scope="col">Price</th></tr></thead>
             <tbody>
-              <tr><td>Standard seat, row A</td><td>$9.50</td></tr>
-              <tr><td>Standard seat, row B</td><td>$9.50</td></tr>
-              <tr><td>Standard seat, row C</td><td>$10.00</td></tr>
-              <tr><td>Standard seat, row D</td><td>$10.50</td></tr>
-              <tr><td>Standard seat, row E</td><td>$11.00</td></tr>
-              <tr><td>Recliner seat, row F (back row, VIP)</td><td>$18.00</td></tr>
-              <tr><td>Matinee before 5pm</td><td>$3.00 off each seat</td></tr>
-              <tr><td>Popcorn + cold drink combo</td><td>$6.00 ($8.00 separately)</td></tr>
+              <tr><td>Standard seat, row A</td><td>15,000 MMK</td></tr>
+              <tr><td>Standard seat, row B</td><td>15,000 MMK</td></tr>
+              <tr><td>Standard seat, row C</td><td>16,000 MMK</td></tr>
+              <tr><td>Standard seat, row D</td><td>17,000 MMK</td></tr>
+              <tr><td>Standard seat, row E</td><td>18,000 MMK</td></tr>
+              <tr><td>Recliner seat, row F (back row, VIP)</td><td>30,000 MMK</td></tr>
+              <tr><td>Matinee before 5pm</td><td>5,000 MMK off each seat</td></tr>
+              <tr><td>Popcorn + cold drink combo</td><td>10,000 MMK (14,000 MMK separately)</td></tr>
             </tbody>
           </table>
         </div>

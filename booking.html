@@ -2,6 +2,16 @@
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("sc-theme");
+        document.documentElement.setAttribute("data-bs-theme", savedTheme === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
+      }
+    }());
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Booking | starcinema.com</title>
   <meta name="description" content="Book your seats at Star Cinema: choose a film, day and time, pick your seats on the seat map and confirm at starcinema.com.">
@@ -76,7 +86,7 @@
               <div class="bk-combo" id="comboBox">
                 <div class="bk-combo-text">
                   <p class="fw-semibold mb-0"><i class="bi bi-cup-straw" aria-hidden="true"></i> Popcorn + cold drink combo</p>
-                  <p class="small sc-muted mb-0"><span id="comboPrice">$6.00</span> per set <span class="bk-combo-save">(<span id="comboSave">$8.00</span> if bought separately)</span></p>
+                  <p class="small sc-muted mb-0"><span id="comboPrice">10,000 MMK</span> per set <span class="bk-combo-save">(<span id="comboSave">14,000 MMK</span> if bought separately)</span></p>
                 </div>
                 <div class="bk-stepper" role="group" aria-label="Number of combo sets">
                   <button type="button" id="comboMinus" aria-label="Fewer combo sets">&minus;</button>
@@ -84,7 +94,7 @@
                   <button type="button" id="comboPlus" aria-label="More combo sets">+</button>
                 </div>
               </div>
-              <p class="bk-price"><span>Total</span> <span id="sumTotal">$0.00</span></p>
+              <p class="bk-price"><span>Total</span> <span id="sumTotal">0 MMK</span></p>
               <form id="bookingForm" novalidate>
                 <div class="mb-3">
                   <label for="custName" class="form-label sc-label">Full name</label>
@@ -116,7 +126,7 @@
               <li><span class="sc-swatch is-selected"></span>Selected</li>
               <li><span class="sc-swatch is-taken"></span>Taken</li>
             </ul>
-            <p class="small sc-muted text-center mb-1">The front rows (A to E) are standard seats and each row has its own price (shown above the seats). The back row (F) is the only recliner row (lean back, footrest up) for a comfortable, VIP-style view. Matinee screenings before 5pm are $3.00 off each seat. You can book up to 8 seats.</p>
+            <p class="small sc-muted text-center mb-1">The front rows (A to E) are standard seats and each row has its own price (shown above the seats). The back row (F) is the only recliner row (lean back, footrest up) for a comfortable, VIP-style view. Matinee screenings before 5pm are 5,000 MMK off each seat. You can book up to 8 seats.</p>
             <p id="seatStatus" class="small sc-muted text-center mb-0" role="status"></p>
           </div>
         </div>

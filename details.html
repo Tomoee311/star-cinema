@@ -2,6 +2,16 @@
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("sc-theme");
+        document.documentElement.setAttribute("data-bs-theme", savedTheme === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
+      }
+    }());
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Film details | starcinema.com</title>
   <meta name="description" content="Film details at Star Cinema: synopsis, cast, showtimes and ticket prices at starcinema.com.">
@@ -90,14 +100,14 @@
                 <table class="table sc-table">
                   <thead><tr><th scope="col">Ticket</th><th scope="col">Price</th></tr></thead>
                   <tbody>
-                    <tr><td>Standard seat, row A</td><td>$9.50</td></tr>
-              <tr><td>Standard seat, row B</td><td>$9.50</td></tr>
-              <tr><td>Standard seat, row C</td><td>$10.00</td></tr>
-              <tr><td>Standard seat, row D</td><td>$10.50</td></tr>
-              <tr><td>Standard seat, row E</td><td>$11.00</td></tr>
-              <tr><td>Recliner seat, row F (back row, VIP)</td><td>$18.00</td></tr>
-              <tr><td>Matinee before 5pm</td><td>$3.00 off each seat</td></tr>
-              <tr><td>Popcorn + cold drink combo</td><td>$6.00 ($8.00 separately)</td></tr>
+                    <tr><td>Standard seat, row A</td><td>15,000 MMK</td></tr>
+              <tr><td>Standard seat, row B</td><td>15,000 MMK</td></tr>
+              <tr><td>Standard seat, row C</td><td>16,000 MMK</td></tr>
+              <tr><td>Standard seat, row D</td><td>17,000 MMK</td></tr>
+              <tr><td>Standard seat, row E</td><td>18,000 MMK</td></tr>
+              <tr><td>Recliner seat, row F (back row, VIP)</td><td>30,000 MMK</td></tr>
+              <tr><td>Matinee before 5pm</td><td>5,000 MMK off each seat</td></tr>
+              <tr><td>Popcorn + cold drink combo</td><td>10,000 MMK (14,000 MMK separately)</td></tr>
                   </tbody>
                 </table>
               </div>

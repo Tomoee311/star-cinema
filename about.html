@@ -2,6 +2,16 @@
 <html lang="en" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("sc-theme");
+        document.documentElement.setAttribute("data-bs-theme", savedTheme === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
+      }
+    }());
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About | starcinema.com</title>
   <meta name="description" content="About Star Cinema: our story since 2010, four screens with Dolby Atmos sound, our facilities and opening hours at starcinema.com.">
@@ -41,11 +51,14 @@
   </header>
 
   <main id="main">
-    <section class="py-5">
-      <div class="container">
-        <h1 class="display-6 mb-2">About Star Cinema</h1>
-        <p class="sc-muted mb-0">Your modern movie destination at Time City, Yangon.</p>
+    <section class="sc-page-hero sc-about-hero">
+      <div class="container sc-page-hero-content">
+        <span class="sc-eyebrow"><i class="bi bi-stars" aria-hidden="true"></i> THE STAR CINEMA EXPERIENCE</span>
+        <h1>More than a movie.<br><span>Make it a moment.</span></h1>
+        <p>Your modern movie destination at Time City, Yangon — immersive sound, comfortable seats and stories worth sharing.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4"><a class="btn btn-gold" href="movies.html">Explore movies <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i></a><a class="btn btn-line" href="contact.html">Plan your visit</a></div>
       </div>
+      <div class="sc-hero-bottom container"><span><i class="bi bi-film" aria-hidden="true"></i> 4 cinema screens</span><span><i class="bi bi-soundwave" aria-hidden="true"></i> Dolby Atmos</span><span><i class="bi bi-geo-alt" aria-hidden="true"></i> Time City, Yangon</span></div>
     </section>
 
     <section class="pb-4" aria-label="Star Cinema in numbers">
