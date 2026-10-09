@@ -11,6 +11,7 @@ create table if not exists bookings (
   customer_name text        not null,
   email         text        not null,
   total_cents   integer     not null,
+  combos        integer     not null default 0,   -- popcorn + drink sets
   created_at    timestamptz not null default now()
 );
 
@@ -27,3 +28,6 @@ create table if not exists booking_seats (
 );
 
 create index if not exists booking_seats_booking_idx on booking_seats (booking_id);
+
+-- Already ran an older version of this file? Run this line once to add the combo column:
+alter table bookings add column if not exists combos integer not null default 0;

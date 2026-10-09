@@ -87,7 +87,7 @@
               </div>
               <p id="resWhen" class="sc-muted mb-1"></p>
               <p id="resSeats" class="mb-1"></p>
-              <p id="resLines" class="sc-muted small mb-1"></p>
+              <ul id="resLines" class="bk-lines" aria-label="Order summary"></ul>
               <p class="fw-bold mb-1">Total: <span id="resTotal"></span></p>
               <p class="small sc-muted mb-3">Reference <span id="resRef"></span> · Booked by <span id="resName"></span></p>
               <div id="actionRow" class="d-flex flex-wrap gap-2">
@@ -100,8 +100,19 @@
                 <h3 class="h5 mb-1">Choose your new seats</h3>
                 <p class="small sc-muted mb-2">Your current seats are shown as selected. Tap a seat to add or remove it.</p>
                 <div class="sc-screen" aria-hidden="true">SCREEN</div>
-                <div id="editMap" class="sc-seatmap" role="group" aria-label="Seat map. Row A is nearest the screen."></div>
-                <p class="small sc-muted text-center my-2">Rows A to C are standard seats. Rows D and E are recliner seats at $18.00. Up to 8 seats.</p>
+                <div id="editMap" class="sc-seatmap" role="group" aria-label="Seat map. Rows A to E are standard seats, row F is the recliner row. Row A is nearest the screen."></div>
+                <p class="small sc-muted text-center my-2">Rows A to E are standard seats, row F is the recliner row. The price is shown above the seats. Up to 8 seats.</p>
+                <div class="bk-combo" id="editComboBox">
+                  <div class="bk-combo-text">
+                    <p class="fw-semibold mb-0"><i class="bi bi-cup-straw" aria-hidden="true"></i> Popcorn + cold drink combo</p>
+                    <p class="small sc-muted mb-0" id="editComboInfo"></p>
+                  </div>
+                  <div class="bk-stepper" role="group" aria-label="Number of combo sets">
+                    <button type="button" id="editComboMinus" aria-label="Fewer combo sets">&minus;</button>
+                    <output id="editComboCount" aria-live="polite">0</output>
+                    <button type="button" id="editComboPlus" aria-label="More combo sets">+</button>
+                  </div>
+                </div>
                 <p id="editSummary" class="fw-semibold mb-2" role="status"></p>
                 <p id="editError" class="sc-error d-none" role="alert"></p>
                 <div class="d-flex flex-wrap gap-2">
