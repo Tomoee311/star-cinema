@@ -85,6 +85,7 @@ function toBooking(row, seats) {
     name: row.customer_name,
     email: row.email,
     seats: seats,
+    combos: row.combos || 0,
     total: row.total_cents / 100
   };
 }
