@@ -2,7 +2,7 @@
    Some phones/networks (VPN, shared IP, not signed in) get YouTube's
    "confirm you're not a bot" screen inside embeds. The fallback link opens
    the video in the YouTube app/site, where it always works. */
-function scVideo(box, id, title) {
+function scVideo(box, id, title, poster) {
   var wrap = document.createElement("div");
   wrap.className = "ratio ratio-16x9 sc-video-wrap";
   var btn = document.createElement("button");
@@ -10,9 +10,15 @@ function scVideo(box, id, title) {
   btn.className = "sc-video-facade";
   btn.setAttribute("aria-label", "Play: " + title);
   /* Sharpest thumbnail first (1280x720); fall back if YouTube doesn't have it. */
-  var sizes = ["maxresdefault", "sddefault", "hqdefault"];
+  /* If a local poster (our own sharp backdrop) is given, use it first. */
+  var urls = [];
+  if (poster) urls.push(poster);
+  urls.push("https://i.ytimg.com/vi/" + id + "/maxresdefault.jpg",
+            "https://i.ytimg.com/vi/" + id + "/sddefault.jpg",
+            "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg");
+  var sizes = urls;
   (function tryThumb(i) {
-    var url = "https://i.ytimg.com/vi/" + id + "/" + sizes[i] + ".jpg";
+    var url = urls[i];
     var img = new Image();
     img.onload = function () {
       /* YouTube returns a tiny 120px placeholder when a size is missing */
