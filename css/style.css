@@ -8,8 +8,8 @@
 
 /* 1. Colour tokens ---------------------------------------- */
 :root {
-  --sc-gold: #f5b301;
-  --sc-gold-ink: #1a1400;
+  --sc-gold: #8b7cff;
+  --sc-gold-ink: #100d25;
   --sc-radius: 14px;
   --sc-font-head: "Poppins", system-ui, sans-serif;
   --sc-font-body: "Inter", system-ui, sans-serif;
@@ -17,21 +17,21 @@
 }
 
 [data-bs-theme="dark"] {
-  --sc-bg: #0b0d10;
-  --sc-surface: #14181d;
-  --sc-border: #262c34;
-  --sc-text: #f2f2f2;
-  --sc-muted: #a3acb7;
-  --sc-accent: #f5b301;
+  --sc-bg: #090b18;
+  --sc-surface: #12162a;
+  --sc-border: #292e4b;
+  --sc-text: #f4f3ff;
+  --sc-muted: #a5acc8;
+  --sc-accent: #a99cff;
 }
 
 [data-bs-theme="light"] {
-  --sc-bg: #f7f6f2;
+  --sc-bg: #f5f6ff;
   --sc-surface: #ffffff;
-  --sc-border: #d9d8d0;
-  --sc-text: #1b2430;
-  --sc-muted: #566170;
-  --sc-accent: #8a6400;
+  --sc-border: #dfe2f5;
+  --sc-text: #1d2140;
+  --sc-muted: #626985;
+  --sc-accent: #6554d9;
 }
 
 /* 2. Base ------------------------------------------------- */
@@ -900,8 +900,8 @@ body {
   inset: 0;
   z-index: 3000;
   pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(8,9,11,.98), rgba(18,14,9,.98));
+  /* Match the active site theme instead of flashing a separate black/brown palette. */
+  background: linear-gradient(180deg, color-mix(in srgb, var(--sc-bg) 96%, #a99cff 4%), var(--sc-bg));
   /* Open (hidden) by default so the page can never get stuck behind the curtain.
      The entrance reveal is a pure CSS animation: it does not depend on JS timers or
      requestAnimationFrame, which phones pause when a page loads in the background. */
@@ -1800,4 +1800,151 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
   font-size: 0.95rem;
   line-height: 1.9;
   margin-bottom: 1.25rem;
+}
+
+/* 18. Premium editorial page heroes and contact polish */
+.sc-page-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: 390px; display: flex; flex-direction: column; justify-content: center;
+  background: radial-gradient(ellipse at 78% 30%, color-mix(in srgb, var(--sc-gold) 26%, transparent), transparent 34%),
+              linear-gradient(115deg, var(--sc-bg) 0%, color-mix(in srgb, var(--sc-surface) 82%, var(--sc-gold) 18%) 100%);
+  border-bottom: 1px solid var(--sc-border);
+}
+.sc-page-hero::before { content:""; position:absolute; z-index:-1; width:360px; height:360px; right:7%; top:5%; border:1px solid color-mix(in srgb, var(--sc-accent) 35%, transparent); border-radius:50%; box-shadow:0 0 0 34px color-mix(in srgb, var(--sc-accent) 4%, transparent),0 0 0 70px color-mix(in srgb, var(--sc-accent) 3%, transparent); }
+.sc-page-hero-content { padding-top: 4.5rem; padding-bottom: 4rem; }
+.sc-eyebrow { display:inline-flex; align-items:center; gap:.55rem; color:var(--sc-accent); font-size:.76rem; font-weight:700; letter-spacing:.17em; margin-bottom:1.2rem; }
+.sc-page-hero h1 { max-width:760px; font-size:clamp(2.5rem,5.5vw,4.8rem); line-height:1.08; letter-spacing:-.045em; font-weight:700; margin:0; }
+.sc-page-hero h1 span { color:var(--sc-accent); }
+.sc-page-hero-content > p { max-width:600px; color:var(--sc-muted); font-size:1.08rem; margin:1.2rem 0 0; }
+.sc-hero-bottom { display:flex; flex-wrap:wrap; gap:1.5rem; padding-bottom:1.25rem; color:var(--sc-muted); font-size:.88rem; }
+.sc-hero-bottom span { display:inline-flex; align-items:center; gap:.5rem; }
+.sc-hero-bottom i { color:var(--sc-accent); }
+.sc-contact-hero { min-height:330px; }
+.sc-contact-hero .sc-page-hero-content { padding-top:3.8rem; padding-bottom:3.8rem; }
+.sc-contact-quicklinks { display:flex; flex-wrap:wrap; gap:1rem; margin-top:1.5rem; }
+.sc-contact-quicklinks a { display:inline-flex; gap:.55rem; align-items:center; color:var(--sc-text); text-decoration:none; border:1px solid var(--sc-border); background:color-mix(in srgb,var(--sc-surface) 84%,transparent); padding:.7rem 1rem; border-radius:999px; transition:transform .2s ease,border-color .2s ease; }
+.sc-contact-quicklinks a:hover { transform:translateY(-2px); border-color:var(--sc-accent); }
+.sc-contact-quicklinks i { color:var(--sc-accent); }
+.sc-contact-card { min-height:145px; transition:transform .22s ease,border-color .22s ease; }
+.sc-contact-card:hover { transform:translateY(-3px); border-color:var(--sc-accent); }
+.sc-map-wrap { overflow:hidden; border:1px solid var(--sc-border); border-radius:var(--sc-radius); box-shadow:0 18px 45px rgba(0,0,0,.15); }
+.sc-map { display:block; width:100%; min-height:300px; border:0; }
+#inquiryForm .form-control:focus, #inquiryForm .form-select:focus { border-color:var(--sc-accent); box-shadow:0 0 0 .2rem color-mix(in srgb,var(--sc-accent) 20%,transparent); }
+@media (max-width: 767.98px) {
+ .sc-page-hero { min-height:unset; }
+ .sc-page-hero-content { padding-top:3.2rem; padding-bottom:3rem; }
+ .sc-page-hero::before { width:220px; height:220px; right:-90px; top:12%; }
+ .sc-page-hero h1 { font-size:clamp(2.35rem,10vw,3.4rem); }
+ .sc-hero-bottom { gap:.75rem 1rem; font-size:.8rem; }
+ .sc-contact-hero .sc-page-hero-content { padding-top:3rem; padding-bottom:3rem; }
+ .sc-map { min-height:240px; }
+}
+@media (prefers-reduced-motion: reduce) { .sc-contact-card, .sc-contact-quicklinks a { transition:none; } }
+
+/* Consistent premium finish across movie and booking screens */
+.movie-card, .sc-poster-link, .sc-poster, .sc-summary, .sc-stat { border-radius:calc(var(--sc-radius) + 4px); overflow:hidden; }
+.movie-card img, .sc-poster-link img { transition:transform .45s cubic-bezier(.2,.7,.2,1), filter .35s ease; }
+.movie-card:hover img, .sc-poster-link:hover img { transform:scale(1.035); }
+.btn-gold { box-shadow:0 7px 22px color-mix(in srgb,var(--sc-gold) 20%,transparent); }
+.btn-gold:hover { transform:translateY(-1px); box-shadow:0 10px 26px color-mix(in srgb,var(--sc-gold) 28%,transparent); }
+.sc-footer { border-top:1px solid var(--sc-border); }
+::selection { background:color-mix(in srgb,var(--sc-accent) 35%,transparent); color:var(--sc-text); }
+
+/* 19. Cinematic hero + premium auditorium seating refresh */
+.stage {
+  min-height: min(900px, 100svh);
+  background: #070711;
+  isolation: isolate;
+}
+.stage-bg { overflow: hidden; }
+.stage-layer {
+  filter: saturate(1.08) contrast(1.06);
+  transition: opacity 1s ease, transform 8s cubic-bezier(.2,.65,.2,1), filter 1s ease;
+}
+.stage-layer.is-on { transform: scale(1.035); }
+.stage.is-diving .stage-layer.is-on { transform: scale(1.12); filter:saturate(1.18) contrast(1.08); }
+.stage-shade {
+  background:
+    linear-gradient(90deg, rgba(5,6,18,.97) 0%, rgba(7,8,22,.88) 25%, rgba(7,8,22,.45) 53%, rgba(7,8,22,.08) 100%),
+    linear-gradient(180deg, rgba(5,6,18,.42) 0%, transparent 28%, rgba(5,6,18,.1) 56%, rgba(5,6,18,.92) 100%),
+    radial-gradient(ellipse at 72% 45%, rgba(112,81,255,.16), transparent 42%);
+}
+.stage-inner { padding-top: clamp(5.5rem, 10vh, 8rem); padding-bottom: clamp(8rem, 15vh, 12rem); }
+.stage-left { max-width: 590px; }
+.stage-when { text-transform:uppercase; letter-spacing:.18em; font-size:.74rem; color:#d9d6ff; }
+.stage-pin { background:#a99cff; box-shadow:0 0 16px rgba(169,156,255,.9); }
+.stage-title { font-size:clamp(2.5rem,5.1vw,4.7rem); letter-spacing:-.045em; line-height:1.02; text-shadow:0 8px 36px rgba(0,0,0,.42); }
+.stage-count { color:rgba(205,197,255,.42); font-size:clamp(3rem,6vw,5.5rem); }
+.stage-meta li { border-color:rgba(220,216,255,.32); background:rgba(14,14,34,.34); backdrop-filter:blur(8px); border-radius:999px; padding:.22rem .7rem; }
+.stage-label { text-transform:uppercase; letter-spacing:.15em; font-size:.74rem; color:#d2ceff; }
+.stage-times a,.stage-times span { background:rgba(15,16,37,.42); border-color:rgba(220,216,255,.36); backdrop-filter:blur(12px); padding:.48rem 1rem; }
+.stage-actions .btn { border-radius:999px; padding:.75rem 1.45rem; font-weight:700; }
+.stage-actions .btn-line { background:rgba(10,10,25,.28); backdrop-filter:blur(10px); }
+.stage-nav { margin-top:2.4rem; }
+.stage-arrow { width:42px;height:42px; border-color:rgba(220,216,255,.4); background:rgba(13,14,33,.58); backdrop-filter:blur(10px); }
+.stage-rail { left:51%; bottom:12%; }
+.rail-pin { border-left-color:#a99cff; color:#e6e2ff; text-transform:uppercase; letter-spacing:.14em; }
+.rail-track { gap:16px; }
+.rail-arrow { border-color:rgba(220,216,255,.32); background:rgba(14,14,34,.8); }
+.rail-arrow:hover { border-color:#a99cff; background:#29234d; }
+@media (min-width: 1500px) { .stage-left { max-width:650px; } .stage-title { max-width:620px; } }
+@media (max-width: 991.98px) {
+  .stage { min-height:900px; align-items:flex-start; }
+  .stage-shade { background:linear-gradient(90deg,rgba(5,6,18,.9),rgba(5,6,18,.38)),linear-gradient(180deg,rgba(5,6,18,.18),rgba(5,6,18,.92) 75%); }
+  .stage-inner { padding-top:5rem; padding-bottom:20rem; }
+  .stage-rail { left:1rem; bottom:3rem; }
+  .stage-title { font-size:clamp(2.35rem,7vw,4rem); }
+}
+@media (max-width: 575.98px) {
+  .stage { min-height:840px; }
+  .stage-inner { padding-top:3.5rem; padding-bottom:19rem; }
+  .stage-row { gap:.6rem; }
+  .stage-count { font-size:2.8rem; }
+  .stage-left { max-width:100%; }
+  .stage-rail { left:1rem; bottom:2.2rem; }
+  .rail-pin { top:-42px; height:42px; }
+  .rail-controls { right:.6rem; top:-2.6rem; }
+  .stage-actions { flex-wrap:wrap; }
+}
+
+/* Booking page: immersive auditorium and tactile seat states */
+#main > section.py-5 > .container > h1 { font-size:clamp(2rem,4vw,3.15rem); letter-spacing:-.04em; font-weight:750; }
+#main > section.py-5 > .container > h1::before { content:"✦  THE CINEMA EXPERIENCE"; display:block; margin-bottom:.85rem; color:var(--sc-accent); font-size:.72rem; letter-spacing:.2em; font-weight:700; }
+#filmSelect, .bk-day, .bk-time, .sc-summary { border-radius:16px; }
+.bk-day { min-width:56px; padding:.7rem .55rem; background:linear-gradient(145deg,var(--sc-surface),var(--sc-surface-2)); border-color:var(--sc-border); transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
+.bk-day.is-active,.bk-time.is-active { background:color-mix(in srgb,var(--sc-accent) 13%,var(--sc-surface)); box-shadow:0 0 0 1px color-mix(in srgb,var(--sc-accent) 24%,transparent),0 8px 24px rgba(0,0,0,.12); }
+.bk-time { border-radius:999px; padding:.6rem .95rem; }
+.sc-summary { border:1px solid var(--sc-border); background:linear-gradient(155deg,var(--sc-surface),color-mix(in srgb,var(--sc-surface) 80%,var(--sc-accent) 20%)); box-shadow:0 18px 50px rgba(0,0,0,.16); }
+.sc-screen { max-width: min(680px,90%); height:58px; margin:1.5rem auto 2.2rem; border:0; border-radius:50% 50% 0 0 / 80% 80% 0 0; background:linear-gradient(180deg,rgba(169,156,255,.22),transparent 78%); box-shadow:0 -2px 0 rgba(199,190,255,.95),0 -15px 35px rgba(137,117,255,.22),0 -38px 65px rgba(137,117,255,.09); color:var(--sc-muted); font-weight:700; letter-spacing:.38em; line-height:5.2; position:relative; }
+.sc-screen::after { content:""; position:absolute; top:-2px; left:10%; right:10%; height:2px; background:linear-gradient(90deg,transparent,#fff, #bdb2ff, #fff,transparent); filter:drop-shadow(0 0 8px #9f8fff); }
+.sc-seatmap { position:relative; perspective:900px; gap:.85rem; padding:1rem .5rem 1.5rem; }
+.sc-seatrow { gap:clamp(.28rem,1vw,.7rem); transform:rotateX(2deg); }
+.sc-typecap { max-width:100%; padding:.45rem .9rem; border:1px solid var(--sc-border); border-radius:999px; background:color-mix(in srgb,var(--sc-surface) 78%,transparent); font-size:.72rem; line-height:1.7; }
+.sc-typecap.is-recliner { border-color:color-mix(in srgb,var(--sc-accent) 40%,var(--sc-border)); background:color-mix(in srgb,var(--sc-accent) 9%,var(--sc-surface)); }
+.sc-seat { --seat:clamp(34px,4.2vw,48px); width:var(--seat); height:calc(var(--seat) * .92); flex:none; position:relative; border-radius:9px 9px 6px 6px; border:1px solid color-mix(in srgb,var(--sc-accent) 22%,var(--sc-border)); background:linear-gradient(145deg,color-mix(in srgb,var(--sc-surface-2) 90%,var(--sc-accent) 10%),var(--sc-surface)); color:var(--sc-muted); box-shadow:inset 0 -4px 0 color-mix(in srgb,var(--sc-border) 45%,transparent),0 5px 12px rgba(0,0,0,.12); font-size:clamp(.58rem,1vw,.74rem); }
+.sc-seat::before { content:""; position:absolute; inset:3px 4px auto; height:5px; border-radius:8px; background:color-mix(in srgb,var(--sc-border) 48%,transparent); pointer-events:none; }
+.sc-seat:hover:not(:disabled) { border-color:var(--sc-accent); background:color-mix(in srgb,var(--sc-accent) 18%,var(--sc-surface)); box-shadow:0 0 0 2px color-mix(in srgb,var(--sc-accent) 15%,transparent),0 10px 20px rgba(0,0,0,.2); }
+.sc-seat.is-recliner { width:calc(var(--seat) * 1.65); border-radius:11px 11px 7px 7px; box-shadow:inset 0 -5px 0 color-mix(in srgb,var(--sc-accent) 62%,transparent),0 7px 14px rgba(0,0,0,.15); }
+.sc-seat.is-selected { background:linear-gradient(145deg,#c4baff,#8975ff); border-color:#d3cbff; color:#17132f; box-shadow:0 0 0 2px rgba(169,156,255,.2),0 0 24px rgba(137,117,255,.4),inset 0 -4px 0 rgba(46,32,105,.2); }
+.sc-seat.is-selected::before { background:rgba(255,255,255,.65); }
+.sc-seat:disabled { background:repeating-linear-gradient(135deg,#3a3b4c,#3a3b4c 4px,#292a38 4px,#292a38 8px); border-color:#4a4b5c; color:#9697a7; opacity:.7; box-shadow:none; }
+.sc-seat:disabled::before { display:none; }
+.sc-aisle { width:clamp(.6rem,2vw,1.8rem); flex:none; }
+.sc-legend { gap:.7rem 1.2rem; padding:.9rem 1.1rem; border:1px solid var(--sc-border); border-radius:14px; background:color-mix(in srgb,var(--sc-surface) 75%,transparent); }
+.sc-swatch { border-radius:5px; box-shadow:inset 0 -3px 0 rgba(0,0,0,.12); }
+.sc-swatch.is-selected { background:linear-gradient(145deg,#c4baff,#8975ff); border-color:#a99cff; }
+.sc-swatch.is-taken { background:repeating-linear-gradient(135deg,#3a3b4c,#3a3b4c 3px,#292a38 3px,#292a38 6px); }
+.sc-seat:focus-visible,.bk-day:focus-visible,.bk-time:focus-visible { outline:3px solid var(--sc-accent); outline-offset:3px; }
+@media (max-width: 767.98px) {
+  .sc-seatmap { align-items:flex-start; overflow-x:auto; padding:1rem .25rem 1.5rem; }
+  .sc-seatrow { align-self:center; gap:.28rem; }
+  .sc-seat { --seat:clamp(31px,7vw,39px); }
+  .sc-seat.is-recliner { width:calc(var(--seat) * 1.5); }
+  .sc-aisle { width:.45rem; }
+  .sc-screen { margin-bottom:1.6rem; }
+  .sc-summary { position:static; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .stage-layer,.bk-day,.bk-time,.sc-seat { transition:none !important; }
+ .stage.is-diving .stage-layer.is-on,.stage-layer.is-on { transform:none; }
 }
