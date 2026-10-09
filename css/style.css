@@ -2054,3 +2054,100 @@ button, .btn, .nav-link, a { touch-action: manipulation; }
   .sc-seatrow { gap: .2rem; }
   .sc-aisle { width: .25rem; }
 }
+
+/* ==========================================================
+   20. Mobile responsive hero fix
+   On phones, keep the cinematic image at the top and place
+   all movie information beneath it instead of overlaying it.
+   ========================================================== */
+@media (max-width: 767.98px) {
+  .stage {
+    display: block;
+    min-height: 0 !important;
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 1.25rem;
+  }
+
+  /* Make the backdrop a real first section in the page flow. */
+  .stage-bg {
+    position: relative !important;
+    inset: auto !important;
+    width: 100%;
+    height: clamp(220px, 64vw, 390px);
+    overflow: hidden;
+    background: #080b17;
+  }
+
+  .stage-layer {
+    inset: 0 !important;
+    background-size: cover !important;
+    background-position: center 35% !important;
+    background-repeat: no-repeat !important;
+    transform: none !important;
+  }
+
+  .stage-layer.is-on { transform: none !important; }
+  .stage.is-diving .stage-bg { transform: none !important; }
+
+  /* Fade the bottom of the image into the page, not over the text. */
+  .stage-shade {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    height: clamp(220px, 64vw, 390px);
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(5,6,18,.04) 45%, rgba(7,8,22,.42) 76%, #070711 100%) !important;
+  }
+
+  .stage-inner {
+    padding: 1.15rem 1rem .75rem !important;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .stage-left { width: 100%; max-width: none !important; }
+  .stage-when { margin: 0 0 .8rem; }
+  .stage-row { align-items: flex-start; gap: .65rem; margin-bottom: .9rem; }
+  .stage-count { flex: none; font-size: clamp(2.1rem, 10vw, 3rem) !important; line-height: 1; }
+  .stage-info { flex: 1; min-width: 0; padding-top: .1rem; }
+  .stage-title {
+    max-width: none !important;
+    font-size: clamp(1.75rem, 7.2vw, 2.6rem) !important;
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+    margin-bottom: .55rem;
+  }
+  .stage-genre { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .55rem; }
+  .stage-meta { gap: .4rem; }
+  .stage-meta li { font-size: .72rem; padding: .2rem .65rem; }
+  .stage-label { margin-top: 1.15rem; margin-bottom: .6rem; }
+  .stage-times { gap: .5rem; }
+  .stage-times a, .stage-times span { padding: .48rem .85rem; }
+  .stage-actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.15rem; }
+  .stage-actions .btn { flex: 1 1 135px; justify-content: center; min-height: 46px; }
+  .stage-nav { margin-top: 1.25rem !important; justify-content: space-between; gap: .5rem; }
+
+  /* The poster carousel now follows the movie details in normal flow. */
+  .stage-rail {
+    position: relative !important;
+    inset: auto !important;
+    width: 100%;
+    padding: .7rem 1rem 0;
+    margin: 0;
+  }
+  .rail-pin { position: static; display: block; height: auto; border-left: 0; padding: 0; margin-bottom: .3rem; font-size: .72rem; }
+  .rail-controls { top: -.2rem; right: 1rem; }
+  .rail-view { padding: .7rem 0 .8rem; }
+  .rail-track { gap: .75rem; }
+  .rail-card { width: clamp(112px, 34vw, 155px); }
+}
+
+@media (max-width: 380px) {
+  .stage-inner { padding-left: .8rem !important; padding-right: .8rem !important; }
+  .stage-rail { padding-left: .8rem; padding-right: .8rem; }
+  .stage-row { gap: .45rem; }
+  .stage-count { font-size: 2rem !important; }
+  .stage-actions .btn { flex-basis: 100%; }
+}
