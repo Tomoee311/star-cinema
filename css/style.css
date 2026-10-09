@@ -1948,3 +1948,109 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
  .stage-layer,.bk-day,.bk-time,.sc-seat { transition:none !important; }
  .stage.is-diving .stage-layer.is-on,.stage-layer.is-on { transform:none; }
 }
+
+
+/* ==========================================================
+   RESPONSIVE LAYOUT PATCH — phone, tablet and small laptops
+   Shared across every Star Cinema page.
+   ========================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { width: 100%; max-width: 100%; overflow-x: clip; -webkit-text-size-adjust: 100%; }
+body { width: 100%; max-width: 100%; margin: 0; overflow-x: clip; }
+img, video, iframe, canvas, svg { max-width: 100%; }
+img, video { height: auto; }
+.container, .container-fluid { width: 100%; }
+.row { --bs-gutter-x: 1.25rem; }
+input, select, textarea, button { max-width: 100%; }
+input, select, textarea { min-width: 0; }
+pre, code, table { max-width: 100%; }
+.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.card, .sc-card, .stage-inner, .container, .container-fluid { min-width: 0; }
+h1, h2, h3, h4, h5, p, a, label, .nav-link { overflow-wrap: anywhere; }
+.btn { white-space: normal; }
+.sc-navbar { z-index: 1030; }
+.navbar .container { gap: .5rem; }
+.navbar-brand { min-width: 0; max-width: 75%; }
+.navbar-toggler { flex: 0 0 auto; }
+.navbar-collapse { min-width: 0; }
+.sc-poster-link img, .sc-card img { max-width: 100%; object-fit: cover; }
+iframe { display: block; width: 100%; }
+.form-control, .form-select { width: 100%; min-height: 44px; }
+button, .btn, .nav-link, a { touch-action: manipulation; }
+:focus-visible { scroll-margin: 5rem; }
+
+@media (max-width: 991.98px) {
+  .container, .container-fluid { padding-left: 1rem; padding-right: 1rem; }
+  .navbar-collapse { padding: .75rem 0 1rem; }
+  .navbar-nav { align-items: stretch; gap: .15rem; }
+  .navbar-nav .nav-link { padding: .7rem .85rem; border-radius: .6rem; }
+  .stage-inner { padding-left: 1rem; padding-right: 1rem; }
+  .stage { min-height: min(82svh, 760px); }
+  .stage-nav { gap: .5rem; flex-wrap: wrap; }
+  .row { --bs-gutter-x: 1rem; }
+}
+
+@media (max-width: 767.98px) {
+  body { font-size: 15px; }
+  .container, .container-fluid { padding-left: .85rem; padding-right: .85rem; }
+  section, .section, main { max-width: 100%; }
+  h1 { font-size: clamp(1.8rem, 8vw, 2.7rem); line-height: 1.12; }
+  h2 { font-size: clamp(1.45rem, 6vw, 2.1rem); line-height: 1.2; }
+  h3 { font-size: clamp(1.15rem, 4.8vw, 1.55rem); }
+  p { line-height: 1.65; }
+  .stage { min-height: 76svh; min-height: 76vh; }
+  .stage-inner { padding: 2.5rem .85rem; }
+  .stage-nav { position: relative; flex-wrap: wrap; justify-content: space-between; }
+  .stage-nav button, .stage-nav a { min-height: 42px; }
+  .sc-card { padding: 1rem !important; border-radius: 1rem; }
+  .sc-poster-link { min-width: 0; }
+  .sc-poster-link img { width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; }
+  .row > [class*="col-"] { min-width: 0; }
+  .btn, button.btn { min-height: 42px; }
+  .d-flex { min-width: 0; }
+  .input-group { flex-wrap: wrap; }
+  .input-group > .form-control, .input-group > .form-select { flex: 1 1 100%; width: 100%; border-radius: .5rem !important; }
+  .input-group > .btn { flex: 1 1 auto; margin-top: .4rem; border-radius: .5rem !important; }
+  .sc-legend { flex-wrap: wrap; padding: .75rem; gap: .55rem .8rem; }
+  .sc-seatmap { max-width: 100%; }
+  .sc-seatrow { max-width: 100%; }
+  .sc-summary { width: 100%; }
+  footer .row { row-gap: 1rem; }
+  table { font-size: .85rem; }
+  .modal-dialog { margin: .5rem; }
+  .modal-content { border-radius: 1rem; }
+}
+
+@media (max-width: 575.98px) {
+  .container, .container-fluid { padding-left: .7rem; padding-right: .7rem; }
+  .navbar-brand { font-size: 1rem; }
+  .navbar-brand img { max-height: 34px; width: auto; }
+  .stage { min-height: 70svh; min-height: 70vh; }
+  .stage-inner { padding-top: 2rem; padding-bottom: 2rem; }
+  .stage h1 { font-size: clamp(1.7rem, 9vw, 2.4rem); }
+  .stage p { max-width: 100%; }
+  .stage-nav { gap: .35rem; }
+  .stage-nav > * { max-width: 100%; }
+  .row { --bs-gutter-x: .75rem; }
+  .sc-card { padding: .85rem !important; }
+  .sc-legend { font-size: .8rem; }
+  .sc-seatmap { overflow-x: auto; overflow-y: hidden; justify-content: flex-start; }
+  .sc-seatrow { flex: 0 0 auto; }
+  .sc-seat { --seat: 30px; }
+  .sc-aisle { width: .35rem; }
+  .sc-screen { min-width: 240px; max-width: 95%; }
+  .table-responsive { margin-right: -.2rem; }
+  .form-control, .form-select { font-size: 16px; }
+  .btn-group { flex-wrap: wrap; }
+  .btn-group > .btn { flex: 1 1 auto; }
+  .footer, footer { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 360px) {
+  .container, .container-fluid { padding-left: .55rem; padding-right: .55rem; }
+  .navbar-brand { font-size: .9rem; }
+  .stage h1 { font-size: 1.65rem; }
+  .sc-seat { --seat: 27px; }
+  .sc-seatrow { gap: .2rem; }
+  .sc-aisle { width: .25rem; }
+}
