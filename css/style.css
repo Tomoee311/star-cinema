@@ -515,6 +515,28 @@ button.sc-chip {
 .bk-ticket-table th { color: var(--sc-muted); font-weight: 400; padding: 0.15rem 0.3rem 0.15rem 0; }
 .bk-ticket-table td { padding: 0.15rem 0.3rem 0.15rem 0; border-top: 1px solid var(--sc-border); }
 .bk-scroll { max-height: 150px; overflow-y: auto; }
+/* order summary: one line under the other, so it is quick to read and hard to get wrong */
+.bk-lines { list-style: none; margin: 0 0 0.8rem; padding: 0; font-size: 0.85rem; }
+.bk-lines li { padding: 0.3rem 0; border-top: 1px solid var(--sc-border); color: var(--sc-text); }
+.bk-lines li:last-child { border-bottom: 1px solid var(--sc-border); }
+.bk-lines li.is-note { color: var(--sc-muted); font-size: 0.78rem; }
+
+.bk-combo {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+  margin: 0.6rem 0 0.8rem; padding: 0.7rem 0.8rem;
+  border: 1px dashed var(--sc-gold); border-radius: 10px;
+}
+.bk-combo-text { min-width: 0; }
+.bk-combo-save { text-decoration: none; }
+.bk-stepper { display: inline-flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+.bk-stepper button {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid var(--sc-border); background: var(--sc-surface-2); color: var(--sc-text);
+  font-size: 1.1rem; line-height: 1; cursor: pointer;
+}
+.bk-stepper button:hover:not(:disabled) { border-color: var(--sc-gold); }
+.bk-stepper button:disabled { opacity: 0.4; cursor: not-allowed; }
+.bk-stepper output { min-width: 1.2rem; text-align: center; font-weight: 700; }
 
 .bk-price { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; margin: 0.4rem 0 1rem; }
 .bk-price span:last-child { font-size: 1.5rem; color: var(--sc-accent); }
@@ -538,30 +560,38 @@ button.sc-chip {
 
 [data-bs-theme="light"] .sc-screen { border-top-color: #333; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15); }
 
-.sc-seatmap { display: flex; flex-direction: column; align-items: center; gap: 0.45rem; overflow-x: auto; padding: 0.4rem 0 0.8rem; }
-.sc-seatrow { display: flex; align-items: center; gap: 0.35rem; }
-.sc-seatmap > .sc-seatrow:nth-child(1) { transform: scale(0.84); }
-.sc-seatmap > .sc-seatrow:nth-child(2) { transform: scale(0.88); }
-.sc-seatmap > .sc-seatrow:nth-child(3) { transform: scale(0.92); }
-.sc-seatmap > .sc-seatrow:nth-child(4) { transform: scale(0.96); }
-.sc-rowlabel { width: 1.25rem; text-align: center; font-size: 0.75rem; color: var(--sc-muted); }
-.sc-aisle { width: 1.4rem; }
+/* Seat map: standard seats (small boxes) in rows A-E, one row of recliners (boxes as wide as two
+   standard seats, with a seat icon) at the back (row F), staggered in a zig-zag. The seat name
+   (row letter + number, like A6) is written inside the seat. */
+.sc-seatmap { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; overflow-x: auto; padding: 0.4rem 0 0.8rem; }
+.sc-seatrow { display: flex; align-items: center; gap: 0.7rem; }
+.sc-aisle { width: 1.8rem; }
+.sc-typecap { margin: 0.6rem 0 0; font-size: 0.78rem; letter-spacing: 0.04em; color: var(--sc-muted); text-align: center; }
+.sc-typecap.is-recliner { margin-top: 1.1rem; color: var(--sc-gold); }
+/* zig-zag row: seats alternate high / low (margin, not transform, so hover and pick animations still work) */
+.sc-seatrow.is-zigzag { align-items: flex-start; }
+.sc-seat.is-zig-down { margin-top: calc(var(--seat, 48px) * 0.6); }
 
 .sc-seat {
-  width: 34px; height: 32px;
+  width: 48px; height: 46px;
   padding: 0;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.35em;
   border: 1px solid var(--sc-border);
-  border-radius: 9px 9px 5px 5px;
+  border-radius: 10px;
   background: var(--sc-surface-2);
   color: var(--sc-muted);
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   line-height: 1;
   cursor: pointer;
   transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .sc-seat:hover:not(:disabled) { border-color: var(--sc-gold); color: var(--sc-text); transform: translateY(-3px); }
-.sc-seat.is-recliner { box-shadow: inset 0 -5px 0 rgba(255, 210, 31, 0.35); }
+/* recliner: wide seat (two standard seats) with a gold footrest line along the bottom */
+.sc-seat.is-recliner {
+  width: calc(var(--seat, 48px) * 2 + var(--gap, 0.7rem));
+  box-shadow: inset 0 -5px 0 rgba(255, 210, 31, 0.4);
+}
 
 .sc-seat.is-selected {
   background: var(--sc-gold);
@@ -583,11 +613,8 @@ button.sc-chip {
 }
 
 /* seats fade in row by row when a screening is chosen */
-.sc-seatmap.is-entering .sc-seatrow { animation: fadeUp 0.6s var(--sc-ease) both; }
-.sc-seatmap.is-entering .sc-seatrow:nth-child(2) { animation-delay: 0.07s; }
-.sc-seatmap.is-entering .sc-seatrow:nth-child(3) { animation-delay: 0.14s; }
-.sc-seatmap.is-entering .sc-seatrow:nth-child(4) { animation-delay: 0.21s; }
-.sc-seatmap.is-entering .sc-seatrow:nth-child(5) { animation-delay: 0.28s; }
+.sc-seatmap.is-entering .sc-seatrow,
+.sc-seatmap.is-entering .sc-typecap { animation: fadeUp 0.6s var(--sc-ease) both; animation-delay: calc(var(--i, 0) * 0.06s); }
 
 .sc-legend {
   display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
@@ -607,7 +634,7 @@ button.sc-chip {
 
 .sc-swatch.is-selected { background: var(--sc-gold); border-color: var(--sc-gold); }
 .sc-swatch.is-taken { background: var(--sc-border); opacity: 0.55; }
-.sc-swatch.is-recliner { box-shadow: inset 0 -4px 0 rgba(255, 210, 31, 0.4); }
+.sc-swatch.is-recliner { width: 28px; box-shadow: inset 0 -4px 0 rgba(255, 210, 31, 0.4); }
 
 .sc-summary {
   position: sticky;
@@ -1437,22 +1464,23 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
 .sc-table-wrap { overflow-x: auto; }
 
 /* Seat map: the seats shrink to fit the screen instead of scrolling sideways.
-   --seat is worked out from the width of the seat map box (cqw = 1% of that box). */
+   --seat is worked out from the width of the seat map box (cqw = 1% of that box).
+   Room is kept for the gaps and the aisle. A row is 8 standard seats, or 4 recliners (each 2 seats wide). */
 .sc-seatmap { container-type: inline-size; }
 .sc-seatrow {
-  --seat: clamp(20px, calc((100cqw - 90px) / 10), 34px);
-  gap: clamp(2px, 0.9cqw, 5.6px);
+  --gap: clamp(3px, 1.4cqw, 11px);
+  --seat: clamp(28px, calc((100cqw - 130px) / 8), 56px);
+  gap: var(--gap);
 }
 .sc-seat {
-  width: var(--seat, 34px);
-  height: calc(var(--seat, 34px) * 0.94);
+  width: var(--seat, 48px);
+  height: calc(var(--seat, 48px) * 0.95);
 }
+.sc-seat.is-recliner { width: calc(var(--seat, 48px) * 2 + var(--gap, 0.7rem)); height: calc(var(--seat, 48px) * 1.05); }
 @container (max-width: 420px) {
-  .sc-seatrow { --seat: clamp(20px, calc((100cqw - 70px) / 10), 34px); }
-  .sc-seat { font-size: 0.62rem; border-radius: 7px 7px 4px 4px; }
-  .sc-seat.is-recliner { box-shadow: inset 0 -4px 0 rgba(255, 210, 31, 0.35); }
-  .sc-rowlabel { width: 1rem; font-size: 0.68rem; }
-  .sc-aisle { width: 1rem; }
+  .sc-seatrow { --seat: clamp(28px, calc((100cqw - 70px) / 8), 52px); }
+  .sc-seat { font-size: 0.66rem; border-radius: 8px; gap: 0.25em; }
+  .sc-aisle { width: 0.9rem; }
 }
 
 /* Phones */
@@ -1712,3 +1740,64 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
 }
 .sc-video-facade i { font-size: 4.5rem; color: #fff; filter: drop-shadow(0 2px 8px rgba(0,0,0,.6)); }
 .sc-video-facade:hover i, .sc-video-facade:focus-visible i { transform: scale(1.08); }
+
+/* ===== Seat map polish (screen contrast + nicer seats) ===== */
+/* Light mode: the screen is a dark panel, the opposite of the glowing white screen in dark mode,
+   so it no longer blends in with the pale seats. */
+[data-bs-theme="light"] .sc-screen {
+  border-top: 4px solid #0f151c;
+  background: linear-gradient(to bottom, #3a4656, #1b2430 85%);
+  color: #f2f2f2;
+  box-shadow: 0 12px 26px rgba(27, 36, 48, 0.3);
+}
+[data-bs-theme="dark"] { --seat-hi: #232932; --seat-edge: rgba(0, 0, 0, 0.35); }
+[data-bs-theme="light"] { --seat-hi: #ffffff; --seat-edge: rgba(27, 36, 48, 0.16); }
+
+/* Seats: rounded "backrest" top, a darker cushion edge at the bottom */
+.sc-seat {
+  position: relative;
+  border-radius: 12px 12px 6px 6px;
+  background: linear-gradient(180deg, var(--seat-hi, #232932), var(--sc-surface-2));
+  box-shadow: inset 0 -4px 0 var(--seat-edge, rgba(0, 0, 0, 0.2)), 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+.sc-seat.is-selected {
+  background: var(--sc-gold);
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.18), 0 0 16px rgba(255, 210, 31, 0.55);
+}
+.sc-seat:disabled { background: var(--sc-border); box-shadow: none; }
+
+/* Recliner: the footrest is its own gold bar under the seat */
+.sc-seat.is-recliner { box-shadow: inset 0 -4px 0 var(--seat-edge, rgba(0, 0, 0, 0.2)), 0 1px 2px rgba(0, 0, 0, 0.12); margin-bottom: 7px; }
+.sc-seat.is-recliner::after {
+  content: ""; position: absolute; left: 14%; right: 14%; bottom: -7px; height: 5px;
+  border-radius: 0 0 8px 8px; background: var(--sc-gold); opacity: 0.75;
+}
+.sc-seat.is-recliner.is-selected::after { background: #b88600; opacity: 1; }
+.sc-seat.is-recliner:disabled::after { opacity: 0.25; }
+.sc-swatch.is-recliner { box-shadow: 0 3px 0 -1px rgba(245, 179, 1, 0.75); }
+
+/* Zig-zag row: a small, even stagger instead of a big step */
+.sc-seat.is-zig-down { margin-top: calc(var(--seat, 48px) * 0.4); }
+.sc-seatrow.is-zigzag { padding-bottom: 0.5rem; }
+[data-bs-theme="light"] .sc-typecap.is-recliner { color: var(--sc-accent); }
+
+/* Terms of Service popup (booking page) */
+.sc-terms .modal-body { padding: 1.75rem 1.5rem 1.5rem; }
+.sc-terms-title {
+  font-family: var(--sc-font-head);
+  font-size: 1.25rem;
+  text-align: center;
+  color: var(--sc-accent);
+  margin-bottom: 1.25rem;
+}
+.sc-terms-en {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.sc-terms-my {
+  font-family: "Noto Sans Myanmar", "Myanmar Text", var(--sc-font-body);
+  color: var(--sc-muted);
+  font-size: 0.95rem;
+  line-height: 1.9;
+  margin-bottom: 1.25rem;
+}
