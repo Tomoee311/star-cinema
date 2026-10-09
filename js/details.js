@@ -81,20 +81,8 @@
   if (film.video) {
     var label = film.videoLabel || "trailer";
     $("video-title").textContent = "Watch the " + label;
-    var wrap = add(videoBox, "div", "", "ratio ratio-16x9 sc-video-wrap");
-    var frame = document.createElement("iframe");
-    frame.src = "https://www.youtube-nocookie.com/embed/" + film.video;
-    frame.title = film.title + " " + label;
-    frame.loading = "lazy";
-    frame.setAttribute("allow", "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
-    frame.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
-    frame.setAttribute("allowfullscreen", "");
-    wrap.appendChild(frame);
-    var credit = add(videoBox, "p", film.videoCredit + " ", "small sc-muted mt-2 mb-0");
-    var yt = add(credit, "a", "Watch on YouTube");
-    yt.href = "https://www.youtube.com/watch?v=" + film.video;
-    yt.target = "_blank";
-    yt.rel = "noopener noreferrer";
+    scVideo(videoBox, film.video, film.title + " " + label);
+    add(videoBox, "p", film.videoCredit, "small sc-muted mt-1 mb-0");
   } else {
     $("videoSection").classList.add("d-none");
   }
