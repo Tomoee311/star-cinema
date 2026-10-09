@@ -14,7 +14,6 @@ function scVideo(box, id, title, poster) {
   var urls = [];
   if (poster) urls.push(poster);
   urls.push("https://i.ytimg.com/vi/" + id + "/maxresdefault.jpg",
-            "https://i.ytimg.com/vi/" + id + "/sddefault.jpg",
             "https://i.ytimg.com/vi/" + id + "/hqdefault.jpg");
   var sizes = urls;
   (function tryThumb(i) {
