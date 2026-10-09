@@ -204,9 +204,7 @@
              Film: Avengers: Doomsday, "Special Look" (c) Marvel Studios / Disney.
              Source: https://youtu.be/X1aFkAkFASk  Used for educational purposes only.
              To change the video, replace the ID (X1aFkAkFASk) in the src below. -->
-        <div class="ratio ratio-16x9 sc-video-wrap">
-          <iframe src="https://www.youtube-nocookie.com/embed/X1aFkAkFASk" title="Avengers: Doomsday special look" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
+        <div id="previewVideo"></div>
         <p class="small sc-muted mt-2 mb-0">Special look © Marvel Studios / Disney, played from YouTube.</p>
       </div>
     </section>
@@ -261,6 +259,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/script.js"></script>
   <script src="js/films.js"></script>
+  <script src="js/video.js"></script>
   <script src="js/hero.js"></script>
+  <script>scVideo(document.getElementById("previewVideo"), "X1aFkAkFASk", "Avengers: Doomsday special look");</script>
 </body>
 </html>
