@@ -81,7 +81,7 @@
   if (film.video) {
     var label = film.videoLabel || "trailer";
     $("video-title").textContent = "Watch the " + label;
-    scVideo(videoBox, film.video, film.title + " " + label);
+    scVideo(videoBox, film.video, film.title + " " + label, "images/video-" + film.slug + ".jpg");
     add(videoBox, "p", film.videoCredit, "small sc-muted mt-1 mb-0");
   } else {
     $("videoSection").classList.add("d-none");
