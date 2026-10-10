@@ -199,6 +199,39 @@
       });
     }
     $("sumTotal").textContent = show ? SC.money(SC.total(seats, show.time, combos)) : "0 MMK";
+    updateBar(seats.length);
+  }
+
+  /* ---------- phone bar: shows seats + total and jumps to the booking form ---------- */
+  var bkBar = $("bkBar");
+  var barWanted = false;
+  var summaryVisible = false;
+
+  function syncBar() {
+    if (!bkBar) { return; }
+    var on = barWanted && !summaryVisible;
+    bkBar.hidden = !on;
+    document.body.classList.toggle("has-bk-bar", on);
+  }
+
+  function updateBar(count) {
+    if (!bkBar) { return; }
+    $("bkBarSeats").textContent = count + (count === 1 ? " seat" : " seats");
+    $("bkBarTotal").textContent = $("sumTotal").textContent;
+    barWanted = count > 0;
+    syncBar();
+  }
+
+  if (bkBar) {
+    $("bkBarGo").addEventListener("click", function () {
+      $("summaryBox").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        summaryVisible = entries[0].isIntersecting;
+        syncBar();
+      }, { threshold: 0.15 }).observe($("summaryBox"));
+    }
   }
 
   function refresh() {
