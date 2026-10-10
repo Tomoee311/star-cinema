@@ -2191,7 +2191,7 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
 
   /* touch targets: at least 40px high */
   .navbar-toggler { min-height: 44px; min-width: 48px; }
-  .sc-chip, button.sc-chip { min-height: 40px; display: inline-flex; align-items: center; }
+  .sc-chip, button.sc-chip { min-height: 40px; display: inline-flex; align-items: center; justify-content: center; }
   body.showtimes-page #dayChips .sc-chip { min-height: 42px; }
   .stage-times a, .stage-times span { min-height: 42px; display: inline-flex; align-items: center; }
   .rail-arrow { width: 40px; height: 40px; }
@@ -2246,4 +2246,9 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
 .rail-card img { -webkit-user-drag: none; user-select: none; }
 @media (max-width: 767.98px) {
   .rail-controls { display: none; }   /* no arrows on phones: swipe the posters */
+}
+
+/* Showtimes day buttons (phones): seven equal, centred pills */
+@media (max-width: 767.98px) {
+  body.showtimes-page #dayChips .sc-chip { width: 100%; min-width: 0; padding: 0.45rem 0; justify-content: center; text-align: center; }
 }
