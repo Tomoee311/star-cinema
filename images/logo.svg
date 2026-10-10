@@ -1,5 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Star Cinema logo">
-  <rect width="64" height="64" rx="14" fill="#f5b301"/>
-  <path d="M32 10l6.5 13.2 14.6 2.1-10.5 10.3 2.5 14.5L32 43.2 18.9 50.1l2.5-14.5L10.9 25.3l14.6-2.1z" fill="#1a1400"/>
-  <circle cx="32" cy="31" r="5" fill="#f5b301"/>
+  <defs>
+    <linearGradient id="scLogoBg" x1="8" y1="4" x2="58" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a99cff"/>
+      <stop offset="1" stop-color="#6a55f0"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#scLogoBg)"/>
+  <path d="M32 10l6.5 13.2 14.6 2.1-10.5 10.3 2.5 14.5L32 43.2 18.9 50.1l2.5-14.5L10.9 25.3l14.6-2.1z" fill="#f6f4ff"/>
+  <circle cx="32" cy="31" r="5" fill="#6a55f0"/>
 </svg>
