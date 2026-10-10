@@ -58,8 +58,8 @@
         <noscript><p class="sc-muted">Please turn on JavaScript to book seats.</p></noscript>
         <div id="modeNote" class="sc-alert p-3 mb-3 d-none" role="status"></div>
 
-        <div class="row g-4">
-          <div class="col-lg-4">
+        <div class="bk-layout">
+          <div class="bk-controls">
             <label for="filmSelect" class="form-label sc-label">Film</label>
             <select id="filmSelect" class="form-select sc-select"></select>
 
@@ -69,8 +69,25 @@
             <p class="bk-label" id="timeLabel">Time</p>
             <div id="timeChips" class="bk-times" role="group" aria-labelledby="timeLabel"></div>
             <p id="showInfo" class="bk-info" role="status"></p>
+          </div>
 
-            <div class="sc-card sc-summary p-4 mt-3">
+          <div class="bk-seats">
+            <div class="sc-screen" aria-hidden="true">SCREEN</div>
+            <div id="seatMap" class="sc-seatmap" role="group" aria-label="Seat map. Rows A to E are standard seats, row F is the recliner row. Row A is nearest the screen."></div>
+            <p id="noShowNote" class="sc-muted text-center d-none">There are no screenings of this film on this day. Choose another day.</p>
+
+            <ul class="sc-legend" aria-label="Seat key">
+              <li><span class="sc-swatch"></span>Standard seat</li>
+              <li><span class="sc-swatch is-recliner"></span>Recliner seat</li>
+              <li><span class="sc-swatch is-selected"></span>Selected</li>
+              <li><span class="sc-swatch is-taken"></span>Taken</li>
+            </ul>
+            <p class="small sc-muted text-center mb-1">The front rows (A to E) are standard seats and each row has its own price (shown above the seats). The back row (F) is the only recliner row (lean back, footrest up) for a comfortable, VIP-style view. Matinee screenings before 5pm are 5,000 MMK off each seat. You can book up to 8 seats.</p>
+            <p id="seatStatus" class="small sc-muted text-center mb-0" role="status"></p>
+          </div>
+
+          <div class="bk-summary" id="summaryBox">
+            <div class="sc-card sc-summary p-4">
               <h2 class="h6 mb-3">Tickets</h2>
               <p id="sumFilm" class="fw-semibold mb-1"></p>
               <p id="sumWhen" class="sc-muted small mb-2"></p>
@@ -114,21 +131,12 @@
               <p class="small sc-muted mt-3 mb-0">Already booked? <a href="my-booking.html">Manage your booking</a></p>
             </div>
           </div>
+        </div>
 
-          <div class="col-lg-8">
-            <div class="sc-screen" aria-hidden="true">SCREEN</div>
-            <div id="seatMap" class="sc-seatmap" role="group" aria-label="Seat map. Rows A to E are standard seats, row F is the recliner row. Row A is nearest the screen."></div>
-            <p id="noShowNote" class="sc-muted text-center d-none">There are no screenings of this film on this day. Choose another day.</p>
-
-            <ul class="sc-legend" aria-label="Seat key">
-              <li><span class="sc-swatch"></span>Standard seat</li>
-              <li><span class="sc-swatch is-recliner"></span>Recliner seat</li>
-              <li><span class="sc-swatch is-selected"></span>Selected</li>
-              <li><span class="sc-swatch is-taken"></span>Taken</li>
-            </ul>
-            <p class="small sc-muted text-center mb-1">The front rows (A to E) are standard seats and each row has its own price (shown above the seats). The back row (F) is the only recliner row (lean back, footrest up) for a comfortable, VIP-style view. Matinee screenings before 5pm are 5,000 MMK off each seat. You can book up to 8 seats.</p>
-            <p id="seatStatus" class="small sc-muted text-center mb-0" role="status"></p>
-          </div>
+        <!-- Phones: a bar that follows the screen once seats are chosen -->
+        <div class="bk-bar" id="bkBar" hidden>
+          <div class="bk-bar-text"><b id="bkBarSeats">0 seats</b><span id="bkBarTotal">0 MMK</span></div>
+          <button type="button" class="btn btn-gold" id="bkBarGo">Continue</button>
         </div>
       </div>
     </section>
