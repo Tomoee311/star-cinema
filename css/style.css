@@ -2231,3 +2231,19 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
   .rail-view { padding-top: 1.7rem; }
   .rail-no { top: -1.35rem; }
 }
+
+/* Home hero (phones): keep the previous / pause / next buttons together instead of spread across the screen */
+@media (max-width: 767.98px) {
+  .stage-nav { justify-content: flex-start; gap: .85rem; flex-wrap: nowrap; }
+  .stage-nav .stage-arrow { flex: none; }
+  .stage-rail { padding-top: 1rem; }
+}
+
+/* Up Next posters: swipe on phones, drag with the mouse on computers */
+.rail-view { overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; cursor: grab; }
+.rail-view.is-dragging { cursor: grabbing; scroll-behavior: auto; user-select: none; }
+.rail-view.is-dragging .rail-card { pointer-events: none; }
+.rail-card img { -webkit-user-drag: none; user-select: none; }
+@media (max-width: 767.98px) {
+  .rail-controls { display: none; }   /* no arrows on phones: swipe the posters */
+}
