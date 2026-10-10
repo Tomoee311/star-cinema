@@ -382,5 +382,31 @@
   }
   if (railPrev) railPrev.addEventListener("click", function () { scrollRail(-1); });
   if (railNext) railNext.addEventListener("click", function () { scrollRail(1); });
+
+  /* Posters can be dragged with the mouse too (phones/tablets just swipe: the rail scrolls by itself).
+     A drag does not open the poster you let go on. */
+  if (railView) {
+    var dragFrom = null, dragStart = 0, dragged = false;
+    railView.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse" || e.button !== 0) { return; }
+      dragFrom = e.clientX; dragStart = railView.scrollLeft; dragged = false;
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (dragFrom === null) { return; }
+      var dx = e.clientX - dragFrom;
+      if (!dragged && Math.abs(dx) > 5) { dragged = true; railView.classList.add("is-dragging"); }
+      if (dragged) { railView.scrollLeft = dragStart - dx; }
+    });
+    window.addEventListener("pointerup", function () {
+      if (dragFrom === null) { return; }
+      dragFrom = null;
+      railView.classList.remove("is-dragging");
+      if (dragged) { window.setTimeout(function () { dragged = false; }, 0); }
+    });
+    railView.addEventListener("click", function (e) {
+      if (dragged) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+    railView.addEventListener("dragstart", function (e) { e.preventDefault(); });
+  }
   startTimer();
 })();
