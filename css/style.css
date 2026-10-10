@@ -2215,7 +2215,7 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
 @media (max-width: 767.98px) {
   .bk-day small { font-size: .75rem; }
   li.sc-rating, .stage-meta .sc-rating, .stage-genre .sc-rating { font-size: .75rem; }
-  a[href^="tel:"] { display: inline-block; padding: .55rem 0; }
+  .sc-footer a[href^="tel:"] { display: inline-block; padding: .55rem 0; }
 }
 
 /* About page: more space between the hero and the numbers (2010 / 4 / Dolby Atmos) */
@@ -2251,4 +2251,37 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
 /* Showtimes day buttons (phones): seven equal, centred pills */
 @media (max-width: 767.98px) {
   body.showtimes-page #dayChips .sc-chip { width: 100%; min-width: 0; padding: 0.45rem 0; justify-content: center; text-align: center; }
+}
+
+/* ==========================================================
+   22. Movie cards (Movies page + Home grid) and contact buttons
+   Every card: poster edge to edge, text underneath, "Details" button
+   pinned to the bottom so all buttons line up in a row.
+   ========================================================== */
+.movie-card { display: flex; flex-direction: column; padding: 0 !important; }
+.movie-card > a { display: block; flex: none; }
+.movie-card > .p-3 { display: flex; flex-direction: column; flex: 1 1 auto; }
+.movie-card > .p-3 > p:last-of-type { margin-bottom: 1rem !important; }
+.movie-card > .p-3 > .btn { margin-top: auto; align-self: flex-start; }
+.movie-card .btn-line { border-color: color-mix(in srgb, var(--sc-accent) 55%, var(--sc-border)); }
+
+@media (max-width: 767.98px) {
+  .movie-card > .p-3 { padding: .85rem .85rem 1rem !important; }
+  .movie-card > .p-3 > .btn { align-self: stretch; width: 100%; display: flex; align-items: center; justify-content: center; text-align: center; }
+  .movie-card .sc-poster { border-radius: calc(var(--sc-radius) + 4px) calc(var(--sc-radius) + 4px) 0 0; }
+  .movie-card h3 { min-height: 2.6em; }
+}
+
+/* touch screens have no real hover: do not leave a card "lit" after a tap */
+@media (hover: none) {
+  .sc-card:hover, .sc-stat:hover, .movie-card:hover { transform: none; border-color: var(--sc-border); box-shadow: 0 14px 34px rgba(0,0,0,.12); }
+  .movie-card:hover img, .sc-poster-link:hover img { transform: none; }
+  .movie-card:hover > .sc-rating, .sc-poster-link:hover > .sc-rating { transform: none; }
+  .sc-contact-quicklinks a:hover { transform: none; border-color: var(--sc-border); }
+}
+
+/* contact page: both quick buttons the same size on phones */
+@media (max-width: 575.98px) {
+  .sc-contact-quicklinks { flex-direction: column; gap: .75rem; }
+  .sc-contact-quicklinks a { justify-content: center; width: 100%; min-height: 48px; }
 }
