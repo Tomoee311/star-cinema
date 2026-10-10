@@ -2151,3 +2151,83 @@ button, .btn, .nav-link, a { touch-action: manipulation; }
   .stage-count { font-size: 2rem !important; }
   .stage-actions .btn { flex-basis: 100%; }
 }
+
+/* ==========================================================
+   21. Booking layout + phone polish
+   Booking page: film/day/time -> seat map -> tickets & form on phones,
+   the old two-column layout on desktop.
+   ========================================================== */
+.bk-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+.bk-controls, .bk-seats, .bk-summary { min-width: 0; }
+@media (min-width: 992px) {
+  .bk-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); grid-template-rows: auto 1fr; column-gap: 1.5rem; row-gap: 1rem; align-items: start; }
+  .bk-controls { grid-column: 1; grid-row: 1; }
+  .bk-summary { grid-column: 1; grid-row: 2; position: sticky; top: 5rem; }
+  .bk-seats { grid-column: 2; grid-row: 1 / span 2; }
+}
+
+/* bar that follows the screen on phones once seats are chosen */
+.bk-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1030;
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  padding: .65rem 1rem calc(.65rem + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--sc-surface) 94%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-top: 1px solid var(--sc-border);
+}
+.bk-bar[hidden] { display: none; }
+.bk-bar-text { display: flex; flex-direction: column; line-height: 1.25; }
+.bk-bar-text span { color: var(--sc-muted); font-size: .85rem; }
+.bk-bar .btn { min-height: 44px; padding-left: 1.4rem; padding-right: 1.4rem; }
+body.has-bk-bar { padding-bottom: 4.75rem; }
+@media (min-width: 992px) { .bk-bar { display: none !important; } body.has-bk-bar { padding-bottom: 0; } }
+
+@media (max-width: 767.98px) {
+  /* bigger seats: 8 seats + aisle use the whole width of the seat map */
+  .sc-seat { --seat: clamp(30px, calc((100cqw - 48px) / 8), 46px); font-size: .75rem; }
+  .sc-seatrow { gap: .28rem; }
+  .sc-aisle { width: .5rem; }
+  .sc-seat span { font-size: inherit; }
+
+  /* touch targets: at least 40px high */
+  .navbar-toggler { min-height: 44px; min-width: 48px; }
+  .sc-chip, button.sc-chip { min-height: 40px; display: inline-flex; align-items: center; }
+  body.showtimes-page #dayChips .sc-chip { min-height: 42px; }
+  .stage-times a, .stage-times span { min-height: 42px; display: inline-flex; align-items: center; }
+  .rail-arrow { width: 40px; height: 40px; }
+  .bk-stepper button { width: 40px; height: 40px; }
+  .sc-more { display: inline-block; padding: .65rem 0; }
+  .sc-film-link { display: inline-block; padding: .5rem 0; }
+  .breadcrumb a, .sc-breadcrumb a, nav[aria-label*="readcrumb"] a { display: inline-block; padding: .55rem 0; }
+  .sc-footer li a { display: inline-block; padding: .5rem 0; }
+  .sc-footer .sc-social a, .sc-legal .sc-social a {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px; margin: 0 .1rem; padding: 0; font-size: 1.25rem;
+  }
+  .sc-table .btn, .sc-table td .btn { white-space: nowrap; min-height: 40px; display: inline-flex; align-items: center; }
+
+  /* nothing smaller than 12px */
+  .small, small { font-size: .8125rem; }
+  .rail-no, .rail-pin, .sc-rating, .stage-meta li, .sc-typecap, .sc-screen, .sc-legend { font-size: .75rem; }
+  .stage-label { font-size: .8rem; }
+  .bk-day small { font-size: .72rem; }
+}
+@media (max-width: 767.98px) {
+  .bk-day small { font-size: .75rem; }
+  li.sc-rating, .stage-meta .sc-rating, .stage-genre .sc-rating { font-size: .75rem; }
+  a[href^="tel:"] { display: inline-block; padding: .55rem 0; }
+}
+
+/* About page: more space between the hero and the numbers (2010 / 4 / Dolby Atmos) */
+.sc-about-hero .sc-hero-bottom { padding-bottom: 2.25rem; }
+.sc-about-hero + section { padding-top: 2.5rem; }
+@media (max-width: 767.98px) {
+  .sc-about-hero .sc-hero-bottom { padding-bottom: 1.75rem; }
+  .sc-about-hero + section { padding-top: 2rem; }
+}
+
+/* Home "Up next" rail: leave room above the posters so the numbers (03, 04, 05 ...) are not cut off */
+@media (max-width: 767.98px) {
+  .rail-view { padding-top: 1.7rem; }
+  .rail-no { top: -1.35rem; }
+}
