@@ -413,9 +413,5 @@
     }, true);
     railView.addEventListener("dragstart", function (e) { e.preventDefault(); });
   }
-  /* Start the autoplay a few seconds after the page has loaded, so the first picture is the
-     one that counts as the main content and the page loads faster. */
-  function firstStart() { window.setTimeout(startTimer, 4000); }
-  if (document.readyState === "complete") { firstStart(); }
-  else { window.addEventListener("load", firstStart); }
+  startTimer();
 })();
