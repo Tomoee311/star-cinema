@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-labelledby="t">
+  <title id="t">Artwork for Avengers: Doomsday</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5a0f12"/>
+      <stop offset="1" stop-color="#0b0d10"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#g)"/>
+  <circle cx="1200" cy="260" r="150" fill="#e63946" opacity=".85"/>
+  <path d="M0 780 V620 H120 V540 H220 V650 H340 V470 H430 V600 H560 V520 H680 V660 H800 V440 H900 V590 H1030 V500 H1150 V640 H1280 V560 H1400 V680 H1600 V900 H0 Z" fill="#0b0d10" opacity=".9"/>
+  <text x="80" y="840" font-family="Arial, sans-serif" font-size="90" font-weight="700" fill="#ffffff">AVENGERS: DOOMSDAY</text>
+</svg>

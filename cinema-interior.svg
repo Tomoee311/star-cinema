@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520" role="img" aria-labelledby="t">
+  <title id="t">Illustration of the Star Cinema auditorium: rows of seats facing a lit screen</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2a6b"/>
+      <stop offset="1" stop-color="#0b0d10"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5b301" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#f5b301" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="520" fill="url(#bg)"/>
+  <path d="M170 90 L630 90 L760 300 L40 300 Z" fill="url(#beam)"/>
+  <rect x="170" y="70" width="460" height="26" rx="6" fill="#f5b301"/>
+  <rect x="146" y="300" width="46" height="30" rx="7" fill="#1d2430"/>
+  <rect x="204" y="300" width="46" height="30" rx="7" fill="#1d2430"/>
+  <rect x="261" y="300" width="46" height="30" rx="7" fill="#1d2430"/>
+  <rect x="319" y="300" width="46" height="30" rx="7" fill="#1d2430"/>
+  <rect x="377" y="300" width="46" height="30" rx="7" fill="#1d2430"/>
+  <rect x="435" y="300" width="46" height="30" rx="7" fill="#1d2430"/>
+  <rect x="492" y="300" width="46" height="30" rx="7" fill="#1d2430"/>
+  <rect x="550" y="300" width="46" height="30" rx="7" fill="#1d2430"/>
+  <rect x="608" y="300" width="46" height="30" rx="7" fill="#1d2430"/>
+  <rect x="121" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="178" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="235" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="292" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="349" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="406" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="463" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="520" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="577" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="634" y="352" width="46" height="34" rx="7" fill="#1d2430"/>
+  <rect x="96" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="152" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="208" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="265" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="321" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="377" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="434" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="490" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="547" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="603" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="659" y="410" width="45" height="38" rx="7" fill="#1d2430"/>
+  <rect x="71" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="126" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="182" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="238" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="294" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="350" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="406" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="461" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="517" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="573" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="629" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+  <rect x="685" y="474" width="45" height="42" rx="7" fill="#1d2430"/>
+</svg>
