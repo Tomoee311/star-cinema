@@ -368,6 +368,14 @@
   });
 
   /* ---------- start ---------- */
+  /* The backdrop layers use z-index to fade over each other. Without this, that z-index
+     leaked out of .stage-bg and lifted every picture ABOVE the dark shade after the first
+     slide change, so the 2nd time a film appeared it looked bright and different from the
+     1st time. Making .stage-bg its own stacking context keeps the shade on top every time. */
+  var bgBox = document.getElementById("stageBg");
+  var shadeBox = stage.querySelector(".stage-shade");
+  if (bgBox) { bgBox.style.zIndex = "0"; }
+  if (shadeBox) { shadeBox.style.zIndex = "1"; }
   setText(0);
   var first = el.layers[0];
   var firstProfile = BACKDROP_PROFILES[films[0].slug] || BACKDROP_PROFILES["spider-man-brand-new-day"];
