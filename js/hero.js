@@ -51,15 +51,10 @@
   function backdrop(f) { return "images/backdrop-" + f.slug + ".jpg"; }
 
   /* preload every backdrop and poster so slides never flash or show a low-res frame */
-  function preloadAll() {
-    films.forEach(function (f) {
-      var b = new Image(); b.decoding = "async"; b.src = backdrop(f);
-      var im = new Image(); im.src = poster(f);
-    });
-  }
-  /* wait until the first screen has loaded so the first picture is not slowed down */
-  if (document.readyState === "complete") { window.setTimeout(preloadAll, 300); }
-  else { window.addEventListener("load", function () { window.setTimeout(preloadAll, 300); }); }
+  films.forEach(function (f) {
+    var b = new Image(); b.decoding = "async"; b.src = backdrop(f);
+    var im = new Image(); im.src = poster(f);
+  });
 
   /* ---------- what to show for one film ---------- */
   function sessionFor(f) {
