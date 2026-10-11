@@ -24,7 +24,7 @@
     seat_taken: "Sorry, one of your seats was just booked by someone else. Please choose different seats.",
     agree: "Please tick the box to confirm you understand this is a demonstration.",
     bad_combos: "You can add at most one combo for each seat.",
-    server_error: "Something went wrong on our side. Please try again in a moment."
+    server_error: "We could not reach the booking service, so your seats have not been confirmed. Please check My booking before trying again, then choose your seats again if needed."
   };
 
   var showable = SC.films.filter(function (f) { return f.status === "now"; });
@@ -400,6 +400,10 @@
     payOverlay.classList.add("is-on");
     payOverlay.classList.toggle("is-done", !!done);
   }
+
+  window.addEventListener("beforeunload", function (e) {
+    if (document.body.classList.contains("is-paying")) { e.preventDefault(); e.returnValue = ""; }
+  });
 
   function hidePay() {
     payOverlay.classList.remove("is-on", "is-done");

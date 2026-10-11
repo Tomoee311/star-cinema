@@ -110,10 +110,31 @@
     }
   };
 
-  /* Use the real service; if it is not there, switch to demo mode. */
+  /* Use the real service. Demo mode is used ONLY when the service has never answered
+     (for example the ZIP opened from a folder). Once the live service has answered,
+     a failed save is reported as an error and is never replaced by a fake local booking. */
+  var liveConfirmed = false;
+
+  function timed(method, url, body) {
+    return new Promise(function (resolve, reject) {
+      var done = false;
+      var timer = window.setTimeout(function () { if (!done) { done = true; reject(new Error("timeout")); } }, 12000);
+      remote(method, url, body).then(function (r) {
+        if (done) { return; } done = true; window.clearTimeout(timer); resolve(r);
+      }, function (e) {
+        if (done) { return; } done = true; window.clearTimeout(timer); reject(e);
+      });
+    });
+  }
+
   function run(method, url, body, localCall) {
     if (SC.apiMode === "local") { return Promise.resolve(localCall()); }
-    return remote(method, url, body).catch(function () {
+    return timed(method, url, body).then(function (r) { liveConfirmed = true; return r; }).catch(function (err) {
+      if (liveConfirmed) {
+        /* reads are tried once more; writes are never repeated (it could book twice) */
+        if (method === "GET") { return timed(method, url, body); }
+        throw err;
+      }
       SC.apiMode = "local";
       return localCall();
     });

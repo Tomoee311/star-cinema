@@ -56,7 +56,7 @@
     curtain.classList.remove("is-open");
     curtain.classList.add("is-closing");
     /* Give the curtain enough time to read as a deliberate page transition. */
-    window.setTimeout(function () { window.location.href = href; }, 360);
+    window.setTimeout(function () { window.location.href = href; }, 150);
     /* Safety: if we are still on this page a moment later (for example the person came
        back with the Back button and the page was restored from memory), open the curtain.
        Timers pause while a page is stored, so this fires right after it comes back. */
@@ -136,7 +136,7 @@
     }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
     motionTargets.forEach(function (el, i) {
       el.classList.add("sc-auto-reveal");
-      el.style.setProperty("--sc-delay", Math.min((i % 6) * 55, 275) + "ms");
+      el.style.setProperty("--sc-delay", Math.min((i % 6) * 25, 100) + "ms");
       motionObserver.observe(el);
     });
   }
