@@ -20,10 +20,10 @@
   var BACKDROP_PROFILES = {
     "spider-man-brand-new-day": { size: "cover", position: "58% center", left: .70, mid: .34, right: .10, top: .58, bottom: .48 },
     "the-odyssey":              { size: "cover", position: "54% center", left: .78, mid: .38, right: .08, top: .58, bottom: .52 },
-    "toy-story-5":              { size: "108% auto", position: "50% center", left: .78, mid: .34, right: .08, top: .50, bottom: .46 },
-    "resident-evil":            { size: "112% auto", position: "0% center", left: .76, mid: .38, right: .08, top: .58, bottom: .52 },
+    "toy-story-5":              { size: "cover", position: "50% center", left: .78, mid: .34, right: .08, top: .50, bottom: .46 },
+    "resident-evil":            { size: "cover", position: "0% center", left: .76, mid: .38, right: .08, top: .58, bottom: .52 },
     "backrooms":                { size: "cover", position: "58% center", left: .82, mid: .46, right: .12, top: .62, bottom: .54 },
-    "obsession":                { size: "108% auto", position: "0% center", left: .74, mid: .40, right: .08, top: .60, bottom: .52 },
+    "obsession":                { size: "cover", position: "0% center", left: .74, mid: .40, right: .08, top: .60, bottom: .52 },
     "cerita-lila":              { size: "cover", position: "56% center", left: .88, mid: .50, right: .12, top: .66, bottom: .58 },
     "avengers-doomsday":        { size: "cover", position: "54% center", left: .80, mid: .40, right: .08, top: .60, bottom: .50 }
   };
@@ -51,10 +51,15 @@
   function backdrop(f) { return "images/backdrop-" + f.slug + ".jpg"; }
 
   /* preload every backdrop and poster so slides never flash or show a low-res frame */
-  films.forEach(function (f) {
-    var b = new Image(); b.decoding = "async"; b.src = backdrop(f);
-    var im = new Image(); im.src = poster(f);
-  });
+  function preloadAll() {
+    films.forEach(function (f) {
+      var b = new Image(); b.decoding = "async"; b.src = backdrop(f);
+      var im = new Image(); im.src = poster(f);
+    });
+  }
+  /* wait until the first screen has loaded so the first picture is not slowed down */
+  if (document.readyState === "complete") { window.setTimeout(preloadAll, 300); }
+  else { window.addEventListener("load", function () { window.setTimeout(preloadAll, 300); }); }
 
   /* ---------- what to show for one film ---------- */
   function sessionFor(f) {
@@ -149,16 +154,21 @@
     next.style.setProperty("--shade-top", profile.top);
     next.style.setProperty("--shade-bottom", profile.bottom);
     next.setAttribute("data-film", f.slug);
-    next.classList.add("is-on");
-    old.classList.remove("is-on");
     topLayer = 1 - topLayer;
+    /* Plain crossfade: the new picture fades in ON TOP of the old one, and the old one
+       is only removed after that. No zoom, no blur, no dip to black, so the picture
+       never "shrinks back" when the film changes. */
+    next.style.zIndex = "2";
+    old.style.zIndex = "1";
+    next.classList.add("is-on");
     if (canAnimate && !instant) {
-      next.animate(
-        [{ opacity: 0, transform: "scale(1.08)", filter: "blur(8px)" },
-         { opacity: 1, transform: "scale(1)", filter: "blur(0px)" }],
-        { duration: 1300, easing: "cubic-bezier(0.2,0.7,0.2,1)", fill: "none" }
-      );
-      old.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, easing: "ease-in", fill: "none" });
+      var fade = next.animate([{ opacity: 0 }, { opacity: 1 }],
+        { duration: 700, easing: "ease-in-out", fill: "none" });
+      var removeOld = function () { if (el.layers[topLayer] !== old) { old.classList.remove("is-on"); } };
+      fade.onfinish = removeOld;
+      window.setTimeout(removeOld, 800);          /* safety net if onfinish is skipped */
+    } else {
+      old.classList.remove("is-on");
     }
   }
 
