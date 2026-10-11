@@ -154,16 +154,21 @@
     next.style.setProperty("--shade-top", profile.top);
     next.style.setProperty("--shade-bottom", profile.bottom);
     next.setAttribute("data-film", f.slug);
-    next.classList.add("is-on");
-    old.classList.remove("is-on");
     topLayer = 1 - topLayer;
+    /* Plain crossfade: the new picture fades in ON TOP of the old one, and the old one
+       is only removed after that. No zoom, no blur, no dip to black, so the picture
+       never "shrinks back" when the film changes. */
+    next.style.zIndex = "2";
+    old.style.zIndex = "1";
+    next.classList.add("is-on");
     if (canAnimate && !instant) {
-      next.animate(
-        [{ opacity: 0, transform: "scale(1.08)", filter: "blur(8px)" },
-         { opacity: 1, transform: "scale(1)", filter: "blur(0px)" }],
-        { duration: 1300, easing: "cubic-bezier(0.2,0.7,0.2,1)", fill: "none" }
-      );
-      old.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, easing: "ease-in", fill: "none" });
+      var fade = next.animate([{ opacity: 0 }, { opacity: 1 }],
+        { duration: 700, easing: "ease-in-out", fill: "none" });
+      var removeOld = function () { if (el.layers[topLayer] !== old) { old.classList.remove("is-on"); } };
+      fade.onfinish = removeOld;
+      window.setTimeout(removeOld, 800);          /* safety net if onfinish is skipped */
+    } else {
+      old.classList.remove("is-on");
     }
   }
 
