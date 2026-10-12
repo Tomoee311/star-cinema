@@ -8,7 +8,24 @@
   var SC = window.SC;
   if (!SC) { return; }
 
+  /* The seat size depends on how wide the seat map box is. The width is copied into the CSS
+     variable --sm-w (in pixels) and the style sheet works the seat size out from it. */
+  function setWidth(box, w) {
+    box.style.setProperty("--sm-w", Math.round(w) + "px");
+  }
+  function watchWidth(box) {
+    if (box.getAttribute("data-watched")) { return; }
+    box.setAttribute("data-watched", "1");
+    setWidth(box, box.clientWidth);
+    if (window.ResizeObserver) {
+      new ResizeObserver(function (list) { setWidth(box, list[0].contentRect.width); }).observe(box);
+    } else {
+      window.addEventListener("resize", function () { setWidth(box, box.clientWidth); });
+    }
+  }
+
   SC.renderSeatMap = function (container, opts) {
+    watchWidth(container);
     var taken = opts.taken || [];
     var selected = opts.selected || [];
     container.textContent = "";
