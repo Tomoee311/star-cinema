@@ -1464,12 +1464,11 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
 .sc-table-wrap { overflow-x: auto; }
 
 /* Seat map: the seats shrink to fit the screen instead of scrolling sideways.
-   --seat is worked out from the width of the seat map box (cqw = 1% of that box).
+   --seat is worked out from --sm-w, the width of the seat map box (set by js/seatmap.js).
    Room is kept for the gaps and the aisle. A row is 8 standard seats, or 4 recliners (each 2 seats wide). */
-.sc-seatmap { container-type: inline-size; }
 .sc-seatrow {
-  --gap: clamp(3px, 1.4cqw, 11px);
-  --seat: clamp(28px, calc((100cqw - 130px) / 8), 56px);
+  --gap: clamp(3px, calc(var(--sm-w, 340px) * 0.014), 11px);
+  --seat: clamp(28px, calc((var(--sm-w, 340px) - 130px) / 8), 56px);
   gap: var(--gap);
 }
 .sc-seat {
@@ -1477,11 +1476,8 @@ h1, h2, h3, .stage-title { overflow-wrap: break-word; }
   height: calc(var(--seat, 48px) * 0.95);
 }
 .sc-seat.is-recliner { width: calc(var(--seat, 48px) * 2 + var(--gap, 0.7rem)); height: calc(var(--seat, 48px) * 1.05); }
-@container (max-width: 420px) {
-  .sc-seatrow { --seat: clamp(28px, calc((100cqw - 70px) / 8), 52px); }
-  .sc-seat { font-size: 0.66rem; border-radius: 8px; gap: 0.25em; }
-  .sc-aisle { width: 0.9rem; }
-}
+
+
 
 /* Phones */
 @media (max-width: 767.98px) {
@@ -2184,7 +2180,7 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
 
 @media (max-width: 767.98px) {
   /* bigger seats: 8 seats + aisle use the whole width of the seat map */
-  .sc-seat { --seat: clamp(30px, calc((100cqw - 48px) / 8), 46px); font-size: .75rem; }
+  .sc-seat { --seat: clamp(30px, calc((var(--sm-w, 340px) - 48px) / 8), 46px); font-size: .75rem; }
   .sc-seatrow { gap: .28rem; }
   .sc-aisle { width: .5rem; }
   .sc-seat span { font-size: inherit; }
