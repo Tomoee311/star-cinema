@@ -2071,10 +2071,8 @@ button, .btn, .nav-link, a { touch-action: manipulation; }
    20. Mobile responsive hero fix
    On phones, keep the cinematic image at the top and place
    all movie information beneath it instead of overlaying it.
-   Applies to phones AND tablets (up to 991.98px) so the iPad Mini,
-   Surface Pro etc. look the same as the phone layout.
    ========================================================== */
-@media (max-width: 991.98px), (max-width: 1100px) and (orientation: portrait) {
+@media (max-width: 767.98px) {
   .stage {
     display: block;
     min-height: 0 !important;
@@ -2119,7 +2117,6 @@ button, .btn, .nav-link, a { touch-action: manipulation; }
     padding: 1.15rem 1rem .75rem !important;
     margin: 0 auto;
     width: 100%;
-    max-width: none !important;   /* line up with the poster rail on tablets */
   }
 
   .stage-left { width: 100%; max-width: none !important; }
@@ -2157,18 +2154,6 @@ button, .btn, .nav-link, a { touch-action: manipulation; }
   .rail-view { padding: .7rem 0 .8rem; }
   .rail-track { gap: .75rem; }
   .rail-card { width: clamp(112px, 34vw, 155px); }
-}
-
-/* Tablet only (576px - 991px): buttons keep their natural width instead of stretching */
-@media (min-width: 576px) and (max-width: 991.98px), (min-width: 992px) and (max-width: 1100px) and (orientation: portrait) {
-  .stage-actions .btn { flex: 0 0 auto; min-width: 150px; }
-  .stage-inner, .stage-rail { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
-  .rail-controls { right: 1.5rem; }
-  .stage-nav { justify-content: flex-start !important; gap: .85rem; }
-  .rail-view { padding-top: 1.5rem; }
-  .sc-navbar > .container, .sc-navbar .navbar > .container { max-width: none; padding-left: 1.5rem; padding-right: 1.5rem; }
-  .rail-card { width: 150px; }
-  .rail-card img { width: 100%; height: auto; aspect-ratio: 2 / 3; }
 }
 
 @media (max-width: 380px) {
@@ -2336,3 +2321,23 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
 }
 [data-bs-theme="light"] body.details-page .sc-breadcrumb a,
 [data-bs-theme="light"] body.details-page .breadcrumb a { color: #4b3fd1; }
+
+/* Realistic facility photos on the About page */
+.sc-facility-card {
+  overflow: hidden;
+}
+.sc-facility-photo {
+  display: block;
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0.75rem;
+  margin-bottom: 1.15rem;
+  background: #171a2b;
+}
+@media (max-width: 767.98px) {
+  .sc-facility-photo {
+    height: 210px;
+  }
+}
