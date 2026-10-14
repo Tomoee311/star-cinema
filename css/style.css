@@ -2069,10 +2069,11 @@ button, .btn, .nav-link, a { touch-action: manipulation; }
 
 /* ==========================================================
    20. Mobile responsive hero fix
-   On phones, keep the cinematic image at the top and place
-   all movie information beneath it instead of overlaying it.
+   On phones and tablets (up to 991px, and any tablet held in portrait up to 1199px,
+   such as an iPad Pro 13"), keep the cinematic image at the top and place all
+   movie information beneath it instead of overlaying it.
    ========================================================== */
-@media (max-width: 767.98px) {
+@media (max-width: 991.98px), (max-width: 1199.98px) and (orientation: portrait) {
   .stage {
     display: block;
     min-height: 0 !important;
@@ -2154,6 +2155,30 @@ button, .btn, .nav-link, a { touch-action: manipulation; }
   .rail-view { padding: .7rem 0 .8rem; }
   .rail-track { gap: .75rem; }
   .rail-card { width: clamp(112px, 34vw, 155px); }
+}
+
+/* Tablet sizing for the stacked hero.
+   The layout is the same as on a phone, only bigger. Bootstrap's .container is 720px wide
+   from 768px to 991px and 960px from 992px, so the Up next posters start at the same left edge
+   as the film title and the navigation bar, and still scroll out to the edge of the screen. */
+@media (min-width: 768px) and (max-width: 991.98px), (min-width: 992px) and (max-width: 1199.98px) and (orientation: portrait) {
+  .stage { --sc-cw: 720px; }
+  .stage-bg,
+  .stage-shade { height: 460px; }
+  .stage-layer { background-position: center 30% !important; }
+  .stage-inner { padding: 1.5rem 1rem 1rem !important; }
+  .stage-title { font-size: clamp(2.2rem, 5.2vw, 3rem) !important; }
+  .stage-count { font-size: 3.4rem !important; }
+  .stage-meta li { font-size: .8rem; }
+  .stage-actions .btn { flex: 0 1 auto; min-width: 170px; }
+  .stage-rail { padding: 1rem 0 0 calc((100% - var(--sc-cw)) / 2 + 1rem); }
+  .rail-controls { right: calc((100% - var(--sc-cw)) / 2 + 1rem); }
+  .rail-card { width: clamp(150px, 20vw, 185px); }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) and (orientation: portrait) {
+  .stage { --sc-cw: 960px; }
+  .stage-bg,
+  .stage-shade { height: 520px; }
 }
 
 @media (max-width: 380px) {
@@ -2244,8 +2269,8 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
   .rail-no { top: -1.35rem; }
 }
 
-/* Home hero (phones): keep the previous / pause / next buttons together instead of spread across the screen */
-@media (max-width: 767.98px) {
+/* Home hero (phones and tablets): keep the previous / pause / next buttons together instead of spread across the screen */
+@media (max-width: 991.98px), (max-width: 1199.98px) and (orientation: portrait) {
   .stage-nav { justify-content: flex-start; gap: .85rem; flex-wrap: nowrap; }
   .stage-nav .stage-arrow { flex: none; }
   .stage-rail { padding-top: 1rem; }
@@ -2321,23 +2346,3 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
 }
 [data-bs-theme="light"] body.details-page .sc-breadcrumb a,
 [data-bs-theme="light"] body.details-page .breadcrumb a { color: #4b3fd1; }
-
-/* Realistic facility photos on the About page */
-.sc-facility-card {
-  overflow: hidden;
-}
-.sc-facility-photo {
-  display: block;
-  width: 100%;
-  height: 170px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 0.75rem;
-  margin-bottom: 1.15rem;
-  background: #171a2b;
-}
-@media (max-width: 767.98px) {
-  .sc-facility-photo {
-    height: 210px;
-  }
-}
