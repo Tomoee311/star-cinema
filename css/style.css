@@ -2346,3 +2346,45 @@ body.has-bk-bar { padding-bottom: 4.75rem; }
 }
 [data-bs-theme="light"] body.details-page .sc-breadcrumb a,
 [data-bs-theme="light"] body.details-page .breadcrumb a { color: #4b3fd1; }
+
+
+/* About page: keep facility cards and photos consistently aligned */
+.sc-facility-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sc-facility-card .sc-facility-photo {
+  display: block;
+  width: 100%;
+  height: 140px;
+  min-height: 140px;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+  margin: 0 0 .35rem;
+  flex: 0 0 140px;
+}
+
+.sc-facility-card .sc-icon {
+  align-self: flex-start;
+  margin-top: .15rem;
+}
+
+.sc-facility-card h3 {
+  margin-bottom: .35rem;
+}
+
+.sc-facility-card p {
+  margin-top: 0;
+}
+
+@media (max-width: 767.98px) {
+  .sc-facility-card .sc-facility-photo {
+    height: clamp(160px, 48vw, 230px);
+    min-height: 0;
+    flex-basis: auto;
+  }
+}
