@@ -1,75 +1,276 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Brawl Game</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden;
-                 background: #070b1a; color: #cfd6e6; font-family: Poppins, "Segoe UI", Arial, sans-serif; }
-    /* the game takes the whole window (Phaser RESIZE mode makes the canvas fill it) */
-    #game { position: fixed; inset: 0; }
-    #game canvas { display: block; }
-    #help { position: fixed; left: 50%; bottom: 8px; transform: translateX(-50%);
-            font-size: 11.5px; line-height: 1.55; text-align: center; padding: 7px 16px; color: #b9c6ee;
-            background: rgba(8,12,30,0.62); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
-            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); pointer-events: none; }
-    #help.hidden { display: none; }
-  </style>
+  <meta charset="utf-8">
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("sc-theme");
+        document.documentElement.setAttribute("data-bs-theme", savedTheme === "light" ? "light" : "dark");
+      } catch (e) {
+        document.documentElement.setAttribute("data-bs-theme", "dark");
+      }
+    }());
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home | starcinema.com</title>
+  <meta name="description" content="Star Cinema: see what is showing, check showtimes and ticket prices, and book your seats online at starcinema.com.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Poppins:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+  <link href="css/style.css" rel="stylesheet">
 </head>
-<body>
-  <div id="game"></div>
-  <div id="help"></div>
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
-  <script>
-    // TURN relay (Metered) so players on strict networks (mobile data etc.) can still connect.
-    window.PEER_OPTIONS = { config: { iceServers: [
-      { urls: 'stun:stun.relay.metered.ca:80' },
-      { urls: 'stun:stun.l.google.com:19302' },
-      { urls: 'stun:stun.cloudflare.com:3478' },
-      { urls: 'stun:stun1.l.google.com:19302' },
-      { urls: 'turn:global.relay.metered.ca:80', username: '3c14edd958e7e96303c0792c', credential: 'd3Tn732FzWSlmVmX' },
-      { urls: 'turn:global.relay.metered.ca:80?transport=tcp', username: '3c14edd958e7e96303c0792c', credential: 'd3Tn732FzWSlmVmX' },
-      { urls: 'turn:global.relay.metered.ca:443', username: '3c14edd958e7e96303c0792c', credential: 'd3Tn732FzWSlmVmX' },
-      { urls: 'turns:global.relay.metered.ca:443?transport=tcp', username: '3c14edd958e7e96303c0792c', credential: 'd3Tn732FzWSlmVmX' }
-    ] } };
-  </script>
-  <script src="music.js"></script>
-  <script src="juice.js"></script>
-  <script src="controls.js"></script>
-  <script src="moves.js"></script>
-  <script src="weapons.js"></script>
-  <script src="characters.js"></script>
-  <script src="charart.js"></script>
-  <script src="ui.js"></script>
-  <script src="menu.js"></script>
-  <script src="lobby.js"></script>
-  <script src="settings.js"></script>
-  <script src="net.js"></script>
-  <script src="online.js"></script>
-  <script src="bot.js"></script>
-  <script src="tutorial.js"></script>
-  <script src="game.js"></script>
-  <script>
-    // Hide the controls text in the Menu; show it only in the game
-    window.setHelpVisible = (v) => { document.getElementById('help').style.display = v ? '' : 'none'; };
-    // The controls text at the bottom of the game always shows the CURRENT bindings from Settings
-    window.refreshHelp = () => {
-      const L = (pid, a) => Controls.label(pid, a);
-      const two = SELECTION.mode === 'friends';
-      let t = `P1 - Move: ${L('p1','left')} / ${L('p1','right')} &nbsp;|&nbsp; Up / Down: ${L('p1','up')} / ${L('p1','down')} &nbsp;|&nbsp; Jump: ${L('p1','jump')} &nbsp;|&nbsp; Dash: ${L('p1','dodge')}<br>` +
-        `Light: ${L('p1','light')} &nbsp;|&nbsp; Heavy: ${L('p1','heavy')} &nbsp;|&nbsp; Pick up / Throw (hold a direction to aim): ${L('p1','throw')}<br>`;
-      if (two) t += `P2 - Move: ${L('p2','left')} / ${L('p2','right')} &nbsp;|&nbsp; Jump: ${L('p2','jump')} &nbsp;|&nbsp; Dash: ${L('p2','dodge')} &nbsp;|&nbsp; Light: ${L('p2','light')} &nbsp;|&nbsp; Heavy: ${L('p2','heavy')} &nbsp;|&nbsp; Pick up / Throw: ${L('p2','throw')}<br>`;
-      t += 'F = fullscreen &nbsp;|&nbsp; H = show/hide this text &nbsp;|&nbsp; B = show/hide hitboxes &nbsp;|&nbsp; ESC = back to Lobby (Bot / Tutorial)';
-      document.getElementById('help').innerHTML = t;
-    };
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'h' || e.key === 'H') document.getElementById('help').classList.toggle('hidden');
-    });
-  </script>
+<body class="has-stage">
+  <a class="visually-hidden-focusable" href="#main">Skip to main content</a>
+
+  <header class="sc-navbar sticky-top">
+    <nav class="navbar navbar-expand-lg" aria-label="Main navigation">
+      <div class="container">
+        <a class="navbar-brand sc-brand" href="index.html"><img class="sc-logo-img" src="images/logo.svg" width="32" height="32" alt="">STAR CINEMA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-3" aria-hidden="true"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="movies.html">Movies</a></li>
+            <li class="nav-item"><a class="nav-link" href="showtimes.html">Showtimes</a></li>
+            <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+          <button type="button" class="sc-icon-btn" id="themeToggle" aria-label="Switch to light mode">
+            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- Full-screen stage: backdrops, numbers and poster rail are driven by js/hero.js (data from js/films.js).
+         Backdrops are wide pictures in /images (backdrop-<slug>.jpg). -->
+    <section class="stage" id="stage" aria-label="Featured films">
+      <div class="stage-bg" id="stageBg" aria-hidden="true">
+        <div class="stage-layer is-on" id="layerA" style="background-image:url('images/backdrop-spider-man-brand-new-day.jpg')"></div>
+        <div class="stage-layer" id="layerB"></div>
+      </div>
+      <div class="stage-shade" aria-hidden="true"></div>
+
+      <div class="container stage-inner">
+        <div class="stage-left">
+          <p class="stage-when"><span class="stage-pin" aria-hidden="true"></span><span class="mask"><span id="stWhen">Today</span></span></p>
+          <div class="stage-row">
+            <div class="stage-count" id="stCount" aria-hidden="true"><span class="mask"><span>0</span></span><span class="mask"><span>1</span></span></div>
+            <div class="stage-info">
+              <h1 class="stage-title mask"><span id="stTitle">Spider-Man: Brand New Day</span></h1>
+              <p class="stage-genre" id="stGenre"><span class="sc-stars" role="img" aria-label="Rated 4.5 out of 5 stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></span><span class="stage-genre-text">Genre: Adventure / Sci-fi</span></p>
+              <ul class="stage-meta" id="stMeta"><li class="sc-rating sc-rating--pg13" title="Rated PG-13">PG-13</li><li>2h 30m</li><li>English</li></ul>
+            </div>
+          </div>
+          <p class="stage-label">Session schedule</p>
+          <ul class="stage-times" id="stTimes"><li><a href="booking.html">Book seats</a></li></ul>
+          <div class="stage-actions">
+            <a class="btn btn-gold" id="stBook" href="booking.html?film=spider-man-brand-new-day">Book now</a>
+            <a class="btn btn-line" id="stMore" href="details.html?film=spider-man-brand-new-day" data-no-fade>More <span aria-hidden="true">▷</span></a>
+          </div>
+          <div class="stage-nav">
+            <button type="button" class="stage-arrow" id="stPrev" aria-label="Previous film">
+              <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M9 2 4 7l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="stage-arrow" id="stPause" aria-label="Pause slideshow" aria-pressed="false">
+              <svg viewBox="0 0 14 14" aria-hidden="true"><path d="M4 2v10M10 2v10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <button type="button" class="stage-arrow" id="stNext" aria-label="Next film">
+              <svg class="ring" viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="16"/></svg>
+              <svg viewBox="0 0 14 14" aria-hidden="true"><path d="m5 2 5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-rail" role="group" aria-label="Up next">
+        <div class="rail-pin" aria-hidden="true">Up next</div>
+        <div class="rail-controls" role="group" aria-label="Browse featured movies">
+          <button type="button" class="rail-arrow" id="railPrev" aria-label="Scroll movies left"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+          <button type="button" class="rail-arrow" id="railNext" aria-label="Scroll movies right"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+        </div>
+        <div class="rail-view" id="railView" tabindex="0" role="region" aria-label="Movie posters; scroll horizontally"><div class="rail-track" id="stRail"></div></div>
+      </div>
+      <p class="visually-hidden" id="stLive" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Command-style search -->
+    <section class="pb-4" aria-labelledby="find-title">
+      <div class="container">
+        <h2 id="find-title" class="visually-hidden">Find a movie or jump to a page</h2>
+        <form id="commandForm" class="sc-command" role="search" aria-label="Search movies">
+          <span class="sc-prompt" aria-hidden="true">&gt;</span>
+          <label for="movieSearch" class="visually-hidden">Type a movie name or a page name</label>
+          <input id="movieSearch" type="search" placeholder="Type a movie name or tap a shortcut" autocomplete="off">
+          <button type="submit" class="btn btn-gold btn-sm rounded-pill px-3">Go</button>
+        </form>
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <a class="sc-chip" href="movies.html">Now showing</a>
+          <a class="sc-chip" href="showtimes.html">Showtimes</a>
+          <a class="sc-chip" href="booking.html">Book seats</a>
+          <a class="sc-chip" href="contact.html">Contact</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ways to explore -->
+    <section class="sc-section" aria-labelledby="explore-title">
+      <div class="container reveal">
+        <h2 id="explore-title" class="mb-2">Ways to explore</h2>
+        <p class="sc-muted mb-4">Everything you need to plan a visit, from what's playing to where to sit.</p>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="sc-card position-relative h-100 p-4">
+              <span class="sc-num">01</span>
+              <h3 class="h5 mt-1">Movies</h3>
+              <p class="sc-muted">Browse every film playing this week, plus what's coming soon — synopsis, cast, runtime and age rating for each.</p>
+              <a class="sc-more stretched-link" href="movies.html">Browse movies <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="sc-card position-relative h-100 p-4">
+              <span class="sc-num">02</span>
+              <h3 class="h5 mt-1">Showtimes and prices</h3>
+              <p class="sc-muted">See today's screenings by screen and time. Standard seats are 15,000–18,000 MMK depending on the row, and recliners in the back row are 30,000 MMK. Matinees before 5pm are 5,000 MMK off, and a popcorn + drink combo is 10,000 MMK.</p>
+              <a class="sc-more stretched-link" href="showtimes.html">View showtimes <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="sc-card position-relative h-100 p-4">
+              <span class="sc-num">03</span>
+              <h3 class="h5 mt-1">Book your seats</h3>
+              <p class="sc-muted">Pick your exact seats on the auditorium map and confirm in one step. Use your booking reference to change or cancel later.</p>
+              <a class="sc-more stretched-link" href="booking.html">Start a booking <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="sc-card position-relative h-100 p-4">
+              <span class="sc-num">04</span>
+              <h3 class="h5 mt-1">About the cinema</h3>
+              <p class="sc-muted">Four screens, Dolby Atmos sound and a licensed café bar. Find us at Time City, Yangon, open daily from 10:00 AM.</p>
+              <a class="sc-more stretched-link" href="about.html">About us <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Now showing -->
+    <section class="sc-section" id="now-showing" aria-labelledby="showing-title">
+      <div class="container reveal">
+        <h2 id="showing-title" class="mb-2">Now showing</h2>
+        <p class="sc-muted mb-4">Featured films on our screens this week. Tap a poster for showtimes and seat availability.</p>
+        <!-- Image credits: film posters, backdrops and trailer thumbnails are official promotional images (c) their respective studios/distributors, used here for educational purposes only (Unit 13 coursework, not a commercial site). Sources: the official press and promotional image pages of each film's studio or distributor, and the official trailer thumbnails on YouTube. Trailers are played from YouTube (see js/films.js for each credit). The cinema illustration (cinema-interior.svg) and logo are original SVG artwork. -->
+        <div class="row g-3">
+          <div class="col-6 col-md-3 movie-item" data-title="Spider-Man: Brand New Day" data-slug="spider-man-brand-new-day">
+            <a class="sc-card sc-poster-link" href="details.html?film=spider-man-brand-new-day">
+              <img class="sc-poster" src="images/poster-spider-man-brand-new-day.jpg" width="400" height="600" alt="Poster artwork for Spider-Man: Brand New Day">
+              <span class="sc-rating sc-rating--pg13" title="Rated PG-13">PG-13</span>
+              <span class="d-block p-3"><span class="d-block fw-semibold">Spider-Man: Brand New Day</span><span class="d-block small sc-muted">2h 30m · Adventure / Sci-fi</span><span class="sc-stars d-block mt-1" role="img" aria-label="Rated 4.5 out of 5 stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i><span class="sc-stars-num">4.5</span></span></span>
+            </a>
+          </div>
+          <div class="col-6 col-md-3 movie-item" data-title="The Odyssey" data-slug="the-odyssey">
+            <a class="sc-card sc-poster-link" href="details.html?film=the-odyssey">
+              <img class="sc-poster" src="images/poster-the-odyssey.jpg" width="400" height="600" alt="Poster artwork for The Odyssey">
+              <span class="sc-rating sc-rating--r" title="Rated R">R</span>
+              <span class="d-block p-3"><span class="d-block fw-semibold">The Odyssey</span><span class="d-block small sc-muted">2h 52m · Action / Fantasy</span><span class="sc-stars d-block mt-1" role="img" aria-label="Rated 4.5 out of 5 stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i><span class="sc-stars-num">4.5</span></span></span>
+            </a>
+          </div>
+          <div class="col-6 col-md-3 movie-item" data-title="Toy Story 5" data-slug="toy-story-5">
+            <a class="sc-card sc-poster-link" href="details.html?film=toy-story-5">
+              <img class="sc-poster" src="images/poster-toy-story-5.jpg" width="400" height="600" alt="Poster artwork for Toy Story 5">
+              <span class="sc-rating sc-rating--pg" title="Rated PG">PG</span>
+              <span class="d-block p-3"><span class="d-block fw-semibold">Toy Story 5</span><span class="d-block small sc-muted">1h 42m · Comedy / Adventure</span><span class="sc-stars d-block mt-1" role="img" aria-label="Rated 4.5 out of 5 stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i><span class="sc-stars-num">4.5</span></span></span>
+            </a>
+          </div>
+          <div class="col-6 col-md-3 movie-item" data-title="Resident Evil" data-slug="resident-evil">
+            <a class="sc-card sc-poster-link" href="details.html?film=resident-evil">
+              <img class="sc-poster" src="images/poster-resident-evil.jpg" width="400" height="600" alt="Poster artwork for Resident Evil">
+              <span class="sc-rating sc-rating--r" title="Rated R">R</span>
+              <span class="d-block p-3"><span class="d-block fw-semibold">Resident Evil</span><span class="d-block small sc-muted">1h 37m · Horror / Sci-fi</span><span class="sc-stars d-block mt-1" role="img" aria-label="Rated 4.5 out of 5 stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i><span class="sc-stars-num">4.5</span></span></span>
+            </a>
+          </div>
+        </div>
+        <p id="noResults" class="sc-muted mt-3 d-none">No film matches your search. Try another title.</p>
+        <a class="btn btn-line mt-4" href="movies.html">See all 8 films</a>
+      </div>
+    </section>
+
+    <!-- Trailer -->
+    <section class="sc-section" id="trailer" aria-labelledby="trailer-title">
+      <div class="container reveal">
+        <h2 id="trailer-title" class="mb-2">Watch the preview</h2>
+        <p class="sc-muted mb-4">Avengers: Doomsday, special look. Opens 18 December.</p>
+        <!-- Preview video: played with YouTube's embed player (the video file is not copied or hosted on this site).
+             Film: Avengers: Doomsday, "Special Look" (c) Marvel Studios / Disney.
+             Source: https://youtu.be/X1aFkAkFASk  Used for educational purposes only.
+             To change the video, replace the ID (X1aFkAkFASk) in the src below. -->
+        <div id="previewVideo"></div>
+        <p class="small sc-muted mt-2 mb-0">Special look © Marvel Studios / Disney, played from YouTube.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sc-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-3">
+          <p class="fw-semibold mb-0 d-flex align-items-center"><img class="sc-logo-img sc-logo-img--footer" src="images/logo.svg" width="36" height="36" alt="">STAR CINEMA</p>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="sc-footer-title">Movies</h2>
+          <ul>
+            <li><a href="movies.html">Now showing</a></li>
+            <li><a href="movies.html#coming-soon">Coming soon</a></li>
+            <li><a href="showtimes.html">Showtimes and prices</a></li>
+            <li><a href="about.html#facilities">Formats and screens</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="sc-footer-title">Visit</h2>
+          <ul>
+            <li>Time City, Yangon, Myanmar</li>
+            <li>Open daily 10:00 AM – 11:30 PM</li>
+            <li><a href="tel:+959799855242">+95 9799855242</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2 class="sc-footer-title">Company</h2>
+          <ul>
+            <li><a href="about.html">About the cinema</a></li>
+            <li><a href="my-booking.html">Manage your booking</a></li>
+            <li><a href="about.html#facilities">Accessibility</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sc-legal">
+        <p class="mb-2">© 2026 Star Cinema. Visit Star Cinema at Time City, Yangon. Film posters © their respective owners, used for educational purposes. Call <a href="tel:+959799855242">+95 9799855242</a>.</p>
+        <p class="sc-social mb-0">
+          <span class="me-3">Follow us</span>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="bi bi-instagram" aria-hidden="true"></i></a>
+          <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="bi bi-twitter-x" aria-hidden="true"></i></a>
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+          <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="bi bi-youtube" aria-hidden="true"></i></a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/films.js"></script>
+  <script src="js/video.js?v=3"></script>
+  <script src="js/hero.js"></script>
+  <script>scVideo(document.getElementById("previewVideo"), "X1aFkAkFASk", "Avengers: Doomsday special look");</script>
 </body>
 </html>
